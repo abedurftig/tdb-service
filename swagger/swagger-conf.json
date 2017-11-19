@@ -1,0 +1,13 @@
+{
+  "groupId": "org.testdashboard",
+  "artifactId": "testdashboard",
+  "modelPackage": "org.testdashboard.model",
+  "invokerPackage": "org.testdashboard",
+  "apiPackage": "org.testdashboard.api",
+  "java8": true,
+  "dateLibrary": "java8",
+  "basePackage": "org.testdashboard",
+  "configPackage": "org.testdashboard.conf",
+  "interfaceOnly": true
+
+}

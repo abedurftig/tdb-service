@@ -1,0 +1,48 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath("com.bmuschko:gradle-docker-plugin:3.2.0")
+    }
+}
+
+// below line does not work, because this is not the main build file
+// apply plugin: 'com.bmuschko.docker-java-application'
+apply plugin: com.bmuschko.gradle.docker.DockerJavaApplicationPlugin
+
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+import com.bmuschko.gradle.docker.tasks.image.Dockerfile
+
+task createDockerfile(type: Dockerfile) {
+
+    destFile = file("${project.buildDir}/docker/jdk8/Dockerfile")
+
+    def envVars = new HashMap<String, String>()
+    envVars.put("JAVA_OPTS", "-Dapplication.name=${project.name}")
+
+    from 'openjdk:8u131-jdk-alpine'
+    volume("/tmp")
+    addFile("${jar.archiveName}", "app.jar")
+    environmentVariable(envVars)
+    defaultCommand("java", "-jar", "/app.jar", '$JAVA_OPTS', "-Djava.security.egd=file:/dev/./urandom")
+
+}
+
+task buildImage(type: DockerBuildImage) {
+
+    dependsOn createDockerfile
+    dependsOn build
+
+    inputDir = createDockerfile.destFile.parentFile
+    tag = "${project.name}:${project.version}"
+
+    doFirst {
+        copy {
+            from(jar.archivePath)
+            into(inputDir)
+        }
+    }
+
+}

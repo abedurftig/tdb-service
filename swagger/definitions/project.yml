@@ -1,0 +1,8 @@
+type: object
+  required:
+  - name
+  properties:
+    id:
+      type: long
+    name:
+      type: string

@@ -1,0 +1,12 @@
+type: object
+  required:
+  - accountName
+  properties:
+    accountName:
+      type: string
+    createTime:
+      type: string
+    projects:
+      type: array
+      items:
+        $ref: './project.yml'

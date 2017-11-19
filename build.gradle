@@ -1,0 +1,64 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath('org.springframework.boot:spring-boot-gradle-plugin:1.5.8.RELEASE')
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+group = 'org.addictedcoders'
+version = '0.0.1'
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('org.springframework.boot:spring-boot-starter-web')
+    runtime('com.h2database:h2')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+ 
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.3.1'
+}
+
+task cleanArtifacts(type: Delete) {
+    delete 'artifacts'
+}
+
+task prepareArtifacts(type: Copy) {
+    
+    file('artifacts/libs').mkdirs()
+    file('artifacts/test/results').mkdirs()
+    file('artifacts/test/report').mkdirs()
+
+    from('build/libs') {
+        include '*.jar' into 'libs'
+    }
+
+    from('build/test-results/test') {
+        include '*.xml' into 'test/results'
+    }
+
+    from('build/reports/tests/test') {
+        into 'test/report'
+    }
+
+    into 'artifacts/'
+
+}
+
+build.finalizedBy(prepareArtifacts)
+clean.finalizedBy(cleanArtifacts)
+
+apply from: 'docker.gradle'
+apply from: 'swagger/swagger.gradle'
