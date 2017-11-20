@@ -1,6 +1,0 @@
-type: object
-properties:
-  project:
-    $ref: '#/definitions/Project'
-  createTime:
-    type: string

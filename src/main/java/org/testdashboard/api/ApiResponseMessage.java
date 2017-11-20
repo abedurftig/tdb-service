@@ -1,4 +1,4 @@
-package org.addictedcoders.api;
+package org.testdashboard.api;
 
 import javax.xml.bind.annotation.XmlTransient;
 

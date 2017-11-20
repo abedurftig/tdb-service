@@ -1,4 +1,4 @@
-package org.addictedcoders.storage;
+package org.testdashboard.storage;
 
 public class StorageFileNotFoundException extends StorageException {
 

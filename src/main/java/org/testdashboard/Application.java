@@ -1,6 +1,6 @@
-package org.addictedcoders;
+package org.testdashboard;
 
-import org.addictedcoders.storage.StorageProperties;
+import org.testdashboard.storage.StorageProperties;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;

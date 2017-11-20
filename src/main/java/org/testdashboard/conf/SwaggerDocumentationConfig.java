@@ -1,4 +1,4 @@
-package org.addictedcoders.conf;
+package org.testdashboard.conf;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

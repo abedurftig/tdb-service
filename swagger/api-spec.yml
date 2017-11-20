@@ -30,11 +30,11 @@ paths:
         200:
           description: The requested account
           schema:
-            $ref: '#/definitions/Account'
+            $ref: '#/definitions/AccountDTO'
         default:
           description: Unexpected error
           schema:
-            $ref: '#/definitions/Error'
+            $ref: '#/definitions/ErrorDTO'
   /account/{accountId}/projects:
     get:
       summary: Account Projects
@@ -54,11 +54,11 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/Project'
+              $ref: '#/definitions/ProjectDTO'
         default:
           description: Unexpected error
           schema:
-            $ref: '#/definitions/Error'
+            $ref: '#/definitions/ErrorDTO'
   /project/{projectId}:
     get:
       summary: Get a single project
@@ -76,11 +76,11 @@ paths:
         200:
           description: The requested project
           schema:
-            $ref: '#/definitions/Project'
+            $ref: '#/definitions/ProjectDTO'
         default:
           description: Unexpected error
           schema:
-            $ref: '#/definitions/Error'
+            $ref: '#/definitions/ErrorDTO'
   /project/{projectId}/testexecutions:
     get:
       summary: Get a single project
@@ -100,11 +100,11 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/TestExecution'
+              $ref: '#/definitions/TestRunDTO'
         default:
           description: Unexpected error
           schema:
-            $ref: '#/definitions/Error'
+            $ref: '#/definitions/ErrorDTO'
   /project/{projectId}/newtestexecution:
     get:
       summary: TODO
@@ -126,7 +126,7 @@ paths:
         default:
           description: Unexpected error
           schema:
-            $ref: '#/definitions/Error'
+            $ref: '#/definitions/ErrorDTO'
     post:
       summary: Uploads a text execution XML file.
       description: TODO
@@ -148,50 +148,120 @@ paths:
         default:
           description: Unexpected error
           schema:
-            $ref: '#/definitions/Error'
+            $ref: '#/definitions/ErrorDTO'
 securityDefinitions:
   test_dashbard_auth:
     type: "apiKey"
     name: "api_key"
     in: "header"
 definitions:
-  Account:
+  AccountDTO:
     type: object
     required:
     - accountName
     properties:
+      id:
+        type: integer
+        format: int64
       accountName:
-        type: string
-      createTime:
         type: string
       projects:
         type: array
         items:
-          $ref: '#/definitions/Project'
-  TestExecution:
-    type: object
-    properties:
-      project:
-        $ref: '#/definitions/Project'
-      createTime:
-        type: string
-  Project:
+          $ref: '#/definitions/ProjectDTO'
+  ProjectDTO:
     type: object
     required:
     - name
+    - accountId
     properties:
-      name:
-        type: string
-      age:
+      id:
         type: integer
-        format: int32
-        minimum: 0
-  Error:
+        format: int64
+      name:
+        type: string
+      accountId:
+        type: integer
+        format: int64
+      testRuns:
+        type: array
+        items:
+          $ref: '#/definitions/TestRunDTO'
+  ErrorDTO:
     type: object
     required:
     - name
+    - message
+    - code
     properties:
       name:
         type: string
+      message:
+        type: string
+      code:
+        type: string
+  TestRunDTO:
+    type: object
+    required:
+    - projectId
+    properties:
+      id:
+        type: integer
+        format: int64
+      projectId:
+        type: integer
+        format: int64
+      testSuites:
+        type: array
+        items:
+          $ref: '#/definitions/TestSuiteDTO'
+  TestSuiteDTO:
+    type: object
+    required:
+    - testRunId
+    - packageName
+    - name
+    properties:
+      id:
+        type: integer
+        format: int64
+      testRunId:
+        type: integer
+        format: int64
+      packageName:
+        type: string
+      name:
+          type: string
+      testCases:
+        type: array
+        items:
+          $ref: '#/definitions/TestCaseDTO'
+  TestCaseDTO:
+    type: object
+    required:
+    - testSuiteId
+    - startDate
+    - endDate
+    - skipped
+    - failed
+    properties:
+      id:
+        type: integer
+        format: int64
+      testSuiteId:
+        type: integer
+        format: int64
+      testName:
+        type: string
+      startDate:
+        type: string
+        format: date-time
+      endDate:
+        type: string
+        format: date-time
+      skipped:
+        type: boolean
+      failed:
+        type: boolean
       message:
         type: string

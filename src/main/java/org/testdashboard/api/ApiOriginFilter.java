@@ -1,4 +1,4 @@
-package org.addictedcoders.api;
+package org.testdashboard.api;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletResponse;

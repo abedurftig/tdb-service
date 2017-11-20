@@ -1,4 +1,4 @@
-package org.addictedcoders.storage;
+package org.testdashboard.storage;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

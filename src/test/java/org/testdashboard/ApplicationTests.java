@@ -1,4 +1,4 @@
-package org.addictedcoders;
+package org.testdashboard;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

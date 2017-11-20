@@ -1,4 +1,4 @@
-package org.addictedcoders.storage;
+package org.testdashboard.storage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;

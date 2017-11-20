@@ -1,4 +1,4 @@
-package org.addictedcoders;
+package org.testdashboard;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

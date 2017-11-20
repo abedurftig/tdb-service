@@ -1,4 +1,4 @@
-package org.addictedcoders.api;
+package org.testdashboard.api;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

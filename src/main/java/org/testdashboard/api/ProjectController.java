@@ -1,9 +1,8 @@
-package org.addictedcoders.api;
+package org.testdashboard.api;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.testdashboard.api.ProjectApi;
 
 import java.math.BigDecimal;
 
