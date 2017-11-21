@@ -10,8 +10,10 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+import static javax.persistence.TemporalType.TIMESTAMP;
+
 @MappedSuperclass
-@EntityListeners({AuditingEntityListener.class})
+@EntityListeners(AuditingEntityListener.class)
 public abstract class BaseEntity implements Serializable {
 
     @Id
@@ -21,12 +23,14 @@ public abstract class BaseEntity implements Serializable {
     private String name;
 
     @CreatedDate
+    @Temporal(TIMESTAMP)
     private Date createdDate;
 
     @CreatedBy
     private String createdBy;
 
     @LastModifiedDate
+    @Temporal(TIMESTAMP)
     private Date lastModifiedDate;
 
     @LastModifiedBy

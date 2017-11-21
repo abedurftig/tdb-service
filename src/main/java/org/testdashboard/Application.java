@@ -2,6 +2,9 @@ package org.testdashboard;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.AuditorAware;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.testdashboard.model.Account;
 import org.testdashboard.model.AccountRepository;
 import org.testdashboard.model.Project;
@@ -17,7 +20,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
-@ComponentScan(basePackages = { "org.addictedcoders", "org.addictedcoders.api", "org.addictedcoders.conf" })
+@ComponentScan(basePackages = { "org.addictedcoders", "org.addictedcoders.api" })
+@EnableJpaAuditing(auditorAwareRef = "auditorAware")
+@EnableJpaRepositories
 @EnableConfigurationProperties(StorageProperties.class)
 public class Application implements CommandLineRunner {
 
@@ -62,4 +67,15 @@ public class Application implements CommandLineRunner {
         }
 
     }
+
+    @Bean
+    public AuditorAware<String> auditorAware() {
+        return new AuditorAware<String>() {
+            @Override
+            public String getCurrentAuditor() {
+                return "Admin";
+            }
+        };
+    }
+
 }
