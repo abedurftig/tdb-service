@@ -20,7 +20,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
-@ComponentScan(basePackages = { "org.addictedcoders", "org.addictedcoders.api" })
+@ComponentScan(basePackages = { "org.testdashboard", "org.testdashboard.api" })
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
 @EnableJpaRepositories
 @EnableConfigurationProperties(StorageProperties.class)

@@ -8,6 +8,6 @@
   "dateLibrary": "java8",
   "basePackage": "org.testdashboard",
   "configPackage": "org.testdashboard.conf",
-  "interfaceOnly": true
+  "delegatePattern": true
 
 }

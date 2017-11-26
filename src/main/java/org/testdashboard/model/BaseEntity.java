@@ -42,6 +42,14 @@ public abstract class BaseEntity implements Serializable {
         this.name = name;
     }
 
+    /**
+     * Allows to set id during tests.
+     * @param id
+     */
+    protected void setId(Long id) {
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }

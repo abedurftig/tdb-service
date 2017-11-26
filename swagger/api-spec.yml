@@ -23,7 +23,8 @@ paths:
           in: path
           description: Id of requested account.
           required: true
-          type: number
+          type: integer
+          format: int64
       tags:
         - Account
       responses:
@@ -45,7 +46,8 @@ paths:
           in: path
           description: Id of the owning account.
           required: true
-          type: number
+          type: integer
+          format: int64
       tags:
         - Account
       responses:
