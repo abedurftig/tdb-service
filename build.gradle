@@ -28,7 +28,15 @@ dependencies {
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
- 
+
+bootRepackage {
+    mainClass = 'org.testdashboard.Application'
+}
+
+springBoot {
+    mainClass = 'org.testdashboard.Application'
+}
+
 task wrapper(type: Wrapper) {
     gradleVersion = '4.3.1'
 }

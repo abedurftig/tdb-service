@@ -36,7 +36,6 @@ swaggerSources {
             configFile = file('swagger/swagger-conf.json')
             // Validate YAML before code generation
             dependsOn validation
-
         }
         ui {
             options.docExpansion = 'full'
@@ -51,10 +50,8 @@ sourceSets.main.resources.srcDir "${swaggerSources.applicationApi.code.outputDir
 
 task deleteSwaggerDefaultApplication(type: Delete) {
 
-    println "${swaggerSources.applicationApi.code.outputDir}"
-
     delete "${swaggerSources.applicationApi.code.outputDir}/src/main/java/org/testdashboard/Swagger2SpringBoot.java"
     delete "${swaggerSources.applicationApi.code.outputDir}/src/main/resources/application.properties"
 }
 
-generateSwaggerCodeApplicationApi.finalizedBy(deleteSwaggerDefaultApplication)
+compileJava.finalizedBy deleteSwaggerDefaultApplication
