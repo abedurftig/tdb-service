@@ -21,7 +21,7 @@ build:
     policy: push
     paths:
       - .gradle
-      - build
+      - gradle
   artifacts:
     paths:
       - artifacts
