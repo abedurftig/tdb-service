@@ -4,12 +4,17 @@
 
 <h1>Spring Boot - Multiple file upload example - AJAX</h1>
 
-<form method="POST" enctype="multipart/form-data" id="fileUploadForm">
-    <input type="file" name="file"/><br/><br/>
+<form method="POST" enctype="multipart/form-data"
+      name ="fileUploadForm" id="fileUploadForm">
+    <p>projectId</p>
+    <input type="text" name="projectId"/><br/><br/>
+    <p>externalTestRunId</p>
+    <input type="text" name="externalTestRunId"/><br/><br/>
+    <input type="file" name="file" class="file"/><br/><br/>
     <input type="submit" value="Submit" id="btnSubmit"/>
 </form>
 
-<h1>Ajax Post Result</h1>
+<h1>Upload a new result XML file</h1>
 <pre>
     <span id="result"></span>
 </pre>

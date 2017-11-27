@@ -1,6 +1,7 @@
-package org.testdashboard.api;
+package org.testdashboard.api.impl;
 
 import org.springframework.stereotype.Component;
+import org.testdashboard.api.ProjectApiDelegate;
 
 /**
  * @author Arne

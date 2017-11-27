@@ -1,9 +1,10 @@
-package org.testdashboard.api;
+package org.testdashboard.api.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.testdashboard.api.AccountApiDelegate;
 import org.testdashboard.model.AccountDTO;
 import org.testdashboard.model.ProjectDTO;
 import org.testdashboard.service.AccountService;

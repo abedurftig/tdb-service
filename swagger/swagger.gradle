@@ -47,11 +47,3 @@ swaggerSources {
 compileJava.dependsOn swaggerSources.applicationApi.code
 sourceSets.main.java.srcDir "${swaggerSources.applicationApi.code.outputDir}/src/main/java"
 sourceSets.main.resources.srcDir "${swaggerSources.applicationApi.code.outputDir}/src/main/resources"
-
-task deleteSwaggerDefaultApplication(type: Delete) {
-
-    delete "${swaggerSources.applicationApi.code.outputDir}/src/main/java/org/testdashboard/Swagger2SpringBoot.java"
-    delete "${swaggerSources.applicationApi.code.outputDir}/src/main/resources/application.properties"
-}
-
-compileJava.finalizedBy deleteSwaggerDefaultApplication

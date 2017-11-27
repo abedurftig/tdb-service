@@ -13,6 +13,40 @@ basePath: "/api"
 schemes:
 - "http"
 paths:
+  /upload:
+    post:
+      operationId: upload
+      consumes:
+        - "multipart/form-data"
+      parameters:
+      - in: formData
+        name: file
+        type: file
+        required: true
+        description: The file to upload.
+      - in: formData
+        name: projectId
+        type: integer
+        format: int64
+        required: true
+        description: Parent project.
+      - in: formData
+        name: externalTestRunId
+        type: integer
+        format: int64
+        required: true
+        description: Relate single test execution to a test run.
+      tags:
+        - Upload
+      responses:
+        200:
+          description: Successful upload
+          schema:
+            $ref: '#/definitions/ResponseDTO'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/ErrorDTO'
   /account/{accountId}:
     get:
       summary: Account
@@ -85,6 +119,8 @@ paths:
             $ref: '#/definitions/ErrorDTO'
   /project/{projectId}/testexecutions:
     get:
+      tags:
+        - Project
       summary: Get a single project
       description: Get the project specified by the given projectId.
       operationId: getProjectTextExecutions
@@ -94,8 +130,6 @@ paths:
           description: Id of requested project.
           required: true
           type: number
-      tags:
-        - Project
       responses:
         200:
           description: The requested project
@@ -103,50 +137,6 @@ paths:
             type: array
             items:
               $ref: '#/definitions/TestRunDTO'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/ErrorDTO'
-  /project/{projectId}/newtestexecution:
-    get:
-      summary: TODO
-      description: TODO
-      operationId: getNewTestExecutionForm
-      parameters:
-        - name: projectId
-          in: path
-          description: TODO
-          required: true
-          type: number
-      tags:
-        - Test Execution
-      responses:
-        200:
-          description: TODO
-          schema:
-            type: string
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/ErrorDTO'
-    post:
-      summary: Uploads a text execution XML file.
-      description: TODO
-      operationId: postProjectTextExecution
-      consumes:
-        - multipart/form-data
-      parameters:
-        - in: formData
-          name: upfile
-          type: file
-          description: TODO
-      tags:
-        - Test Execution
-      responses:
-        200:
-          description: TODO
-          schema:
-            type: number
         default:
           description: Unexpected error
           schema:
@@ -198,6 +188,16 @@ definitions:
     properties:
       name:
         type: string
+      message:
+        type: string
+      code:
+        type: string
+  ResponseDTO:
+    type: object
+    required:
+    - message
+    - code
+    properties:
       message:
         type: string
       code:
