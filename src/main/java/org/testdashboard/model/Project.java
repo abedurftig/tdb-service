@@ -15,11 +15,14 @@ public class Project extends BaseEntity {
     @ManyToOne
     private Account account;
 
+    private String externalId;
+
     protected Project() {}
 
-    public Project(Account account, String name) {
+    public Project(Account account, String name, String externalId) {
         super(name);
         this.account = account;
+        this.externalId = externalId;
     }
 
 }

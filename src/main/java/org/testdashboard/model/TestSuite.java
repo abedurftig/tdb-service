@@ -1,8 +1,13 @@
 package org.testdashboard.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 /**
  * @author Arne
  * @since 21/11/2017
  */
-public class TestSuite {
+@Entity
+@Table(name = "testsuite")
+public class TestSuite extends BaseEntity {
 }
