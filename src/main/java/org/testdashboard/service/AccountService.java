@@ -2,7 +2,10 @@ package org.testdashboard.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.testdashboard.model.*;
+import org.testdashboard.model.Account;
+import org.testdashboard.model.AccountDTO;
+import org.testdashboard.model.AccountRepository;
+import org.testdashboard.model.ModelMapperImpl;
 
 /**
  * @author Arne

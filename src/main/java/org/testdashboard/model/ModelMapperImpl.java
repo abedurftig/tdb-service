@@ -3,12 +3,9 @@ package org.testdashboard.model;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.modelmapper.config.Configuration;
-import org.testdashboard.model.Account;
-import org.testdashboard.model.AccountDTO;
 
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Arne

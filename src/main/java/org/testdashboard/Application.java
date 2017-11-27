@@ -1,12 +1,13 @@
 package org.testdashboard;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.web.MultipartAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.AuditorAware;
@@ -23,8 +24,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @ComponentScan(basePackages = { "org.testdashboard" })
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
 @EnableJpaRepositories
-@EnableAutoConfiguration(exclude={MultipartAutoConfiguration.class})
+@EnableAutoConfiguration
 public class Application implements CommandLineRunner {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
 
     @Autowired
     private AccountRepository accountRepository;
@@ -51,6 +54,8 @@ public class Application implements CommandLineRunner {
 
         projectRepository.save(projectOne);
         projectRepository.save(projectTwo);
+
+        LOGGER.info("CommandLineRunner finished...");
 
     }
 

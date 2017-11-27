@@ -14,39 +14,37 @@ schemes:
 - "http"
 paths:
   /upload:
-    post:
-      operationId: upload
-      consumes:
-        - "multipart/form-data"
-      parameters:
-      - in: formData
-        name: file
-        type: file
-        required: true
-        description: The file to upload.
-      - in: formData
-        name: projectId
-        type: integer
-        format: int64
-        required: true
-        description: Parent project.
-      - in: formData
-        name: externalTestRunId
-        type: integer
-        format: int64
-        required: true
-        description: Relate single test execution to a test run.
-      tags:
-        - Upload
-      responses:
-        200:
-          description: Successful upload
-          schema:
-            $ref: '#/definitions/ResponseDTO'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/ErrorDTO'
+      post:
+        operationId: upload
+        consumes:
+          - "multipart/form-data"
+        parameters:
+        - in: formData
+          name: file
+          type: file
+          required: true
+          description: The file to upload.
+        - in: formData
+          name: externalProjectId
+          type: string
+          required: true
+          description: Parent project.
+        - in: formData
+          name: externalTestRunId
+          type: string
+          required: true
+          description: Relate single test execution to a test run.
+        tags:
+          - Upload
+        responses:
+          200:
+            description: Successful upload
+            schema:
+              $ref: '#/definitions/ResponseDTO'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/ErrorDTO'
   /account/{accountId}:
     get:
       summary: Account
@@ -170,6 +168,8 @@ definitions:
       id:
         type: integer
         format: int64
+      externalId:
+        type: string
       name:
         type: string
       accountId:
@@ -202,6 +202,18 @@ definitions:
         type: string
       code:
         type: string
+  UploadRequestDTO:
+      type: object
+      required:
+      - projectId
+      - externalTestRunId
+      properties:
+        projectId:
+          type: integer
+          format: int64
+        externalTestRunId:
+          type: integer
+          format: int64
   TestRunDTO:
     type: object
     required:
@@ -210,6 +222,8 @@ definitions:
       id:
         type: integer
         format: int64
+      externalId:
+        type: string
       projectId:
         type: integer
         format: int64

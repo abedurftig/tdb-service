@@ -1,6 +1,5 @@
 package org.testdashboard.service;
 
-import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.testdashboard.model.ModelMapperImpl;
@@ -9,9 +8,7 @@ import org.testdashboard.model.ProjectDTO;
 import org.testdashboard.model.ProjectRepository;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Arne

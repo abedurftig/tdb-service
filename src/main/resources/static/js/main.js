@@ -7,12 +7,8 @@ $(document).ready(function () {
 
 function ajaxSubmit() {
 
-    var form = $('#fileUploadForm')[0];
+    var form = $('#uploadForm')[0];
     var data = new FormData(form);
-
-//    data.append("upfile", document.forms["fileUploadForm"].file.files[0]);
-//    data.append("projectId", 1);
-//    data.append("externalTestRunId", 1);
 
     $("#btnSubmit").prop("disabled", true);
 
@@ -26,7 +22,7 @@ function ajaxSubmit() {
         cache: false,
         timeout: 600000,
         success: function (data) {
-            $("#result").text(data);
+            $("#result").text(data.message);
             console.log("SUCCESS : ", data);
             $("#btnSubmit").prop("disabled", false);
         },
