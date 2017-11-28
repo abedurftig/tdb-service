@@ -9,7 +9,7 @@ public class TestRunTest {
     @Test
     public void constructorWithoutExternalIdParameterShouldMatchName() {
 
-        TestRun testRun = new TestRun("Test TestRun");
+        TestRun testRun = new TestRun(null,"Test TestRun");
         Assert.assertThat(testRun.getExternalId(), Matchers.is("Test TestRun"));
 
     }
@@ -17,7 +17,7 @@ public class TestRunTest {
     @Test
     public void constructorWithExternalIdParameterShouldMatchParameter() {
 
-        TestRun testRun = new TestRun("Test TestRun", "External ID");
+        TestRun testRun = new TestRun(null,"Test TestRun", "External ID");
         Assert.assertThat(testRun.getExternalId(), Matchers.is("External ID"));
 
     }

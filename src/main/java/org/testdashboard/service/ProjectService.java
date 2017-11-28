@@ -9,6 +9,7 @@ import org.testdashboard.model.ProjectRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Arne
@@ -23,12 +24,18 @@ public class ProjectService {
     public List<ProjectDTO> getAccountProjects(Long accountId) {
 
         List<Project> projects = projectRepository.findByAccountId(accountId);
-        if (!projects.isEmpty()) {
+        return projects.size() > 0 ?
+                ModelMapperImpl.getProjectDTOs(projects) : new ArrayList<>();
 
-            return ModelMapperImpl.getProjectDTOs(projects);
+    }
 
+    public ProjectDTO getProjectByExternalId(String externalId) {
+
+        Optional<Project> projectOptional = projectRepository.findByExternalId(externalId);
+        if (projectOptional.isPresent()) {
+            return ModelMapperImpl.getProjectDTO(projectOptional.get());
         } else {
-            return new ArrayList<>();
+            return null;
         }
 
     }

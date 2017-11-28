@@ -1,9 +1,9 @@
 package org.testdashboard.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Arne
@@ -19,6 +19,9 @@ public class Project extends BaseEntity {
     @Column(unique = true)
     private String externalId;
 
+    @OneToMany(mappedBy = "project")
+    private Set<TestRun> testRuns = new HashSet<>();
+
     protected Project() {}
 
     public Project(Account account, String name) {
@@ -31,8 +34,20 @@ public class Project extends BaseEntity {
         this.externalId = externalId;
     }
 
+    public Account getAccount() {
+        return account;
+    }
+
     public String getExternalId() {
         return externalId;
+    }
+
+    public Set<TestRun> getTestRuns() {
+        return Collections.unmodifiableSet(testRuns);
+    }
+
+    public void addToTestRuns(TestRun testRun) {
+        testRuns.add(testRun);
     }
 
 }
