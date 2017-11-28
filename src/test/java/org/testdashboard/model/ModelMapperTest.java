@@ -3,9 +3,6 @@ package org.testdashboard.model;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
-import org.testdashboard.model.Account;
-import org.testdashboard.model.AccountDTO;
-import org.testdashboard.model.ModelMapperImpl;
 
 import java.util.ArrayList;
 import java.util.List;

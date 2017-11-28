@@ -1,6 +1,5 @@
 package org.testdashboard.model;
 
-import org.h2.jdbc.JdbcSQLException;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
