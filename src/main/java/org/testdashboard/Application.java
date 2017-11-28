@@ -44,8 +44,8 @@ public class Application implements CommandLineRunner {
 
         Account account = new Account("Account One");
 
-        Project projectOne = new Project(account, "Project One", "Project One");
-        Project projectTwo = new Project(account, "Project Two", "Project Two");
+        Project projectOne = new Project(account, "Project One");
+        Project projectTwo = new Project(account, "Project Two");
 
         account.addToProjects(projectOne);
         account.addToProjects(projectTwo);

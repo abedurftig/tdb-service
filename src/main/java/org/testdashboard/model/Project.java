@@ -19,6 +19,10 @@ public class Project extends BaseEntity {
 
     protected Project() {}
 
+    public Project(Account account, String name) {
+        this(account, name, name);
+    }
+
     public Project(Account account, String name, String externalId) {
         super(name);
         this.account = account;
