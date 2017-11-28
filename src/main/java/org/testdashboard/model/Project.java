@@ -1,5 +1,6 @@
 package org.testdashboard.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -15,6 +16,7 @@ public class Project extends BaseEntity {
     @ManyToOne
     private Account account;
 
+    @Column(unique = true)
     private String externalId;
 
     protected Project() {}
@@ -27,6 +29,10 @@ public class Project extends BaseEntity {
         super(name);
         this.account = account;
         this.externalId = externalId;
+    }
+
+    public String getExternalId() {
+        return externalId;
     }
 
 }
