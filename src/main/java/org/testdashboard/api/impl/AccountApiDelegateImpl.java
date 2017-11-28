@@ -20,10 +20,10 @@ import java.util.List;
 public class AccountApiDelegateImpl implements AccountApiDelegate {
 
     @Autowired
-    AccountService accountService;
+    private AccountService accountService;
 
     @Autowired
-    ProjectService projectService;
+    private ProjectService projectService;
 
     @Override
     public ResponseEntity<AccountDTO> getAccount(Long accountId) {

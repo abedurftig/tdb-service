@@ -29,7 +29,8 @@ public class TestRunRepositoryTest {
         Project project = projectRepository.save(new Project(null, "TestRunRepositoryTest Test Project"));
         testRunRepository.save(new TestRun(project, "TestRunRepositoryTest Test TestRun", "ExtId"));
 
-        TestRun testRunByParentAndExternalId = testRunRepository.findByProjectIdAndExternalId(project.getId(), "ExtId");
+        TestRun testRunByParentAndExternalId =
+                testRunRepository.findByProjectIdAndExternalId(project.getId(), "ExtId").get();
 
         Assert.assertThat(testRunByParentAndExternalId, Matchers.notNullValue());
         Assert.assertThat(testRunByParentAndExternalId.getName(), Matchers.is("TestRunRepositoryTest Test TestRun"));
@@ -46,7 +47,7 @@ public class TestRunRepositoryTest {
         testRunRepository.save(new TestRun(project, "TestRunRepositoryTest Test TestRun", "ExtId"));
 
         TestRun testRunByParentAndExternalId =
-                testRunRepository.findByProjectExternalIdAndExternalId(project.getExternalId(), "ExtId");
+                testRunRepository.findByProjectExternalIdAndExternalId(project.getExternalId(), "ExtId").get();
 
         Assert.assertThat(testRunByParentAndExternalId, Matchers.notNullValue());
         Assert.assertThat(testRunByParentAndExternalId.getName(), Matchers.is("TestRunRepositoryTest Test TestRun"));

@@ -15,7 +15,7 @@ import org.testdashboard.model.ModelMapperImpl;
 public class AccountService {
 
     @Autowired
-    AccountRepository accountRepository;
+    private AccountRepository accountRepository;
 
     public AccountDTO getAccountById(Long accountId) {
 
