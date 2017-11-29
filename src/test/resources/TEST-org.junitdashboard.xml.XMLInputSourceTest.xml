@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.junitdashboard.xml.XMLInputSourceTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2017-11-05T20:40:23" hostname="Arnes-MBP.Speedport_W723_V_Typ_A_1_01_018" time="0.001">
+  <properties/>
+  <testcase name="testExtractPackageName" classname="org.junitdashboard.xml.XMLInputSourceTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
