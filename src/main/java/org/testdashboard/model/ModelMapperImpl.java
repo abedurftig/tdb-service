@@ -43,6 +43,10 @@ public class ModelMapperImpl {
 
     }
 
+    public static TestSuiteDTO getTestSuiteDTO(TestSuite testSuite) {
+        return getPreconfiguredMapper().map(testSuite, TestSuiteDTO.class);
+    }
+
     /*
      * Configuration
      */

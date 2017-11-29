@@ -25,6 +25,9 @@ public class ProjectService {
     @Autowired
     private TestRunRepository testRunRepository;
 
+    @Autowired
+    private TestSuiteRepository testSuiteRepository;
+
     public List<ProjectDTO> getAccountProjects(Long accountId) {
 
         List<Project> projects = projectRepository.findByAccountId(accountId);
@@ -38,8 +41,8 @@ public class ProjectService {
 
         Project project = getProjectByExternalId(1L, externalProjectId);
         TestRun testRun = getOrCreateTestRunByExternalId(externalProjectId, externalTestRunId);
-
-        return null;
+        TestSuite testSuite = testSuiteRepository.save(new TestSuite(testRun, new Date().toString()));
+        return ModelMapperImpl.getTestSuiteDTO(testSuite);
 
     }
 
