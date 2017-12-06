@@ -1,6 +1,7 @@
 package org.testdashboard.junit4;
 
 import org.testdashboard.junit4.model.Testsuite;
+import org.testdashboard.input.InputSource;
 import org.testdashboard.model.TestCase;
 import org.testdashboard.model.TestSuite;
 
@@ -11,7 +12,7 @@ import java.util.Date;
  * @author Arne
  * @since 05/11/2017
  */
-public class XMLInputSource {
+public class XMLInputSource extends InputSource<Testsuite> {
 
     public TestSuite buildTestSuite(Testsuite input) {
 

@@ -8,6 +8,9 @@
 
 package org.testdashboard.junit4.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -183,8 +186,10 @@ public class Testsuite {
     @XmlElement(required = true)
     protected Properties properties;
     protected List<Testcase> testcase;
+    @JacksonXmlProperty(localName = "system-out")
     @XmlElement(name = "system-out", required = true)
     protected String systemOut;
+    @JacksonXmlProperty(localName = "system-err")
     @XmlElement(name = "system-err", required = true)
     protected String systemErr;
     @XmlElement(required = true)

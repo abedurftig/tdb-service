@@ -25,7 +25,7 @@ public class XMLInputParserTest {
     }
 
     @Test
-    @Ignore
+//    @Ignore
     public void testXMLtoModel() {
 
         InputStream is = this.getClass().getClassLoader().getResourceAsStream("TEST-org.junitdashboard.ApplicationTests.xml");

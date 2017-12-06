@@ -34,7 +34,7 @@ public class XMLInputParser {
 
             String xml = inputStreamToString(stream);
             suite = new XmlMapper()
-//                    .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false)
+                    .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,true)
                     .readValue(xml, Testsuite.class);
 
         } catch (IOException e) {
