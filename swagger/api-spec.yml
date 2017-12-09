@@ -13,9 +13,9 @@ basePath: "/api"
 schemes:
 - "http"
 paths:
-  /upload:
+  /upload-junit4-xml:
       post:
-        operationId: upload
+        operationId: uploadJUnit4Xml
         consumes:
           - "multipart/form-data"
         parameters:
@@ -40,7 +40,7 @@ paths:
           200:
             description: Successful upload
             schema:
-              $ref: '#/definitions/ResponseDTO'
+              $ref: '#/definitions/TestSuiteDTO'
           default:
             description: Unexpected error
             schema:
@@ -103,7 +103,8 @@ paths:
           in: path
           description: Id of requested project.
           required: true
-          type: number
+          type: integer
+          format: int64
       tags:
         - Project
       responses:
@@ -115,19 +116,20 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/ErrorDTO'
-  /project/{projectId}/testexecutions:
+  /project/{projectId}/testruns:
     get:
       tags:
         - Project
-      summary: Get a single project
-      description: Get the project specified by the given projectId.
-      operationId: getProjectTextExecutions
+      summary: Get all the tests runs for a single project.
+      description: Get all the tests runs for the project specified by the given projectId.
+      operationId: getProjectTestRuns
       parameters:
         - name: projectId
           in: path
           description: Id of requested project.
           required: true
-          type: number
+          type: integer
+          format: int64
       responses:
         200:
           description: The requested project
@@ -153,7 +155,7 @@ definitions:
       id:
         type: integer
         format: int64
-      accountName:
+      name:
         type: string
       projects:
         type: array
@@ -224,6 +226,8 @@ definitions:
         format: int64
       externalId:
         type: string
+      name:
+        type: string
       projectId:
         type: integer
         format: int64
@@ -247,7 +251,7 @@ definitions:
       packageName:
         type: string
       name:
-          type: string
+        type: string
       testCases:
         type: array
         items:
@@ -267,7 +271,7 @@ definitions:
       testSuiteId:
         type: integer
         format: int64
-      testName:
+      name:
         type: string
       startDate:
         type: string

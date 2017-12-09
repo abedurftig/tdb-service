@@ -24,7 +24,7 @@ public class ModelMapperTest {
         AccountDTO dto = ModelMapperImpl.getAccountDTO(account);
 
         // then
-        Assert.assertThat(dto.getAccountName(), Matchers.is("Test Account"));
+        Assert.assertThat(dto.getName(), Matchers.is("Test Account"));
         Assert.assertThat(dto.getId(), Matchers.is(123L));
 
     }
@@ -35,7 +35,7 @@ public class ModelMapperTest {
         // given
         AccountDTO accountDto = new AccountDTO();
         accountDto.setId(123L);
-        accountDto.setAccountName("Test Account");
+        accountDto.setName("Test Account");
 
         // when
         Account account = ModelMapperImpl.getAccount(accountDto);

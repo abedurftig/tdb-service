@@ -6,35 +6,55 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.testdashboard.api.UploadApiDelegate;
-import org.testdashboard.model.ResponseDTO;
-import org.testdashboard.model.TestSuiteDTO;
+import org.testdashboard.api.UploadJunit4XmlApiDelegate;
+import org.testdashboard.input.junit4.XMLInputParser;
+import org.testdashboard.input.junit4.XMLInputSource;
+import org.testdashboard.model.*;
 import org.testdashboard.service.ProjectService;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * @author Arne
  * @since 26/11/2017
  */
 @RestController
-public class UploadApiDelegateImpl implements UploadApiDelegate {
+public class UploadApiDelegateImpl implements UploadJunit4XmlApiDelegate {
 
     @Autowired
     private ProjectService projectService;
 
     @Override
-    public ResponseEntity<ResponseDTO> upload(MultipartFile file, String externalProjectId, String externalTestRunId) {
+    public ResponseEntity<TestSuiteDTO> uploadJUnit4Xml(MultipartFile file, String externalProjectId, String externalTestRunId) {
 
         String code = "200";
 
         String message = "You uploaded a file with name " + file.getOriginalFilename() + " with externalProjectId = " +
                 externalProjectId + " and externalTestRunId = " + externalTestRunId;
 
-        TestSuiteDTO testSuiteDTO = projectService.addTestSuiteToProjectAndTestRun(
-                externalProjectId, externalTestRunId, null);
+        TestRun testRun = projectService.getOrCreateTestRunByExternalId(
+                externalProjectId, externalTestRunId);
 
-        ResponseDTO responseDTO = new ResponseDTO().message(message).code(code);
 
-        return new ResponseEntity(responseDTO, new HttpHeaders(), HttpStatus.OK);
+        try {
+
+            TestSuiteDTO testSuiteDTO = projectService.saveTestSuite(
+                    transformTestSuiteXML(file.getInputStream(), testRun));
+
+            return new ResponseEntity(testSuiteDTO, new HttpHeaders(), HttpStatus.OK);
+        } catch (IOException ioe) {
+            return new ResponseEntity(new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        }
 
     }
+
+    public TestSuite transformTestSuiteXML(InputStream inputStream, TestRun testRun) {
+
+        TestSuite testSuite = new XMLInputSource().buildTestSuite(
+                new XMLInputParser().parseXML(inputStream), testRun);
+        return testSuite;
+
+    }
+
 }

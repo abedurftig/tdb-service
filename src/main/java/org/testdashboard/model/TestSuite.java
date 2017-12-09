@@ -1,9 +1,6 @@
 package org.testdashboard.model;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashSet;
@@ -19,7 +16,7 @@ public class TestSuite extends BaseEntity {
     @ManyToOne
     private TestRun testRun;
 
-    @OneToMany(mappedBy = "testSuite")
+    @OneToMany(mappedBy = "testSuite", cascade = CascadeType.ALL)
     private Set<TestCase> testCases = new HashSet<>();
 
     private int casesTotal;

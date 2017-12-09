@@ -3,6 +3,7 @@ package org.testdashboard.model;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.modelmapper.config.Configuration;
+import org.testdashboard.input.junit4.model.Testsuite;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -43,8 +44,28 @@ public class ModelMapperImpl {
 
     }
 
+    /*
+     * TestSuite
+     */
+
     public static TestSuiteDTO getTestSuiteDTO(TestSuite testSuite) {
         return getPreconfiguredMapper().map(testSuite, TestSuiteDTO.class);
+    }
+
+    public static TestSuite getTestSuite(TestSuiteDTO testSuiteDTO) {
+        return getPreconfiguredMapper().map(testSuiteDTO, TestSuite.class);
+    }
+
+    /*
+     * TestRun
+     */
+
+    public static List<TestRunDTO> getTestRunDTOs(List<TestRun> testRuns) {
+
+        Type targetListType = new TypeToken<List<TestRunDTO>>() {}.getType();
+        List<TestRunDTO> testRunDTOs = getPreconfiguredMapper().map(testRuns, targetListType);
+        return testRunDTOs;
+
     }
 
     /*

@@ -35,26 +35,24 @@ public class ProjectService {
 
     }
 
-    public TestSuiteDTO addTestSuiteToProjectAndTestRun(
-            String externalProjectId, String externalTestRunId, TestSuiteDTO testSuiteDTO) {
+    public List<TestRunDTO> getProjectTestRuns(Long projectId) {
 
-        Project project = getProjectByExternalId(1L, externalProjectId);
-        TestRun testRun = getOrCreateTestRunByExternalId(externalProjectId, externalTestRunId);
-        TestSuite testSuite = testSuiteRepository.save(new TestSuite(testRun, new Date().toString()));
-        return ModelMapperImpl.getTestSuiteDTO(testSuite);
+        List<TestRun> testRuns = testRunRepository.findByProjectId(projectId);
+        return testRuns.size() > 0 ?
+                ModelMapperImpl.getTestRunDTOs(testRuns) : new ArrayList<>();
 
     }
 
-    private Project getProjectByExternalId(Long accountId, String externalProjectId) {
-        return projectRepository.findByExternalId(externalProjectId).get();
+    public TestSuiteDTO saveTestSuite(TestSuite testSuite) {
+        return ModelMapperImpl.getTestSuiteDTO(testSuiteRepository.save(testSuite));
     }
 
-    private TestRun getOrCreateTestRunByExternalId(String externalProjectId, String testRunExternalId) {
+    public TestRun getOrCreateTestRunByExternalId(String externalProjectId, String testRunExternalId) {
 
         TestRun testRun = testRunRepository.findByProjectExternalIdAndExternalId(externalProjectId, testRunExternalId)
                 .orElseGet(() -> {
 
-                    Project project = projectRepository.findByExternalId(externalProjectId).get();
+                    Project project = getProjectByExternalId(externalProjectId);
                     return testRunRepository.save(
                             new TestRun(project, getTestRunName(project.getId()), testRunExternalId));
 
@@ -62,6 +60,10 @@ public class ProjectService {
 
         return testRun;
 
+    }
+
+    private Project getProjectByExternalId(String externalProjectId) {
+        return projectRepository.findByExternalId(externalProjectId).get();
     }
 
     private String getTestRunName(Long projectId) {

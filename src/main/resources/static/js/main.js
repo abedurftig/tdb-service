@@ -15,7 +15,7 @@ function ajaxSubmit() {
     $.ajax({
         type: "POST",
         headers: {'Content-Type': undefined},
-        url: "/api/upload",
+        url: "/api/upload-junit4-xml",
         data: data,
         processData: false,
         contentType: false,
