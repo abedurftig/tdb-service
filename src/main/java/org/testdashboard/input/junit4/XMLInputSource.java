@@ -1,8 +1,9 @@
-package org.testdashboard.junit4;
+package org.testdashboard.input.junit4;
 
-import org.testdashboard.junit4.model.Testsuite;
 import org.testdashboard.input.InputSource;
+import org.testdashboard.input.junit4.model.Testsuite;
 import org.testdashboard.model.TestCase;
+import org.testdashboard.model.TestRun;
 import org.testdashboard.model.TestSuite;
 
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -14,9 +15,10 @@ import java.util.Date;
  */
 public class XMLInputSource extends InputSource<Testsuite> {
 
-    public TestSuite buildTestSuite(Testsuite input) {
+    public TestSuite buildTestSuite(Testsuite input, TestRun testRun) {
 
-        TestSuite suite = new TestSuite(null, input.getName());
+        TestSuite suite = new TestSuite(testRun, input.getName(), input.getTests(), input.getSkipped(),
+                input.getErrors(), input.getFailures(), input.getTime());
 
         for (Testsuite.Testcase testcase : input.getTestcase()) {
             suite.addToTestCases(buildTestCase(suite, testcase));

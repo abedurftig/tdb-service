@@ -17,9 +17,9 @@ public class TestCase extends BaseEntity {
 
     private boolean failed;
 
-    private boolean skipped;
-
     private boolean error;
+
+    private boolean skipped;
 
     private String message;
 
@@ -29,7 +29,8 @@ public class TestCase extends BaseEntity {
         this(testSuite, name, false, false, false, "");
     }
 
-    public TestCase(TestSuite testSuite, String name, boolean failed, boolean skipped, boolean error, String message) {
+    public TestCase(TestSuite testSuite, String name, boolean failed,
+                    boolean skipped, boolean error, String message) {
         super(name);
         this.testSuite = testSuite;
         this.failed = failed;

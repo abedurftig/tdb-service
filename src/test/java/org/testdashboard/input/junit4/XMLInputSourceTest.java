@@ -1,11 +1,14 @@
-package org.testdashboard.junit4;
+package org.testdashboard.input.junit4;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.testdashboard.input.junit4.model.Testsuite;
+import org.testdashboard.model.TestSuite;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
@@ -50,6 +53,22 @@ public class XMLInputSourceTest {
 
         Assert.assertEquals("extractTimestamp() method",
                 dateString, sdf.format(new XMLInputSource().extractTimestamp(xmlDate)));
+
+    }
+
+    @Test
+    public void verifyTestSuiteSerilization() {
+
+        InputStream is = this.getClass().getClassLoader().getResourceAsStream("TEST-org.junitdashboard.xml.XMLInputParserTest.xml");
+        Testsuite input = new XMLInputParser().parseXML(is);
+
+        TestSuite testSuite = new XMLInputSource().buildTestSuite(input, null);
+
+        Assert.assertEquals("name should match", "org.junitdashboard.xml.XMLInputParserTest", testSuite.getName());
+        Assert.assertEquals("casesTotal should match", 4, testSuite.getCasesTotal());
+        Assert.assertEquals("casesSkipped should match", 1, testSuite.getCasesSkipped());
+        Assert.assertEquals("casesWithFailure should match", 2, testSuite.getCasesWithFailure());
+        Assert.assertEquals("casesWithError should match", 0, testSuite.getCasesWithError());
 
     }
 
