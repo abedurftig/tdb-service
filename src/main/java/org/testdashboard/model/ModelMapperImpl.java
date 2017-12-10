@@ -3,14 +3,12 @@ package org.testdashboard.model;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.modelmapper.config.Configuration;
-import org.testdashboard.input.junit4.model.Testsuite;
 
 import java.lang.reflect.Type;
 import java.util.List;
 
 /**
- * @author Arne
- * @since 21/11/2017
+ * Handles the transformation from model DTO to model Entity and back.
  */
 public class ModelMapperImpl {
 
@@ -21,11 +19,11 @@ public class ModelMapperImpl {
      */
 
     public static Account getAccount(AccountDTO accountDTO) {
-        return getPreconfiguredMapper().map(accountDTO, Account.class);
+        return getPreConfiguredMapper().map(accountDTO, Account.class);
     }
 
     public static AccountDTO getAccountDTO(Account account) {
-        return getPreconfiguredMapper().map(account, AccountDTO.class);
+        return getPreConfiguredMapper().map(account, AccountDTO.class);
     }
 
     /*
@@ -33,13 +31,13 @@ public class ModelMapperImpl {
      */
 
     public static ProjectDTO getProjectDTO(Project project) {
-        return getPreconfiguredMapper().map(project, ProjectDTO.class);
+        return getPreConfiguredMapper().map(project, ProjectDTO.class);
     }
 
     public static List<ProjectDTO> getProjectDTOs(List<Project> projects) {
 
         Type targetListType = new TypeToken<List<ProjectDTO>>() {}.getType();
-        List<ProjectDTO> projectDTOs = getPreconfiguredMapper().map(projects, targetListType);
+        List<ProjectDTO> projectDTOs = getPreConfiguredMapper().map(projects, targetListType);
         return projectDTOs;
 
     }
@@ -49,11 +47,11 @@ public class ModelMapperImpl {
      */
 
     public static TestSuiteDTO getTestSuiteDTO(TestSuite testSuite) {
-        return getPreconfiguredMapper().map(testSuite, TestSuiteDTO.class);
+        return getPreConfiguredMapper().map(testSuite, TestSuiteDTO.class);
     }
 
     public static TestSuite getTestSuite(TestSuiteDTO testSuiteDTO) {
-        return getPreconfiguredMapper().map(testSuiteDTO, TestSuite.class);
+        return getPreConfiguredMapper().map(testSuiteDTO, TestSuite.class);
     }
 
     /*
@@ -63,7 +61,7 @@ public class ModelMapperImpl {
     public static List<TestRunDTO> getTestRunDTOs(List<TestRun> testRuns) {
 
         Type targetListType = new TypeToken<List<TestRunDTO>>() {}.getType();
-        List<TestRunDTO> testRunDTOs = getPreconfiguredMapper().map(testRuns, targetListType);
+        List<TestRunDTO> testRunDTOs = getPreConfiguredMapper().map(testRuns, targetListType);
         return testRunDTOs;
 
     }
@@ -72,7 +70,7 @@ public class ModelMapperImpl {
      * Configuration
      */
 
-    private static ModelMapper getPreconfiguredMapper() {
+    private static ModelMapper getPreConfiguredMapper() {
 
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration()

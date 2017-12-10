@@ -7,6 +7,7 @@ import org.testdashboard.model.TestRun;
 import org.testdashboard.model.TestSuite;
 
 import javax.xml.datatype.XMLGregorianCalendar;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -17,8 +18,9 @@ public class XMLInputSource extends InputSource<Testsuite> {
 
     public TestSuite buildTestSuite(Testsuite input, TestRun testRun) {
 
-        TestSuite suite = new TestSuite(testRun, input.getName(), input.getTests(), input.getSkipped(),
-                input.getErrors(), input.getFailures(), input.getTime());
+        TestSuite suite = new TestSuite(testRun, input.getName(),
+                extractPackageName(input.getName()), input.getTests(),
+                input.getSkipped(), input.getErrors(), input.getFailures(), input.getTime());
 
         for (Testsuite.Testcase testcase : input.getTestcase()) {
             suite.addToTestCases(buildTestCase(suite, testcase));
@@ -30,7 +32,7 @@ public class XMLInputSource extends InputSource<Testsuite> {
 
     protected TestCase buildTestCase(TestSuite testSuite, Testsuite.Testcase input) {
 
-        String message = input.getFailure() != null ? input.getFailure().getMessage() : "";
+        String message = extractMessage(input);
 
         TestCase testCase = new TestCase(
                 testSuite,
@@ -38,21 +40,19 @@ public class XMLInputSource extends InputSource<Testsuite> {
                 input.getFailure() != null,
                 input.getSkipped() != null,
                 input.getError() != null,
-                 message);
+                 message,
+                input.getTime());
 
         return testCase;
 
     }
 
-    protected String extractFailureOrErrorMessage(Testsuite.Testcase input) {
+    protected String extractMessage(Testsuite.Testcase input) {
 
-        if (input.getError() != null) {
-            return input.getError().getMessage();
-        } else if (input.getFailure() != null) {
-            return input.getFailure().getMessage();
-        } else {
-            return null;
-        }
+        return input.getFailure() != null ? input.getFailure().getMessage() :
+               input.getError() != null ? input.getError().getMessage() :
+               input.getSkipped() != null ? input.getSkipped().getMessage() :
+               "";
 
     }
 

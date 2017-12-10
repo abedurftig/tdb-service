@@ -27,18 +27,21 @@ public class TestSuite extends BaseEntity {
 
     private int casesWithFailure;
 
+    private String packageName;
+
     private BigDecimal duration;
 
     public TestSuite() {}
 
-    public TestSuite(TestRun testRun, String name) {
-        this(testRun, name, 0, 0, 0, 0, new BigDecimal(0));
+    public TestSuite(TestRun testRun, String name, String packageName) {
+        this(testRun, name, packageName, 0, 0, 0, 0, new BigDecimal(0));
     }
 
-    public TestSuite(TestRun testRun, String name, int casesTotal, int casesSkipped,
+    public TestSuite(TestRun testRun, String name, String packageName, int casesTotal, int casesSkipped,
                      int casesWithError, int casesWithFailure, BigDecimal duration) {
         super(name);
         this.testRun = testRun;
+        this.packageName = packageName;
         this.casesTotal = casesTotal;
         this.casesSkipped = casesSkipped;
         this.casesWithError = casesWithError;
@@ -72,6 +75,10 @@ public class TestSuite extends BaseEntity {
 
     public BigDecimal getDuration() {
         return duration;
+    }
+
+    public String getPackageName() {
+        return packageName;
     }
 
     public Set<TestCase> getTestCases() {

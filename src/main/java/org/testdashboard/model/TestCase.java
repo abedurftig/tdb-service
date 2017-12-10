@@ -3,10 +3,10 @@ package org.testdashboard.model;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 
 /**
- * @author Arne
- * @since 21/11/2017
+ * Model Entity for a single test.
  */
 @Entity
 @Table(name = "testcase")
@@ -23,20 +23,23 @@ public class TestCase extends BaseEntity {
 
     private String message;
 
+    private BigDecimal duration;
+
     public TestCase() {}
 
     public TestCase(TestSuite testSuite, String name) {
-        this(testSuite, name, false, false, false, "");
+        this(testSuite, name, false, false, false, "", new BigDecimal(0));
     }
 
     public TestCase(TestSuite testSuite, String name, boolean failed,
-                    boolean skipped, boolean error, String message) {
+                    boolean skipped, boolean error, String message, BigDecimal duration) {
         super(name);
         this.testSuite = testSuite;
         this.failed = failed;
         this.skipped = skipped;
         this.error = error;
         this.message = message;
+        this.duration = duration;
     }
 
     public TestSuite getTestSuite() {
@@ -57,6 +60,10 @@ public class TestCase extends BaseEntity {
 
     public String getMessage() {
         return message;
+    }
+
+    public BigDecimal getDuration() {
+        return duration;
     }
 
 }
