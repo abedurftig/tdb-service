@@ -72,6 +72,6 @@ task prepareArtifacts(type: Copy) {
 build.finalizedBy(prepareArtifacts)
 clean.finalizedBy(cleanArtifacts)
 
-apply from: 'docker.gradle'
-apply from: 'upload.gradle'
+apply from: 'docker/docker.gradle'
+apply from: 'upload/upload.gradle'
 apply from: 'swagger/swagger.gradle'

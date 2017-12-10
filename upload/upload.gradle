@@ -1,5 +1,5 @@
 task uploadTestResults(type: Exec) {
-    workingDir '.'
+    workingDir './upload'
 
     //on linux
     commandLine './upload.sh'
