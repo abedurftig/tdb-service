@@ -21,7 +21,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
-@ComponentScan(basePackages = { "org.testdashboard" })
+@ComponentScan(basePackages = { "org.tdb" })
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
 @EnableJpaRepositories
 @EnableAutoConfiguration
