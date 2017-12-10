@@ -1,13 +1,9 @@
 task uploadTestResults(type: Exec) {
     workingDir './upload'
-
-    //on linux
     commandLine './upload.sh'
 
     //store the output instead of printing to the console:
     standardOutput = new ByteArrayOutputStream()
-
-    //extension method stopTomcat.output() can be used to obtain the output:
     ext.output = {
         return standardOutput.toString()
     }
