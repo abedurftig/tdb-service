@@ -73,4 +73,5 @@ build.finalizedBy(prepareArtifacts)
 clean.finalizedBy(cleanArtifacts)
 
 apply from: 'docker.gradle'
+apply from: 'upload.gradle'
 apply from: 'swagger/swagger.gradle'
