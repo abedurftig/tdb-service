@@ -45,13 +45,6 @@ task wrapper(type: Wrapper) {
     gradleVersion = '4.3.1'
 }
 
-task stage() {
-    // don't need to run this during Heroku build
-    compileTestJava.enabled = false
-    test.enabled = false
-    dependsOn build
-}
-
 task cleanArtifacts(type: Delete) {
     delete 'artifacts'
 }
