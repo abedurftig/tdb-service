@@ -67,6 +67,14 @@ public class ProjectService {
 
     }
 
+    public ProjectDTO getProjectDTO(Long projectId) {
+        return ModelMapperImpl.getProjectDTO(getProject(projectId));
+    }
+
+    public Project getProject(Long projectId) {
+        return projectRepository.findOne(projectId);
+    }
+
     private Project getProjectByExternalId(String externalProjectId) {
         return projectRepository.findByExternalId(externalProjectId).get();
     }

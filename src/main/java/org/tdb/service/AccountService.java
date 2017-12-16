@@ -26,4 +26,9 @@ public class AccountService {
         return account != null ? ModelMapperImpl.getAccountDTO(account) : null;
     }
 
+    public AccountDTO createAccount(String name) {
+        Account account = accountRepository.save(new Account(name));
+        return ModelMapperImpl.getAccountDTO(account);
+    }
+
 }

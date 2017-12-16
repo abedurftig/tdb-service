@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.tdb.api.AccountApiDelegate;
+import org.tdb.model.Account;
 import org.tdb.model.AccountDTO;
 import org.tdb.model.ProjectDTO;
 import org.tdb.service.AccountService;
@@ -12,10 +13,6 @@ import org.tdb.service.ProjectService;
 
 import java.util.List;
 
-/**
- * @author Arne
- * @since 26/11/2017
- */
 @Component
 public class AccountApiDelegateImpl implements AccountApiDelegate {
 
@@ -47,5 +44,12 @@ public class AccountApiDelegateImpl implements AccountApiDelegate {
 
         return responseEntity;
 
+    }
+
+    @Override
+    public ResponseEntity<AccountDTO> createAccount(AccountDTO account) {
+        return new ResponseEntity<>(
+                accountService.createAccount(account.getName()),
+                HttpStatus.OK);
     }
 }

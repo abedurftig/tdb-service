@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.tdb.api.ProjectApiDelegate;
 import org.tdb.model.Account;
-import org.tdb.model.CreateProjectRequest;
 import org.tdb.model.ProjectDTO;
 import org.tdb.model.TestRunDTO;
 import org.tdb.service.AccountService;
@@ -29,18 +28,23 @@ public class ProjectApiDelegateImpl implements ProjectApiDelegate {
 
     @Override
     public ResponseEntity<List<TestRunDTO>> getProjectTestRuns(Long projectId) {
-        ResponseEntity<List<TestRunDTO>> responseEntity =
-        new ResponseEntity<List<TestRunDTO>>(projectService.getProjectTestRuns(projectId),
+        return new ResponseEntity<>(
+                projectService.getProjectTestRuns(projectId),
                 HttpStatus.OK);
-
-        return responseEntity;
     }
 
     @Override
-    public ResponseEntity<ProjectDTO> createProject(CreateProjectRequest projectCreateRequest) {
-        Account account = accountService.getAccountById(projectCreateRequest.getAccountId());
-        ProjectDTO projectDTO = projectService.createProject(account, projectCreateRequest.getProjectName());
+    public ResponseEntity<ProjectDTO> createProject(ProjectDTO project) {
+        Account account = accountService.getAccountById(project.getAccountId());
+        ProjectDTO projectDTO = projectService.createProject(account, project.getName());
 
-        return new ResponseEntity<ProjectDTO>(projectDTO, HttpStatus.OK);
+        return new ResponseEntity<>(projectDTO, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<ProjectDTO> getProject(Long projectId) {
+        return new ResponseEntity<>(
+                projectService.getProjectDTO(projectId),
+                HttpStatus.OK);
     }
 }

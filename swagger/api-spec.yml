@@ -45,6 +45,28 @@ paths:
             description: Unexpected error
             schema:
               $ref: '#/definitions/ErrorDTO'
+  /account:
+      post:
+        tags:
+          - Account
+        summary: Create a new account.
+        description: Create a new account.
+        operationId: createAccount
+        parameters:
+          - in: body
+            name: account
+            description: Information request for the request.
+            schema:
+              $ref: "#/definitions/AccountDTO"
+        responses:
+          200:
+            description: The newly created account.
+            schema:
+              $ref: '#/definitions/AccountDTO'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/ErrorDTO'
   /account/{accountId}:
     get:
       summary: Account
@@ -150,19 +172,10 @@ paths:
         operationId: createProject
         parameters:
           - in: body
-            name: CreateProjectRequest
+            name: project
             description: Information request for the request.
             schema:
-              type: object
-              required:
-                - accountId
-                - projectName
-              properties:
-                accountId:
-                  type: integer
-                  format: int64
-                projectName:
-                  type: string
+              $ref: "#/definitions/ProjectDTO"
         responses:
           200:
             description: The newly created project
