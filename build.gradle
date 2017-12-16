@@ -46,6 +46,9 @@ task wrapper(type: Wrapper) {
 }
 
 task stage() {
+    // don't need to run this during Heroku build
+    compileTestJava.enabled = false
+    test.enabled = false
     dependsOn build
 }
 
