@@ -42,6 +42,13 @@ public class Application implements CommandLineRunner {
             throw new ExitException();
         }
 
+//        createTestData();
+
+        LOGGER.info("CommandLineRunner finished...");
+
+    }
+
+    private void createTestData() {
         Account account = new Account("Account One");
 
         Project projectOne = new Project(account, "Project One");
@@ -54,9 +61,6 @@ public class Application implements CommandLineRunner {
 
         projectRepository.save(projectOne);
         projectRepository.save(projectTwo);
-
-        LOGGER.info("CommandLineRunner finished...");
-
     }
 
     public static void main(String[] args) throws Exception {

@@ -1,0 +1,19 @@
+###
+#   Database Settings
+###
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/tdb
+    platform: postgres
+    username: tdb
+    password: tdb
+    driverClassName: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: false
+        use_sql_comments: true
+        format_sql: true

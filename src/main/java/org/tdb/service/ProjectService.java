@@ -27,6 +27,11 @@ public class ProjectService {
     @Autowired
     private TestSuiteRepository testSuiteRepository;
 
+    public ProjectDTO createProject(Account account, String projectName) {
+        Project project = projectRepository.save(new Project(account, projectName));
+        return ModelMapperImpl.getProjectDTO(project);
+    }
+
     public List<ProjectDTO> getAccountProjects(Long accountId) {
 
         List<Project> projects = projectRepository.findByAccountId(accountId);

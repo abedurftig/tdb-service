@@ -17,11 +17,13 @@ public class AccountService {
     @Autowired
     private AccountRepository accountRepository;
 
-    public AccountDTO getAccountById(Long accountId) {
+    public Account getAccountById(Long accountId) {
+        return accountRepository.findOne(accountId);
+    }
 
-        Account account = accountRepository.findOne(accountId);
-        return ModelMapperImpl.getAccountDTO(account);
-
+    public AccountDTO getAccountDTOById(Long accountId) {
+        Account account = getAccountById(accountId);
+        return account != null ? ModelMapperImpl.getAccountDTO(account) : null;
     }
 
 }

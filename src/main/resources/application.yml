@@ -30,3 +30,9 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
       resolve-lazily: false
+security:
+  basic:
+    path:
+      - /api/**
+      - /swagger/v2/**
+  enable-csrf: false

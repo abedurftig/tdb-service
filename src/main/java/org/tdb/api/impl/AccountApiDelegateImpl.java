@@ -30,7 +30,7 @@ public class AccountApiDelegateImpl implements AccountApiDelegate {
 
         ResponseEntity<AccountDTO> responseEntity =
                 new ResponseEntity<AccountDTO>(
-                        accountService.getAccountById(accountId),
+                        accountService.getAccountDTOById(accountId),
                         HttpStatus.OK);
 
         return responseEntity;

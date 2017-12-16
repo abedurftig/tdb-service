@@ -1,10 +1,19 @@
 task uploadTestResults(type: Exec) {
+
+    def name = rootProject.getName()
+    def suffix = getDate()
     workingDir './upload'
-    commandLine './upload.sh'
+    executable 'sh'
+    args "-c", "source upload.sh -p $name -t $suffix"
 
     //store the output instead of printing to the console:
     standardOutput = new ByteArrayOutputStream()
     ext.output = {
         return standardOutput.toString()
     }
+
+}
+
+def getDate() {
+    new Date().format('yyyyMMddHHmmss')
 }

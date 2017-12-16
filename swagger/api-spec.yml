@@ -141,11 +141,37 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/ErrorDTO'
-securityDefinitions:
-  test_dashbard_auth:
-    type: "apiKey"
-    name: "api_key"
-    in: "header"
+  /project:
+      post:
+        tags:
+          - Project
+        summary: Create a new project.
+        description: Create a new project.
+        operationId: createProject
+        parameters:
+          - in: body
+            name: CreateProjectRequest
+            description: Information request for the request.
+            schema:
+              type: object
+              required:
+                - accountId
+                - projectName
+              properties:
+                accountId:
+                  type: integer
+                  format: int64
+                projectName:
+                  type: string
+        responses:
+          200:
+            description: The newly created project
+            schema:
+              $ref: '#/definitions/ProjectDTO'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/ErrorDTO'
 definitions:
   AccountDTO:
     type: object
@@ -285,3 +311,8 @@ definitions:
         type: boolean
       message:
         type: string
+securityDefinitions:
+  BasicAuth:
+    type: basic
+security:
+  - BasicAuth: [read, write]

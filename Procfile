@@ -1,0 +1,1 @@
+web: java -jar build/libs/test-dashboard-swagger-0.0.1.jar
