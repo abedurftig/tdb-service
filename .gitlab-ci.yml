@@ -7,6 +7,9 @@ stages:
   - build
   - deploy
 
+before_script:
+  - apt-get install git-all
+
 #test:
 #  stage: test
 #  script: ./gradlew test
