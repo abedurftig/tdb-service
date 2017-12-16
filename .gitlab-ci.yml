@@ -1,17 +1,21 @@
-# This is the Gradle build system for JVM applications
-# https://gradle.org/
-# https://github.com/gradle/gradle
 image: openjdk:8u131-jdk-alpine
 
-# Disable the Gradle daemon for Continuous Integration servers as correctness
-# is usually a priority over speed in CI environments. Using a fresh
-# runtime for each build is more reliable since the runtime is completely
-# isolated from any previous builds.
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
 
 stages:
+  - test
   - build
+  - deploy
+
+test:
+  stage: test 
+  script: ./gradlew test
+  cache:
+    key: "$CI_COMMIT_REF_NAME"
+    policy: push
+    paths:
+      - .gradle
 
 build:
   stage: build
@@ -24,3 +28,13 @@ build:
   artifacts:
     paths:
       - artifacts
+
+deploy_staging:
+  stage: deploy
+  script:
+    - echo "Deploy to staging server"
+  environment:
+    name: tdb-service-staging
+    url: https://tdb-service.herokuapp.com/
+  only:
+  - master
