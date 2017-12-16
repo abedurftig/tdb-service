@@ -11,11 +11,17 @@ variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
 
 stages:
+  - test
   - build
+  - deploy
+
+test:
+  stage: ./gradlew test
+  script: echo "Running tests"
 
 build:
-  stage: build
-  script: ./gradlew build
+  stage: /gradlew build
+  script: echo "Building the app"
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: push
@@ -24,3 +30,13 @@ build:
   artifacts:
     paths:
       - artifacts
+
+deploy_staging:
+  stage: deploy
+  script:
+    - echo "Deploy to staging server"
+  environment:
+    name: tdb-service-staging
+    url: https://tdb-service.herokuapp.com/
+  only:
+  - master
