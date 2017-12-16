@@ -1,4 +1,4 @@
-image: openjdk:8u131-jdk-alpine
+image: making/alpine-java-bash-git
 
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
@@ -6,9 +6,6 @@ variables:
 stages:
   - build
   - deploy
-
-before_script:
-  - apt-get install git-all
 
 #test:
 #  stage: test
