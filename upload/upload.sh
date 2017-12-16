@@ -15,5 +15,5 @@ for filename in $baseDir/*.xml; do
     -F "externalProjectId=$PROJECT" \
     -F "externalTestRunId=$TEST_RUN" \
     -F "file=@$filename" \
-    localhost:8080/api/upload-junit4-xml
+    http://tdb-service.herokuapp.com/api/upload-junit4-xml
 done
