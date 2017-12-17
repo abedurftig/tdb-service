@@ -5,7 +5,7 @@ task uploadTestResults(type: Exec) {
     workingDir './upload'
     executable 'sh'
 
-    args "-c", "source upload.sh -p $name -t $suffix"
+    args "-c", "source ./upload.sh -p $name -t $suffix"
 
     //store the output instead of printing to the console:
     standardOutput = new ByteArrayOutputStream()
