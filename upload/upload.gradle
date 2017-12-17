@@ -15,8 +15,6 @@ task uploadTestResults(type: Exec) {
 
 }
 
-test.finalizedBy uploadTestResults
-
 def getTestRunSlug() {
     return System.getenv("CI_COMMIT_REF_NAME") + "@" + System.getenv("CI_PIPELINE_ID")
 }
