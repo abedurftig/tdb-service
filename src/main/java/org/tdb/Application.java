@@ -13,11 +13,21 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.tdb.model.Account;
 import org.tdb.model.AccountRepository;
 import org.tdb.model.Project;
 import org.tdb.model.ProjectRepository;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import java.util.Arrays;
 
 @SpringBootApplication
 @EnableSwagger2
@@ -25,7 +35,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
 @EnableJpaRepositories
 @EnableAutoConfiguration
-public class Application implements CommandLineRunner {
+public class Application extends WebSecurityConfigurerAdapter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
 
@@ -36,16 +46,9 @@ public class Application implements CommandLineRunner {
     private ProjectRepository projectRepository;
 
     @Override
-    public void run(String... arg0) throws Exception {
+    protected void configure(HttpSecurity http) throws Exception {
 
-        if (arg0.length > 0 && arg0[0].equals("exitcode")) {
-            throw new ExitException();
-        }
-
-//        createTestData();
-
-        LOGGER.info("CommandLineRunner finished...");
-
+        http.antMatcher("/**").cors();
     }
 
     private void createTestData() {
@@ -85,6 +88,18 @@ public class Application implements CommandLineRunner {
                 return "Admin";
             }
         };
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4000", "https://tdb-app.herokuapp.com"));
+        configuration.setAllowCredentials(true);
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("Origin,Content-Type, Authorization, x-id, Content-Length, X-Requested-With"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
 }

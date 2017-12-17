@@ -23,6 +23,7 @@ repositories {
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-starter-security')
     compile('org.modelmapper:modelmapper:1.1.0')
     compile('org.apache.maven.surefire:surefire-report-parser:2.20.1')
     compile('org.apache.commons:commons-dbcp2:2.1.1')
