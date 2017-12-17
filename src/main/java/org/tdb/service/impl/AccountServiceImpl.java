@@ -11,8 +11,12 @@ import org.tdb.service.AccountService;
 @Service
 public class AccountServiceImpl implements AccountService {
 
-    @Autowired
     private AccountRepository accountRepository;
+
+    @Autowired
+    public AccountServiceImpl(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
+    }
 
     public Account getAccountById(Long accountId) {
         return accountRepository.findOne(accountId);
