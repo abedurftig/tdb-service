@@ -7,15 +7,6 @@ stages:
   - build
   - deploy
 
-#test:
-#  stage: test
-#  script: ./gradlew test
-#  cache:
-#    key: "$CI_COMMIT_REF_NAME"
-#    policy: push
-#    paths:
-#      - .gradle
-
 build:
   stage: build
   script: ./gradlew build
@@ -30,9 +21,12 @@ build:
 
 deploy_staging:
   stage: deploy
+  dependencies:
+    - build
   script:
-    - heroku deploy:jar build/libs/tdb-service-0.0.1.jar --app tdb-service
-#    - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
+    - echo $pwd
+    - ls
+    - heroku deploy:jar artifacts/libs/tdb-service-0.0.1.jar --app tdb-service
   environment:
     name: tdb-service-staging
     url: https://tdb-service.herokuapp.com/api
