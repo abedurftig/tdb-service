@@ -24,8 +24,6 @@ deploy_staging:
   dependencies:
     - build
   script:
-    - echo $pwd
-    - ls
     - heroku deploy:jar artifacts/libs/tdb-service-0.0.1.jar --app tdb-service
   environment:
     name: tdb-service-staging

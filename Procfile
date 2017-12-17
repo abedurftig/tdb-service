@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT $JAVA_OPTS -jar build/libs/*.jar --spring.profiles.active=pg-standalone
+web: java -Dserver.port=$PORT $JAVA_OPTS -jar artifacts/libs/*.jar --spring.profiles.active=pg-standalone
