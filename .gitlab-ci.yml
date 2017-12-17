@@ -1,4 +1,4 @@
-image: making/alpine-java-bash-git
+image: registry.gitlab.com/addictedcoders/tdb-app
 
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
@@ -31,9 +31,10 @@ build:
 deploy_staging:
   stage: deploy
   script:
-    - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
+    - heroku deploy:jar build/libs/tdb-service-0.0.1.jar --app tdb-service
+#    - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
   environment:
     name: tdb-service-staging
-    url: https://tdb-service.herokuapp.com/
+    url: https://tdb-service.herokuapp.com/api
   only:
   - master
