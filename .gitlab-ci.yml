@@ -1,4 +1,4 @@
-image: registry.gitlab.com/addictedcoders/tdb-app
+image: registry.gitlab.com/addictedcoders/tdb-service
 
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
