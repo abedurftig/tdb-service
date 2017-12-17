@@ -15,6 +15,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.util.matcher.RegexRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -27,7 +29,9 @@ import org.tdb.model.Project;
 import org.tdb.model.ProjectRepository;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
+import java.util.regex.Pattern;
 
 @SpringBootApplication
 @EnableSwagger2
@@ -48,7 +52,9 @@ public class Application extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
+        http.csrf().ignoringAntMatchers("/upload-junit4-xml");
         http.antMatcher("/**").cors();
+
     }
 
     private void createTestData() {
