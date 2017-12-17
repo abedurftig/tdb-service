@@ -42,6 +42,15 @@ public class ModelMapperImpl {
 
     }
 
+    public static ProjectDTO getSimpleProjectDTO(Project project) {
+        ProjectDTO projectDTO = new ProjectDTO();
+        projectDTO.setAccountId(project.getAccount().getId());
+        projectDTO.setId(project.getId());
+        projectDTO.setName(project.getName());
+        projectDTO.setExternalId(project.getExternalId());
+        return projectDTO;
+    }
+
     /*
      * TestSuite
      */

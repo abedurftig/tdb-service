@@ -1,86 +1,25 @@
 package org.tdb.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.tdb.model.*;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-/**
- * @author Arne
- * @since 24/11/2017
- */
-@Component
-public class ProjectService {
+public interface ProjectService {
 
-    @Autowired
-    private AccountRepository accountRepository;
+    ProjectDTO createProject(Account account, String projectName);
 
-    @Autowired
-    private ProjectRepository projectRepository;
+    List<ProjectDTO> getAccountProjects(Long accountId);
 
-    @Autowired
-    private TestRunRepository testRunRepository;
+    List<ProjectDTO> getAccountProjectsSummary(Long accountId);
 
-    @Autowired
-    private TestSuiteRepository testSuiteRepository;
+    List<TestRunDTO> getProjectTestRuns(Long projectId);
 
-    public ProjectDTO createProject(Account account, String projectName) {
-        Project project = projectRepository.save(new Project(account, projectName));
-        return ModelMapperImpl.getProjectDTO(project);
-    }
+    TestSuiteDTO saveTestSuite(TestSuite testSuite);
 
-    public List<ProjectDTO> getAccountProjects(Long accountId) {
+    TestRun getOrCreateTestRunByExternalId(String externalProjectId, String testRunExternalId);
 
-        List<Project> projects = projectRepository.findByAccountId(accountId);
-        return projects.size() > 0 ?
-                ModelMapperImpl.getProjectDTOs(projects) : new ArrayList<>();
+    ProjectDTO getProjectDTO(Long projectId);
 
-    }
-
-    public List<TestRunDTO> getProjectTestRuns(Long projectId) {
-
-        List<TestRun> testRuns = testRunRepository.findByProjectId(projectId);
-        return testRuns.size() > 0 ?
-                ModelMapperImpl.getTestRunDTOs(testRuns) : new ArrayList<>();
-
-    }
-
-    public TestSuiteDTO saveTestSuite(TestSuite testSuite) {
-        return ModelMapperImpl.getTestSuiteDTO(testSuiteRepository.save(testSuite));
-    }
-
-    public TestRun getOrCreateTestRunByExternalId(String externalProjectId, String testRunExternalId) {
-
-        TestRun testRun = testRunRepository.findByProjectExternalIdAndExternalId(externalProjectId, testRunExternalId)
-                .orElseGet(() -> {
-
-                    Project project = getProjectByExternalId(externalProjectId);
-                    return testRunRepository.save(
-                            new TestRun(project, getTestRunName(project.getId()), testRunExternalId));
-
-                });
-
-        return testRun;
-
-    }
-
-    public ProjectDTO getProjectDTO(Long projectId) {
-        return ModelMapperImpl.getProjectDTO(getProject(projectId));
-    }
-
-    public Project getProject(Long projectId) {
-        return projectRepository.findOne(projectId);
-    }
-
-    private Project getProjectByExternalId(String externalProjectId) {
-        return projectRepository.findByExternalId(externalProjectId).get();
-    }
-
-    private String getTestRunName(Long projectId) {
-        return "Test Run (P " + projectId + ") - " + new Date().toString();
-    }
+    Project getProject(Long projectId);
 
 }
