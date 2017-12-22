@@ -115,6 +115,31 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/ErrorDTO'
+  /account/{accountId}/projects-summary:
+    get:
+      summary: Account Projects Summary
+      description: Get a projection of all projects for the account specified by the given accountId.
+      operationId: getProjectsSummary
+      parameters:
+        - name: accountId
+          in: path
+          description: Id of the owning account.
+          required: true
+          type: integer
+          format: int64
+      tags:
+        - Account
+      responses:
+        200:
+          description: An array of projects
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ProjectDTO'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/ErrorDTO'
   /project/{projectId}:
     get:
       summary: Get a single project

@@ -16,11 +16,15 @@ import java.util.List;
 @Component
 public class AccountApiDelegateImpl implements AccountApiDelegate {
 
-    @Autowired
     private AccountService accountService;
 
-    @Autowired
     private ProjectService projectService;
+
+    @Autowired
+    public AccountApiDelegateImpl(AccountService accountService, ProjectService projectService) {
+        this.accountService = accountService;
+        this.projectService = projectService;
+    }
 
     @Override
     public ResponseEntity<AccountDTO> getAccount(Long accountId) {
@@ -51,5 +55,17 @@ public class AccountApiDelegateImpl implements AccountApiDelegate {
         return new ResponseEntity<>(
                 accountService.createAccount(account.getName()),
                 HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<ProjectDTO>> getProjectsSummary(Long accountId) {
+
+        ResponseEntity<List<ProjectDTO>> responseEntity =
+                new ResponseEntity<List<ProjectDTO>>(
+                        projectService.getAccountProjectsSummary(accountId),
+                        HttpStatus.OK);
+
+        return responseEntity;
+
     }
 }
