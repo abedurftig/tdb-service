@@ -22,8 +22,8 @@ function ajaxSubmit() {
         cache: false,
         timeout: 600000,
         success: function (data) {
-            $("#result").text(data.message);
-            console.log("SUCCESS : ", data);
+            var message = "Testsuite '" + data.name + "' has been uploaded with id " + data.id + " in Testrun " + data.testRunId;
+            $("#result").text(message);
             $("#btnSubmit").prop("disabled", false);
         },
         error: function (e) {
