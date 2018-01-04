@@ -116,7 +116,7 @@ public class XMLInputSourceTest {
         input.setSkipped(1);
         input.setTime(new BigDecimal(0.012));
 
-        TestSuite testSuite = new XMLInputSource().buildTestSuite(input, null);
+        TestSuite testSuite = new XMLInputSource().buildTestSuites(input, null).get(0);
 
         Assert.assertEquals("name should match", "org.junitdashboard.xml.XMLInputParserTest", testSuite.getName());
         Assert.assertEquals("casesTotal should match", 4, testSuite.getCasesTotal());

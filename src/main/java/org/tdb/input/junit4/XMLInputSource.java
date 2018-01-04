@@ -7,7 +7,9 @@ import org.tdb.model.TestRun;
 import org.tdb.model.TestSuite;
 
 import javax.xml.datatype.XMLGregorianCalendar;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Arne
@@ -15,7 +17,7 @@ import java.util.Date;
  */
 public class XMLInputSource extends InputSource<Testsuite> {
 
-    public TestSuite buildTestSuite(Testsuite input, TestRun testRun) {
+    public List<TestSuite> buildTestSuites(Testsuite input, TestRun testRun) {
 
         TestSuite suite = new TestSuite(testRun, input.getName(),
                 extractPackageName(input.getName()), input.getTests(),
@@ -25,7 +27,7 @@ public class XMLInputSource extends InputSource<Testsuite> {
             suite.addToTestCases(buildTestCase(suite, testcase));
         }
 
-        return suite;
+        return Arrays.asList(new TestSuite[] { suite });
 
     }
 

@@ -51,8 +51,8 @@ public class UploadApiDelegateImpl implements UploadJunit4XmlApiDelegate {
 
     public TestSuite transformTestSuiteXML(InputStream inputStream, TestRun testRun) {
 
-        TestSuite testSuite = new XMLInputSource().buildTestSuite(
-                new XMLInputParser().parseXML(inputStream), testRun);
+        TestSuite testSuite = new XMLInputSource().buildTestSuites(
+                new XMLInputParser().parseXML(inputStream), testRun).get(0);
         return testSuite;
 
     }
