@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.tdb.api.UploadJunit4XmlApiDelegate;
+import org.tdb.input.InputParser;
 import org.tdb.input.junit4.XMLInputParser;
 import org.tdb.input.junit4.XMLInputSource;
 import org.tdb.model.*;
@@ -45,11 +46,13 @@ public class UploadApiDelegateImpl implements UploadJunit4XmlApiDelegate {
             return new ResponseEntity(testSuiteDTO, new HttpHeaders(), HttpStatus.OK);
         } catch (IOException ioe) {
             return new ResponseEntity(new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        } catch (InputParser.InputParseException ipe) {
+            return new ResponseEntity(new HttpHeaders(), HttpStatus.BAD_REQUEST);
         }
 
     }
 
-    public TestSuite transformTestSuiteXML(InputStream inputStream, TestRun testRun) {
+    public TestSuite transformTestSuiteXML(InputStream inputStream, TestRun testRun) throws InputParser.InputParseException {
 
         TestSuite testSuite = new XMLInputSource().buildTestSuites(
                 new XMLInputParser().parseXML(inputStream), testRun).get(0);

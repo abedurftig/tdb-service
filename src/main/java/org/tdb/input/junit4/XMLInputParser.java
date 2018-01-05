@@ -1,5 +1,6 @@
 package org.tdb.input.junit4;
 
+import org.tdb.input.InputParser;
 import org.tdb.input.junit4.model.Testsuite;
 
 import javax.xml.bind.JAXBContext;
@@ -14,9 +15,9 @@ import java.io.InputStream;
  * @author Arne
  * @since 05/11/2017
  */
-public class XMLInputParser {
+public class XMLInputParser extends InputParser<Testsuite> {
 
-    public Testsuite parseXML(String pathname) {
+    public Testsuite parseXML(String pathname) throws InputParseException {
 
         Testsuite testsuite = null;
 
@@ -30,7 +31,7 @@ public class XMLInputParser {
 
     }
 
-    public Testsuite parseXML(InputStream stream) {
+    public Testsuite parseXML(InputStream stream) throws InputParseException {
 
         Testsuite testsuite = null;
 
