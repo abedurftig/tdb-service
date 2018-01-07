@@ -2,7 +2,6 @@ package org.tdb.input.junit4;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.tdb.input.junit4.model.Testsuite;
 import org.tdb.input.junit4.model.Testsuites;
 
 import java.io.InputStream;

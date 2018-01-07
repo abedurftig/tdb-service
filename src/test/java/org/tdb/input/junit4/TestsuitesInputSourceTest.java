@@ -2,12 +2,13 @@ package org.tdb.input.junit4;
 
 import org.junit.Assert;
 import org.junit.Test;
-//import org.tdb.input.junit4.model.Testsuite;
 import org.tdb.input.junit4.model.Testsuites;
 import org.tdb.input.junit4.model.Testsuites.Testsuite;
 import org.tdb.model.TestSuite;
 
 import java.math.BigDecimal;
+
+//import org.tdb.input.junit4.model.Testsuite;
 
 /**
  * @author Arne
