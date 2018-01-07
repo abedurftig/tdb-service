@@ -62,6 +62,11 @@ public class ProjectServiceImpl implements ProjectService {
         return ModelMapperImpl.getTestSuiteDTO(testSuiteRepository.save(testSuite));
     }
 
+    @Override
+    public List<TestSuiteDTO> saveTestSuites(List<TestSuite> testSuites) {
+        return ModelMapperImpl.getTestSuiteDTOs(testSuiteRepository.save(testSuites));
+    }
+
     public TestRun getOrCreateTestRunByExternalId(String externalProjectId, String testRunExternalId) {
 
         TestRun testRun = testRunRepository.findByProjectExternalIdAndExternalId(externalProjectId, testRunExternalId)

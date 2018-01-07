@@ -64,6 +64,14 @@ public class ModelMapperImpl {
         return getPreConfiguredMapper().map(testSuiteDTO, TestSuite.class);
     }
 
+    public static List<TestSuiteDTO> getTestSuiteDTOs(List<TestSuite> testSuites) {
+
+        Type targetListType = new TypeToken<List<TestSuiteDTO>>() {}.getType();
+        List<TestSuiteDTO> testSuiteDTOs = getPreConfiguredMapper().map(testSuites, targetListType);
+        return testSuiteDTOs;
+
+    }
+
     /*
      * TestRun
      */

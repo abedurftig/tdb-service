@@ -16,6 +16,8 @@ public interface ProjectService {
 
     TestSuiteDTO saveTestSuite(TestSuite testSuite);
 
+    List<TestSuiteDTO> saveTestSuites(List<TestSuite> testSuite);
+
     TestRun getOrCreateTestRunByExternalId(String externalProjectId, String testRunExternalId);
 
     ProjectDTO getProjectDTO(Long projectId);
