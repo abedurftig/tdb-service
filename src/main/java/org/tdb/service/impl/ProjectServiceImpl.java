@@ -37,16 +37,16 @@ public class ProjectServiceImpl implements ProjectService {
 
     }
 
-    public List<ProjectDTO> getAccountProjectsSummary(Long accountId) {
+    public List<ProjectSummaryDTO> getAccountProjectsSummary(Long accountId) {
 
         List<Project> projects = projectRepository.findByAccountId(accountId);
-        List<ProjectDTO> projectDTOs = new ArrayList<>();
+        List<ProjectSummaryDTO> projectSummaryDTOs = new ArrayList<>();
 
         for (Project p : projects) {
-            projectDTOs.add(ModelMapperImpl.getSimpleProjectDTO(p));
+            projectSummaryDTOs.add(ModelMapperImpl.getProjectSummaryDTO(p));
         }
 
-        return projectDTOs;
+        return projectSummaryDTOs;
 
     }
 

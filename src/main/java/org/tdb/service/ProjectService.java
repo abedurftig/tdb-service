@@ -10,7 +10,7 @@ public interface ProjectService {
 
     List<ProjectDTO> getAccountProjects(Long accountId);
 
-    List<ProjectDTO> getAccountProjectsSummary(Long accountId);
+    List<ProjectSummaryDTO> getAccountProjectsSummary(Long accountId);
 
     List<TestRunDTO> getProjectTestRuns(Long projectId);
 

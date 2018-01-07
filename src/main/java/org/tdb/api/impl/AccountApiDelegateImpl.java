@@ -5,9 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.tdb.api.AccountApiDelegate;
-import org.tdb.model.Account;
 import org.tdb.model.AccountDTO;
 import org.tdb.model.ProjectDTO;
+import org.tdb.model.ProjectSummaryDTO;
 import org.tdb.service.AccountService;
 import org.tdb.service.ProjectService;
 
@@ -58,10 +58,10 @@ public class AccountApiDelegateImpl implements AccountApiDelegate {
     }
 
     @Override
-    public ResponseEntity<List<ProjectDTO>> getProjectsSummary(Long accountId) {
+    public ResponseEntity<List<ProjectSummaryDTO>> getProjectsSummary(Long accountId) {
 
-        ResponseEntity<List<ProjectDTO>> responseEntity =
-                new ResponseEntity<List<ProjectDTO>>(
+        ResponseEntity<List<ProjectSummaryDTO>> responseEntity =
+                new ResponseEntity<List<ProjectSummaryDTO>>(
                         projectService.getAccountProjectsSummary(accountId),
                         HttpStatus.OK);
 

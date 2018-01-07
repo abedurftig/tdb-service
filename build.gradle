@@ -51,6 +51,13 @@ task cleanArtifacts(type: Delete) {
     delete 'artifacts'
 }
 
+test {
+    reports {
+        junitXml.enabled = true
+        html.enabled = false
+    }
+}
+
 task prepareArtifacts(type: Copy) {
     
     file('artifacts/libs').mkdirs()
