@@ -347,6 +347,31 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/TestSuiteDTO'
+  TestRunSummaryDTO:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      externalId:
+        type: string
+      name:
+        type: string
+      numPassed:
+        type: integer
+        format: int32
+      numFailed:
+        type: integer
+        format: int32
+      numSkipped:
+        type: integer
+        format: int32
+      projectId:
+        type: integer
+        format: int64
+      numTestSuites:
+        type: integer
+        format: int32
   TestSuiteDTO:
     type: object
     required:
