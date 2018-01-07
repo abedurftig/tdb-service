@@ -10,11 +10,13 @@ public interface ProjectService {
 
     List<ProjectDTO> getAccountProjects(Long accountId);
 
-    List<ProjectDTO> getAccountProjectsSummary(Long accountId);
+    List<ProjectSummaryDTO> getAccountProjectsSummary(Long accountId);
 
     List<TestRunDTO> getProjectTestRuns(Long projectId);
 
     TestSuiteDTO saveTestSuite(TestSuite testSuite);
+
+    List<TestSuiteDTO> saveTestSuites(List<TestSuite> testSuite);
 
     TestRun getOrCreateTestRunByExternalId(String externalProjectId, String testRunExternalId);
 

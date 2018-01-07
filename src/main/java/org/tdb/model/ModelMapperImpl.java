@@ -42,13 +42,14 @@ public class ModelMapperImpl {
 
     }
 
-    public static ProjectDTO getSimpleProjectDTO(Project project) {
-        ProjectDTO projectDTO = new ProjectDTO();
-        projectDTO.setAccountId(project.getAccount().getId());
-        projectDTO.setId(project.getId());
-        projectDTO.setName(project.getName());
-        projectDTO.setExternalId(project.getExternalId());
-        return projectDTO;
+    public static ProjectSummaryDTO getProjectSummaryDTO(Project project) {
+        ProjectSummaryDTO projectSummaryDTO = new ProjectSummaryDTO();
+        projectSummaryDTO.setAccountId(project.getAccount().getId());
+        projectSummaryDTO.setId(project.getId());
+        projectSummaryDTO.setName(project.getName());
+        projectSummaryDTO.setExternalId(project.getExternalId());
+        projectSummaryDTO.setNumTestRuns(project.getTestRuns().size());
+        return projectSummaryDTO;
     }
 
     /*
@@ -61,6 +62,14 @@ public class ModelMapperImpl {
 
     public static TestSuite getTestSuite(TestSuiteDTO testSuiteDTO) {
         return getPreConfiguredMapper().map(testSuiteDTO, TestSuite.class);
+    }
+
+    public static List<TestSuiteDTO> getTestSuiteDTOs(List<TestSuite> testSuites) {
+
+        Type targetListType = new TypeToken<List<TestSuiteDTO>>() {}.getType();
+        List<TestSuiteDTO> testSuiteDTOs = getPreConfiguredMapper().map(testSuites, targetListType);
+        return testSuiteDTOs;
+
     }
 
     /*

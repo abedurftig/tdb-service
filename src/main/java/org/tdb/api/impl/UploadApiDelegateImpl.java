@@ -1,5 +1,7 @@
 package org.tdb.api.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -7,26 +9,64 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.tdb.api.UploadJunit4XmlApiDelegate;
-import org.tdb.input.junit4.XMLInputParser;
-import org.tdb.input.junit4.XMLInputSource;
-import org.tdb.model.*;
+import org.tdb.api.UploadJunit4XmlWrappedApiDelegate;
+import org.tdb.input.InputParser;
+import org.tdb.input.InputSource;
+import org.tdb.input.junit4.TestsuiteInputParser;
+import org.tdb.input.junit4.TestsuiteInputSource;
+import org.tdb.input.junit4.TestsuitesInputParser;
+import org.tdb.input.junit4.TestsuitesInputSource;
+import org.tdb.model.ErrorDTO;
+import org.tdb.model.TestRun;
+import org.tdb.model.TestSuite;
+import org.tdb.model.UploadSummaryDTO;
 import org.tdb.service.ProjectService;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.util.List;
 
 /**
  * @author Arne
  * @since 26/11/2017
  */
 @RestController
-public class UploadApiDelegateImpl implements UploadJunit4XmlApiDelegate {
+public class UploadApiDelegateImpl implements UploadJunit4XmlApiDelegate, UploadJunit4XmlWrappedApiDelegate {
+
+    private static Logger LOGGER = LoggerFactory.getLogger(UploadApiDelegateImpl.class);
 
     @Autowired
     private ProjectService projectService;
 
     @Override
-    public ResponseEntity<TestSuiteDTO> uploadJUnit4Xml(MultipartFile file, String externalProjectId, String externalTestRunId) {
+    public ResponseEntity<UploadSummaryDTO> uploadJUnit4Xml(MultipartFile file, String externalProjectId, String externalTestRunId) {
+
+        LOGGER.debug("uploadJUnit4Xml: begin upload");
+
+        ResponseEntity responseEntity = uploadInternal(file, externalProjectId, externalTestRunId,
+            new TestsuiteInputSource(), new TestsuiteInputParser());
+
+        LOGGER.debug("uploadJUnit4Xml: upload complete");
+
+        return responseEntity;
+
+    }
+
+    @Override
+    public ResponseEntity<UploadSummaryDTO> uploadJUnit4XmlWrapped(MultipartFile file, String externalProjectId, String externalTestRunId) {
+
+        LOGGER.debug("uploadJUnit4XmlWrapped: begin upload");
+
+        ResponseEntity responseEntity = uploadInternal(file, externalProjectId, externalTestRunId,
+                new TestsuitesInputSource(), new TestsuitesInputParser());
+
+        LOGGER.debug("uploadJUnit4XmlWrapped: upload complete");
+
+        return responseEntity;
+
+    }
+
+    private ResponseEntity<UploadSummaryDTO> uploadInternal(MultipartFile file, String externalProjectId,
+                                                            String externalTestRunId, InputSource source, InputParser parser) {
 
         String code = "200";
 
@@ -36,24 +76,27 @@ public class UploadApiDelegateImpl implements UploadJunit4XmlApiDelegate {
         TestRun testRun = projectService.getOrCreateTestRunByExternalId(
                 externalProjectId, externalTestRunId);
 
-
         try {
 
-            TestSuiteDTO testSuiteDTO = projectService.saveTestSuite(
-                    transformTestSuiteXML(file.getInputStream(), testRun));
+            List<TestSuite> testSuites = source.buildTestSuites(parser.parseXML(file.getInputStream()), testRun);
+            projectService.saveTestSuites(testSuites);
 
-            return new ResponseEntity(testSuiteDTO, new HttpHeaders(), HttpStatus.OK);
-        } catch (IOException ioe) {
-            return new ResponseEntity(new HttpHeaders(), HttpStatus.BAD_REQUEST);
+            UploadSummaryDTO uploadSummaryDTO =
+                    new UploadSummaryDTO();
+
+            uploadSummaryDTO.setTestRunId(testRun.getId());
+            uploadSummaryDTO.setMessage(message);
+            uploadSummaryDTO.setNumTestSuites(1);
+
+            return new ResponseEntity<UploadSummaryDTO>(uploadSummaryDTO, new HttpHeaders(), HttpStatus.OK);
+
+        } catch (IOException | InputParser.InputParseException e) {
+
+            ErrorDTO errorDTO = new ErrorDTO();
+            errorDTO.code(code).message(e.getMessage());
+            return new ResponseEntity(errorDTO, new HttpHeaders(), HttpStatus.BAD_REQUEST);
+
         }
-
-    }
-
-    public TestSuite transformTestSuiteXML(InputStream inputStream, TestRun testRun) {
-
-        TestSuite testSuite = new XMLInputSource().buildTestSuite(
-                new XMLInputParser().parseXML(inputStream), testRun);
-        return testSuite;
 
     }
 

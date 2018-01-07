@@ -14,59 +14,91 @@ schemes:
 - "http"
 paths:
   /upload-junit4-xml:
-      post:
-        operationId: uploadJUnit4Xml
-        consumes:
-          - "multipart/form-data"
-        parameters:
-        - in: formData
-          name: file
-          type: file
-          required: true
-          description: The file to upload.
-        - in: formData
-          name: externalProjectId
-          type: string
-          required: true
-          description: Parent project.
-        - in: formData
-          name: externalTestRunId
-          type: string
-          required: true
-          description: Relate single test execution to a test run.
-        tags:
-          - Upload
-        responses:
-          200:
-            description: Successful upload
-            schema:
-              $ref: '#/definitions/TestSuiteDTO'
-          default:
-            description: Unexpected error
-            schema:
-              $ref: '#/definitions/ErrorDTO'
+    post:
+      tags:
+        - Upload
+      operationId: uploadJUnit4Xml
+      consumes:
+        - "multipart/form-data"
+      parameters:
+      - in: formData
+        name: file
+        type: file
+        required: true
+        description: The file to upload.
+      - in: formData
+        name: externalProjectId
+        type: string
+        required: true
+        description: Parent project.
+      - in: formData
+        name: externalTestRunId
+        type: string
+        required: true
+        description: Relate single test execution to a test run.
+      responses:
+        200:
+          description: Successful upload
+          schema:
+            $ref: '#/definitions/UploadSummaryDTO'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/ErrorDTO'
+  /upload-junit4-xml-wrapped:
+    post:
+      tags:
+        - Upload
+      operationId: uploadJUnit4XmlWrapped
+      consumes:
+        - "multipart/form-data"
+      parameters:
+      - in: formData
+        name: file
+        type: file
+        required: true
+        description: The file to upload.
+      - in: formData
+        name: externalProjectId
+        type: string
+        required: true
+        description: Parent project.
+      - in: formData
+        name: externalTestRunId
+        type: string
+        required: true
+        description: Relate single test execution to a test run.
+      responses:
+        200:
+          description: Successful upload
+          schema:
+            $ref: '#/definitions/UploadSummaryDTO'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/ErrorDTO'
   /account:
-      post:
-        tags:
-          - Account
-        summary: Create a new account.
-        description: Create a new account.
-        operationId: createAccount
-        parameters:
-          - in: body
-            name: account
-            description: Information request for the request.
-            schema:
-              $ref: "#/definitions/AccountDTO"
-        responses:
-          200:
-            description: The newly created account.
-            schema:
-              $ref: '#/definitions/AccountDTO'
-          default:
-            description: Unexpected error
-            schema:
-              $ref: '#/definitions/ErrorDTO'
+    post:
+      tags:
+        - Account
+      summary: Create a new account.
+      description: Create a new account.
+      operationId: createAccount
+      parameters:
+        - in: body
+          name: account
+          description: Information request for the request.
+          schema:
+            $ref: "#/definitions/AccountDTO"
+      responses:
+        200:
+          description: The newly created account.
+          schema:
+            $ref: '#/definitions/AccountDTO'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/ErrorDTO'
   /account/{accountId}:
     get:
       summary: Account
@@ -135,7 +167,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/ProjectDTO'
+              $ref: '#/definitions/ProjectSummaryDTO'
         default:
           description: Unexpected error
           schema:
@@ -189,27 +221,27 @@ paths:
           schema:
             $ref: '#/definitions/ErrorDTO'
   /project:
-      post:
-        tags:
-          - Project
-        summary: Create a new project.
-        description: Create a new project.
-        operationId: createProject
-        parameters:
-          - in: body
-            name: project
-            description: Information request for the request.
-            schema:
-              $ref: "#/definitions/ProjectDTO"
-        responses:
-          200:
-            description: The newly created project
-            schema:
-              $ref: '#/definitions/ProjectDTO'
-          default:
-            description: Unexpected error
-            schema:
-              $ref: '#/definitions/ErrorDTO'
+    post:
+      tags:
+        - Project
+      summary: Create a new project.
+      description: Create a new project.
+      operationId: createProject
+      parameters:
+        - in: body
+          name: project
+          description: Information request for the request.
+          schema:
+            $ref: "#/definitions/ProjectDTO"
+      responses:
+        200:
+          description: The newly created project
+          schema:
+            $ref: '#/definitions/ProjectDTO'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/ErrorDTO'
 definitions:
   AccountDTO:
     type: object
@@ -245,6 +277,22 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/TestRunDTO'
+  ProjectSummaryDTO:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      externalId:
+        type: string
+      name:
+        type: string
+      accountId:
+        type: integer
+        format: int64
+      numTestRuns:
+        type: integer
+        format: int32
   ErrorDTO:
     type: object
     required:
@@ -269,17 +317,17 @@ definitions:
       code:
         type: string
   UploadRequestDTO:
-      type: object
-      required:
-      - projectId
-      - externalTestRunId
-      properties:
-        projectId:
-          type: integer
-          format: int64
-        externalTestRunId:
-          type: integer
-          format: int64
+    type: object
+    required:
+    - projectId
+    - externalTestRunId
+    properties:
+      projectId:
+        type: integer
+        format: int64
+      externalTestRunId:
+        type: integer
+        format: int64
   TestRunDTO:
     type: object
     required:
@@ -347,6 +395,17 @@ definitions:
         type: boolean
       failed:
         type: boolean
+      message:
+        type: string
+  UploadSummaryDTO:
+    type: object
+    properties:
+      testRunId:
+        type: integer
+        format: int64
+      numTestSuites:
+        type: integer
+        format: int32
       message:
         type: string
 securityDefinitions:
