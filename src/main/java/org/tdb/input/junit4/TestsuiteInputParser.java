@@ -15,7 +15,7 @@ import java.io.InputStream;
  * @author Arne
  * @since 05/11/2017
  */
-public class XMLInputParser extends InputParser<Testsuite> {
+public class TestsuiteInputParser extends InputParser<Testsuite> {
 
     public Testsuite parseXML(String pathname) throws InputParseException {
 

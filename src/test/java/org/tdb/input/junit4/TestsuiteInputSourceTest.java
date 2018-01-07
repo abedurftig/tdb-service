@@ -20,14 +20,14 @@ import static org.junit.Assert.fail;
  * @author Arne
  * @since 05/11/2017
  */
-public class XMLInputSourceTest {
+public class TestsuiteInputSourceTest {
 
     @Test
     public void testExtractPackageName() {
 
         String testName = "org.junitdashboard.xml.XMLInputSourceTest";
         Assert.assertEquals("extractPackageName() method",
-                "org.junitdashboard.xml", new XMLInputSource().extractPackageName(testName));
+                "org.junitdashboard.xml", new TestsuiteInputSource().extractPackageName(testName));
 
     }
 
@@ -53,7 +53,7 @@ public class XMLInputSourceTest {
         }
 
         Assert.assertEquals("extractTimestamp() method",
-                dateString, sdf.format(new XMLInputSource().extractTimestamp(xmlDate)));
+                dateString, sdf.format(new TestsuiteInputSource().extractTimestamp(xmlDate)));
 
     }
 
@@ -66,7 +66,7 @@ public class XMLInputSourceTest {
         Testsuite.Testcase xmlTestCase = new Testsuite.Testcase();
         xmlTestCase.setError(xmlError);
 
-        TestCase testCaseWithError = new XMLInputSource().buildTestCase(new TestSuite(), xmlTestCase);
+        TestCase testCaseWithError = new TestsuiteInputSource().buildTestCase(new TestSuite(), xmlTestCase);
 
         Assert.assertEquals("message should match", "Error!", testCaseWithError.getMessage());
         Assert.assertEquals("should be error", true, testCaseWithError.isError());
@@ -82,7 +82,7 @@ public class XMLInputSourceTest {
         Testsuite.Testcase xmlTestCase = new Testsuite.Testcase();
         xmlTestCase.setFailure(xmlFailure);
 
-        TestCase testCaseWithFailure = new XMLInputSource().buildTestCase(new TestSuite(), xmlTestCase);
+        TestCase testCaseWithFailure = new TestsuiteInputSource().buildTestCase(new TestSuite(), xmlTestCase);
 
         Assert.assertEquals("message should match", "Failure!", testCaseWithFailure.getMessage());
         Assert.assertEquals("should be failure", true, testCaseWithFailure.isFailed());
@@ -98,7 +98,7 @@ public class XMLInputSourceTest {
         Testsuite.Testcase xmlTestCase = new Testsuite.Testcase();
         xmlTestCase.setSkipped(xmlSkipped);
 
-        TestCase testCaseWithSkipped = new XMLInputSource().buildTestCase(new TestSuite(), xmlTestCase);
+        TestCase testCaseWithSkipped = new TestsuiteInputSource().buildTestCase(new TestSuite(), xmlTestCase);
 
         Assert.assertEquals("message should match", "Skipped!", testCaseWithSkipped.getMessage());
         Assert.assertEquals("should be skipped", true, testCaseWithSkipped.isSkipped());
@@ -106,7 +106,7 @@ public class XMLInputSourceTest {
     }
 
     @Test
-    public void verifyBuildTestSuite() {
+    public void verifyBuildTestSuites() {
 
         Testsuite input = new Testsuite();
         input.setName("org.junitdashboard.xml.XMLInputParserTest");
@@ -116,7 +116,7 @@ public class XMLInputSourceTest {
         input.setSkipped(1);
         input.setTime(new BigDecimal(0.012));
 
-        TestSuite testSuite = new XMLInputSource().buildTestSuites(input, null).get(0);
+        TestSuite testSuite = new TestsuiteInputSource().buildTestSuites(input, null).get(0);
 
         Assert.assertEquals("name should match", "org.junitdashboard.xml.XMLInputParserTest", testSuite.getName());
         Assert.assertEquals("casesTotal should match", 4, testSuite.getCasesTotal());
@@ -140,7 +140,7 @@ public class XMLInputSourceTest {
         xmlTestCase.setTime(new BigDecimal(0.003));
         xmlTestCase.setError(xmlError);
 
-        TestCase modelTestCase = new XMLInputSource().buildTestCase(new TestSuite(), xmlTestCase);
+        TestCase modelTestCase = new TestsuiteInputSource().buildTestCase(new TestSuite(), xmlTestCase);
 
         Assert.assertEquals("name should match", "someTestMethodName", modelTestCase.getName());
         Assert.assertEquals("duration should match", new BigDecimal(0.003), modelTestCase.getDuration());
@@ -161,7 +161,7 @@ public class XMLInputSourceTest {
         xmlTestCase.setTime(new BigDecimal(0.003));
         xmlTestCase.setFailure(xmlFailure);
 
-        TestCase modelTestCase = new XMLInputSource().buildTestCase(new TestSuite(), xmlTestCase);
+        TestCase modelTestCase = new TestsuiteInputSource().buildTestCase(new TestSuite(), xmlTestCase);
 
         Assert.assertEquals("name should match", "someTestMethodName", modelTestCase.getName());
         Assert.assertEquals("duration should match", new BigDecimal(0.003), modelTestCase.getDuration());
@@ -181,7 +181,7 @@ public class XMLInputSourceTest {
         xmlTestCase.setTime(new BigDecimal(0.003));
         xmlTestCase.setSkipped(xmlSkipped);
 
-        TestCase modelTestCase = new XMLInputSource().buildTestCase(new TestSuite(), xmlTestCase);
+        TestCase modelTestCase = new TestsuiteInputSource().buildTestCase(new TestSuite(), xmlTestCase);
 
         Assert.assertEquals("name should match", "someTestMethodName", modelTestCase.getName());
         Assert.assertEquals("duration should match", new BigDecimal(0.003), modelTestCase.getDuration());

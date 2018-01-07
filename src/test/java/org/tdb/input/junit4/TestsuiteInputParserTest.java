@@ -12,7 +12,7 @@ import static org.junit.Assert.fail;
  * @author Arne
  * @since 05/11/2017
  */
-public class XMLInputParserTest {
+public class TestsuiteInputParserTest {
 
     @Test
     public void xmlParserSanityCheck() {
@@ -20,7 +20,7 @@ public class XMLInputParserTest {
         try {
 
             InputStream is = this.getClass().getClassLoader().getResourceAsStream("TEST-org.junitdashboard.ApplicationTests.xml");
-            Testsuite suite = new XMLInputParser().parseXML(is);
+            Testsuite suite = new TestsuiteInputParser().parseXML(is);
 
             Assert.assertEquals("name", "org.junitdashboard.ApplicationTests", suite.getName());
 

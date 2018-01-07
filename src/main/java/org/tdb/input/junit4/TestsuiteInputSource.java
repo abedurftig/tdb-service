@@ -15,7 +15,7 @@ import java.util.List;
  * @author Arne
  * @since 05/11/2017
  */
-public class XMLInputSource extends InputSource<Testsuite> {
+public class TestsuiteInputSource extends InputSource<Testsuite> {
 
     public List<TestSuite> buildTestSuites(Testsuite input, TestRun testRun) {
 

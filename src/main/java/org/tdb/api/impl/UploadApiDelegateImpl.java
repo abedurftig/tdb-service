@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.tdb.api.UploadJunit4XmlApiDelegate;
 import org.tdb.input.InputParser;
-import org.tdb.input.junit4.XMLInputParser;
-import org.tdb.input.junit4.XMLInputSource;
+import org.tdb.input.junit4.TestsuiteInputParser;
+import org.tdb.input.junit4.TestsuiteInputSource;
 import org.tdb.model.*;
 import org.tdb.service.ProjectService;
 
@@ -54,8 +54,8 @@ public class UploadApiDelegateImpl implements UploadJunit4XmlApiDelegate {
 
     public TestSuite transformTestSuiteXML(InputStream inputStream, TestRun testRun) throws InputParser.InputParseException {
 
-        TestSuite testSuite = new XMLInputSource().buildTestSuites(
-                new XMLInputParser().parseXML(inputStream), testRun).get(0);
+        TestSuite testSuite = new TestsuiteInputSource().buildTestSuites(
+                new TestsuiteInputParser().parseXML(inputStream), testRun).get(0);
         return testSuite;
 
     }
