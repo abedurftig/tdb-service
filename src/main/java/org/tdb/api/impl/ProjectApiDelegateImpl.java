@@ -8,9 +8,11 @@ import org.tdb.api.ProjectApiDelegate;
 import org.tdb.model.Account;
 import org.tdb.model.ProjectDTO;
 import org.tdb.model.TestRunDTO;
+import org.tdb.model.TestRunSummaryDTO;
 import org.tdb.service.AccountService;
 import org.tdb.service.ProjectService;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 /**
@@ -27,9 +29,9 @@ public class ProjectApiDelegateImpl implements ProjectApiDelegate {
     private ProjectService projectService;
 
     @Override
-    public ResponseEntity<List<TestRunDTO>> getProjectTestRuns(Long projectId) {
+    public ResponseEntity<List<TestRunSummaryDTO>> getProjectTestRuns(Long projectId, OffsetDateTime from, OffsetDateTime to) {
         return new ResponseEntity<>(
-                projectService.getProjectTestRuns(projectId),
+                projectService.getProjectTestRunsSummary(projectId),
                 HttpStatus.OK);
     }
 
