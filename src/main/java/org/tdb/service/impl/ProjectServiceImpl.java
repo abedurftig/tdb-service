@@ -90,6 +90,21 @@ public class ProjectServiceImpl implements ProjectService {
         return projectRepository.findOne(projectId);
     }
 
+    @Override
+    public List<TestRunSummaryDTO> getProjectTestRunsSummary(Long projectId) {
+
+        List<TestRunSummaryDTO> testRunSummaryDTOs =
+                new ArrayList<>();
+
+        List<TestRun> testRuns = testRunRepository.findByProjectId(projectId);
+        testRuns.forEach(testRun ->
+            testRunSummaryDTOs.add(ModelMapperImpl.getTestRunSummaryDTO(testRun))
+        );
+
+        return testRunSummaryDTOs;
+
+    }
+
     private Project getProjectByExternalId(String externalProjectId) {
         return projectRepository.findByExternalId(externalProjectId).get();
     }

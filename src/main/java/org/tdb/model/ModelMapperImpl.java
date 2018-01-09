@@ -84,6 +84,25 @@ public class ModelMapperImpl {
 
     }
 
+    public static TestRunSummaryDTO getTestRunSummaryDTO(TestRun testRun) {
+
+        TestRunHelper testRunHelper = TestRunHelper.getInstance();
+
+        TestRunSummaryDTO testRunSummaryDTO = new TestRunSummaryDTO();
+        testRunSummaryDTO.setExternalId(testRun.getExternalId());
+        testRunSummaryDTO.setId(testRun.getId());
+        testRunSummaryDTO.setName(testRun.getName());
+        testRunSummaryDTO.setNumTestSuites(testRun.getTestSuites().size());
+        testRunSummaryDTO.setNumPassed(testRunHelper.getNumberOfPassedTestCases(testRun));
+        testRunSummaryDTO.setNumSkipped(testRunHelper.getNumberOfSkippedTestCases(testRun));
+        testRunSummaryDTO.setNumFailed(testRunHelper.getNumberOfFailedTestCases(testRun));
+        testRunSummaryDTO.setNumTotal(testRunHelper.getNumberOfTestCases(testRun));
+        testRunSummaryDTO.setProjectId(testRun.getProject().getId());
+
+        return testRunSummaryDTO;
+
+    }
+
     /*
      * Configuration
      */

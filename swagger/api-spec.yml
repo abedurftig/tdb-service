@@ -195,27 +195,39 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/ErrorDTO'
-  /project/{projectId}/testruns:
+  /project/{projectId}/testruns-summary:
     get:
       tags:
         - Project
-      summary: Get all the tests runs for a single project.
-      description: Get all the tests runs for the project specified by the given projectId.
+      summary: Get the test-runs summary for a single project in a given time frame.
+      description: Get the test-runs summary for the project specified by the given projectId. The result does not contain information about test suites.
       operationId: getProjectTestRuns
       parameters:
         - name: projectId
           in: path
-          description: Id of requested project.
+          description: Id of the project for which the test-runs summary is requested.
           required: true
           type: integer
           format: int64
+        - name: from
+          in: query
+          description: The earliest date for which test runs should be included.
+          required: false
+          type: string
+          format: date-time
+        - name: to
+          in: query
+          description: The last date for which test runs should be included.
+          required: false
+          type: string
+          format: date-time
       responses:
         200:
-          description: The requested project
+          description: A list of test-run summaries.
           schema:
             type: array
             items:
-              $ref: '#/definitions/TestRunDTO'
+              $ref: '#/definitions/TestRunSummaryDTO'
         default:
           description: Unexpected error
           schema:
@@ -347,6 +359,34 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/TestSuiteDTO'
+  TestRunSummaryDTO:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      externalId:
+        type: string
+      name:
+        type: string
+      numTotal:
+        type: integer
+        format: int32
+      numPassed:
+        type: integer
+        format: int32
+      numFailed:
+        type: integer
+        format: int32
+      numSkipped:
+        type: integer
+        format: int32
+      projectId:
+        type: integer
+        format: int64
+      numTestSuites:
+        type: integer
+        format: int32
   TestSuiteDTO:
     type: object
     required:

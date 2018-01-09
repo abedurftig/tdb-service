@@ -8,8 +8,6 @@ do
  t) TEST_RUN=${OPTARG};;
  esac
 done
-echo $PROJECT
-echo $TEST_RUN
 for filename in $baseDir/*.xml; do
   curl \
     -F "externalProjectId=$PROJECT" \
