@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "dashboard")
+@Table(name = "tdb_dashboard")
 public class Dashboard extends BaseEntity {
 
     @ManyToOne

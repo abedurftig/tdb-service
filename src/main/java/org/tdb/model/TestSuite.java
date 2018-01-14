@@ -10,7 +10,7 @@ import java.util.Set;
  * Represents a set of test cases which belong to a single functional component.
  */
 @Entity
-@Table(name = "testsuite")
+@Table(name = "tdb_testsuite")
 public class TestSuite extends BaseEntity {
 
     @ManyToOne

@@ -13,7 +13,7 @@ import java.util.Set;
  * @since 21/11/2017
  */
 @Entity
-@Table(name = "testrun")
+@Table(name = "tdb_testrun")
 public class TestRun extends BaseEntity {
 
     private String externalId;

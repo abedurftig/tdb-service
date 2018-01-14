@@ -22,8 +22,8 @@ public interface ProjectService {
 
     TestRun getOrCreateTestRunByExternalId(String externalProjectId, String testRunExternalId);
 
-    ProjectDTO getProjectDTO(Long projectId);
+    ProjectDTO getProjectDTO(Long projectId) throws ProjectServiceException;
 
-    Project getProject(Long projectId);
+    Project getProject(Long projectId) throws ProjectServiceException;
 
 }

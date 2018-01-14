@@ -1,8 +1,9 @@
-package org.tdb.service.impl;
+package org.tdb.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.tdb.model.*;
+import org.tdb.security.AccountSecurity;
 import org.tdb.service.ProjectService;
 
 import java.util.ArrayList;
@@ -11,6 +12,9 @@ import java.util.List;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
+
+    @Autowired
+    AccountSecurity accountSecurity;
 
     @Autowired
     private AccountRepository accountRepository;
@@ -82,12 +86,16 @@ public class ProjectServiceImpl implements ProjectService {
 
     }
 
-    public ProjectDTO getProjectDTO(Long projectId) {
+    public ProjectDTO getProjectDTO(Long projectId) throws ProjectServiceException {
         return ModelMapperImpl.getProjectDTO(getProject(projectId));
     }
 
-    public Project getProject(Long projectId) {
-        return projectRepository.findOne(projectId);
+    public Project getProject(Long projectId) throws ProjectServiceException {
+        if (accountSecurity.hasAccessToProject(projectId)) {
+            return projectRepository.findOne(projectId);
+        } else {
+            throw new ProjectServiceException(ProjectServiceException.ErrorCode.NOT_AUTHORIZED);
+        }
     }
 
     @Override

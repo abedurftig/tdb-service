@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "project")
+@Table(name = "tdb_project")
 public class Project extends BaseEntity {
 
     @ManyToOne
