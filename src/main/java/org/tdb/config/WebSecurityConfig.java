@@ -13,6 +13,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.http.HttpMethod;
+import org.springframework.web.filter.CorsFilter;
 import org.tdb.security.AuthProvider;
 import org.tdb.security.jwt.JWTAuthenticationFilter;
 import org.tdb.security.jwt.JWTLoginFilter;
@@ -36,7 +37,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/login", "/account").permitAll()
+                .antMatchers(HttpMethod.POST, "/login").permitAll()
+                .and()
+            .authorizeRequests()
+                .antMatchers("/account").permitAll()
                 .and()
             .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/swagger-ui.html", "/webjars/**", "/swagger-resources/**", "/api-docs/**", "/uploadForm.html").permitAll()
@@ -50,31 +54,31 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     UsernamePasswordAuthenticationFilter.class)
             .addFilterBefore(new JWTAuthenticationFilter(),
                     UsernamePasswordAuthenticationFilter.class);
-
-        http.antMatcher("/**").cors();
-
     }
 
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4000", "https://tdb-app.herokuapp.com"));
-        configuration.setAllowCredentials(true);
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("Origin,Content-Type, Authorization, x-id, Content-Length, X-Requested-With"));
+    public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("*");
+        config.addAllowedHeader("Origin");
+        config.addAllowedHeader("Content-Type");
+        config.addAllowedHeader("Authorization");
+        config.addAllowedHeader("x-id");
+        config.addAllowedHeader("Content-Length");
+        config.addAllowedHeader("X-Requested-With");
+        config.addAllowedMethod("OPTIONS");
+        config.addAllowedMethod("GET");
+        config.addAllowedMethod("POST");
+        config.addAllowedMethod("PUT");
+        config.addAllowedMethod("DELETE");
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        // Create a default account
-//        auth.inMemoryAuthentication()
-//                .withUser("admin")
-//                .password("password")
-//                .roles("ADMIN");
         auth.authenticationProvider(authProvider);
     }
 
