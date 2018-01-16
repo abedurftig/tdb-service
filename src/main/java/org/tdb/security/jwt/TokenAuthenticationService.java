@@ -1,7 +1,10 @@
 package org.tdb.security.jwt;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 
@@ -12,6 +15,8 @@ import java.util.Date;
 import static java.util.Collections.emptyList;
 
 class TokenAuthenticationService {
+
+    private static Logger LOGGER = LoggerFactory.getLogger(TokenAuthenticationService.class);
 
     static final long EXPIRATIONTIME = 864_000_000; // 10 days
     static final String SECRET = "ThisIsASecret";
@@ -30,12 +35,18 @@ class TokenAuthenticationService {
     static Authentication getAuthentication(HttpServletRequest request) {
         String token = request.getHeader(HEADER_STRING);
         if (token != null) {
+
             // parse the token.
-            String user = Jwts.parser()
-                    .setSigningKey(SECRET)
-                    .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
-                    .getBody()
-                    .getSubject();
+            String user = null;
+            try {
+                 user = Jwts.parser()
+                        .setSigningKey(SECRET)
+                        .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
+                        .getBody()
+                        .getSubject();
+            } catch (ExpiredJwtException e) {
+                LOGGER.info("Expired token.");
+            }
 
             return user != null ?
                     new UsernamePasswordAuthenticationToken(user, null, emptyList()) :

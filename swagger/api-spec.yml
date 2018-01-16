@@ -294,6 +294,20 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/ErrorDTO'
+  /token-refresh:
+    get:
+      tags:
+        - Token
+      operationId: refreshToken
+      responses:
+        200:
+          description: The user authenticated by this token.
+          schema:
+            $ref: '#/definitions/UserDTO'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/ErrorDTO'
 definitions:
   AccountDTO:
     type: object
@@ -316,7 +330,6 @@ definitions:
     type: object
     required:
     - email
-    - password
     properties:
       id:
         type: integer
@@ -325,8 +338,9 @@ definitions:
         type: string
       email:
         type: string
-      password:
-        type: string
+      accountId:
+        type: integer
+        format: int64
   ProjectDTO:
     type: object
     required:

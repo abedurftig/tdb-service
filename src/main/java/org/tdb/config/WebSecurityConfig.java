@@ -17,6 +17,7 @@ import org.springframework.web.filter.CorsFilter;
 import org.tdb.security.AuthProvider;
 import org.tdb.security.jwt.JWTAuthenticationFilter;
 import org.tdb.security.jwt.JWTLoginFilter;
+import org.tdb.service.UserService;
 
 import java.util.Arrays;
 
@@ -25,23 +26,28 @@ import java.util.Arrays;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    AuthProvider authProvider;
+    private AuthProvider authProvider;
+
+    @Autowired
+    private UserService userService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.csrf()
+        http.cors()
+            .and()
+            .csrf()
             .ignoringAntMatchers("/upload-junit4-xml", "/upload-junit4-xml-wrapped")
             .disable()
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/login").permitAll()
+                .antMatchers("/login", "/account").permitAll()
                 .and()
-            .authorizeRequests()
-                .antMatchers("/account").permitAll()
-                .and()
+//            .authorizeRequests()
+//                .antMatchers("/account").permitAll()
+//                .and()
             .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/swagger-ui.html", "/webjars/**", "/swagger-resources/**", "/api-docs/**", "/uploadForm.html").permitAll()
                 .and()
@@ -50,7 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
             .authorizeRequests().anyRequest().authenticated()
             .and()
-            .addFilterBefore(new JWTLoginFilter("/login", authenticationManager()),
+            .addFilterBefore(new JWTLoginFilter("/login", authenticationManager(), userService),
                     UsernamePasswordAuthenticationFilter.class)
             .addFilterBefore(new JWTAuthenticationFilter(),
                     UsernamePasswordAuthenticationFilter.class);
@@ -62,17 +68,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
         config.addAllowedOrigin("*");
+
         config.addAllowedHeader("Origin");
         config.addAllowedHeader("Content-Type");
         config.addAllowedHeader("Authorization");
         config.addAllowedHeader("x-id");
         config.addAllowedHeader("Content-Length");
         config.addAllowedHeader("X-Requested-With");
+
         config.addAllowedMethod("OPTIONS");
         config.addAllowedMethod("GET");
         config.addAllowedMethod("POST");
         config.addAllowedMethod("PUT");
         config.addAllowedMethod("DELETE");
+
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
