@@ -117,6 +117,15 @@ public class ProjectServiceImpl implements ProjectService {
 
     }
 
+    @Override
+    public void deleteProject(Long projectId) throws ProjectServiceException {
+        if (accountSecurity.hasAccessToProject(projectId)) {
+            projectRepository.delete(projectId);
+        } else {
+            throw new ProjectServiceException(ProjectServiceException.ErrorCode.NOT_AUTHORIZED);
+        }
+    }
+
     private Project getProjectByExternalId(String externalProjectId) {
         return projectRepository.findByExternalId(externalProjectId).get();
     }

@@ -26,4 +26,6 @@ public interface ProjectService {
 
     Project getProject(Long projectId) throws ProjectServiceException;
 
+    void deleteProject(Long projectId) throws ProjectServiceException;
+
 }

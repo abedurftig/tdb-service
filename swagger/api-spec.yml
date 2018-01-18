@@ -210,6 +210,26 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/ErrorDTO'
+    delete:
+      tags:
+        - Project
+      summary: Delete a project.
+      description: Delete a project.
+      operationId: deleteProject
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          description: The id of the project to delete.
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: The project was deleted.
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/ErrorDTO'
   /project/{projectId}/testruns-summary:
     get:
       tags:
