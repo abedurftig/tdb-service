@@ -99,17 +99,21 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<TestRunSummaryDTO> getProjectTestRunsSummary(Long projectId) {
+    public List<TestRunSummaryDTO> getProjectTestRunsSummary(Long projectId) throws ProjectServiceException {
 
-        List<TestRunSummaryDTO> testRunSummaryDTOs =
-                new ArrayList<>();
+        if (accountSecurity.hasAccessToProject(projectId)) {
+            List<TestRunSummaryDTO> testRunSummaryDTOs =
+                    new ArrayList<>();
 
-        List<TestRun> testRuns = testRunRepository.findByProjectId(projectId);
-        testRuns.forEach(testRun ->
-            testRunSummaryDTOs.add(ModelMapperImpl.getTestRunSummaryDTO(testRun))
-        );
+            List<TestRun> testRuns = testRunRepository.findByProjectId(projectId);
+            testRuns.forEach(testRun ->
+                    testRunSummaryDTOs.add(ModelMapperImpl.getTestRunSummaryDTO(testRun))
+            );
 
-        return testRunSummaryDTOs;
+            return testRunSummaryDTOs;
+        } else {
+            throw new ProjectServiceException(ProjectServiceException.ErrorCode.NOT_AUTHORIZED);
+        }
 
     }
 

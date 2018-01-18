@@ -24,9 +24,22 @@ public class ProjectApiDelegateImpl implements ProjectApiDelegate {
 
     @Override
     public ResponseEntity<List<TestRunSummaryDTO>> getProjectTestRuns(Long projectId, OffsetDateTime from, OffsetDateTime to) {
-        return new ResponseEntity<>(
-                projectService.getProjectTestRunsSummary(projectId),
-                HttpStatus.OK);
+
+        try {
+            return new ResponseEntity<>(
+                    projectService.getProjectTestRunsSummary(projectId),
+                    HttpStatus.OK);
+        } catch (ProjectServiceException pse) {
+            ErrorDTO errorDTO = new ErrorDTO();
+            if (pse.getErrorCode() == ProjectServiceException.ErrorCode.NOT_AUTHORIZED) {
+                errorDTO.setMessage(pse.getMessage());
+                errorDTO.setCode(pse.getErrorCode().name());
+                return new ResponseEntity(errorDTO, HttpStatus.UNAUTHORIZED);
+            } else {
+                errorDTO.setMessage("We are sorry!");
+                return new ResponseEntity(errorDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
     }
 
     @Override

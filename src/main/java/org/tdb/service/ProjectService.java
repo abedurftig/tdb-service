@@ -14,7 +14,7 @@ public interface ProjectService {
 
     List<TestRunDTO> getProjectTestRuns(Long projectId);
 
-    List<TestRunSummaryDTO> getProjectTestRunsSummary(Long projectId);
+    List<TestRunSummaryDTO> getProjectTestRunsSummary(Long projectId) throws ProjectServiceException;
 
     TestSuiteDTO saveTestSuite(TestSuite testSuite);
 
