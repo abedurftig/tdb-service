@@ -10,6 +10,7 @@ import org.tdb.service.AccountServiceException;
 import org.tdb.service.ProjectService;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 public class AccountApiDelegateImplTests {
@@ -86,5 +87,10 @@ public class AccountApiDelegateImplTests {
         assertEquals("status", HttpStatus.CONFLICT, responseEntity.getStatusCode());
         assertEquals("error message", "An account with this name already exists.", ((ErrorDTO) responseEntity.getBody()).getMessage() );
 
+    }
+
+    @Test
+    public void failTest() {
+        fail("On purpose");
     }
 }
