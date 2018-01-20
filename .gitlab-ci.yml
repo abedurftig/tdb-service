@@ -9,7 +9,7 @@ stages:
 
 build:
   stage: build
-  script: ./gradlew test uploadTestResults build
+  script: ./gradlew test build -Dupload-testresults=true
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: push

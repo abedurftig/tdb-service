@@ -18,3 +18,10 @@ task uploadTestResults(type: Exec) {
 def getTestRunSlug() {
     return System.getenv("CI_COMMIT_REF_NAME") + "@" + System.getenv("CI_PIPELINE_ID")
 }
+
+if (System.getProperty("upload-testresults")) {
+    println("Test results will be uploaded.")
+    test.finalizedBy(uploadTestResults)
+} else {
+    println("Test results will not be uploaded.")
+}
