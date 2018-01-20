@@ -81,22 +81,37 @@ paths:
     post:
       tags:
         - Account
-      summary: Create a new account.
-      description: Create a new account.
+      summary: Create a new account and user.
+      description: Create a new account and a user (as the owner) with the given details. With will further setup defaults like an initial dashboard.
       operationId: createAccount
       parameters:
         - in: body
-          name: account
-          description: Information request for the request.
+          name: accountInformation
+          description: The name of the account and the owners details.
           schema:
-            $ref: "#/definitions/AccountDTO"
+            type: object
+            required:
+              - accountName
+              - email
+              - password
+            properties:
+              accountName:
+                type: string
+              email:
+                type: string
+              password:
+                type: string
       responses:
-        200:
+        201:
           description: The newly created account.
           schema:
             $ref: '#/definitions/AccountDTO'
-        default:
-          description: Unexpected error
+        403:
+          description: Not authorized.
+          schema:
+            $ref: '#/definitions/ErrorDTO'
+        503:
+          description: Unexpected error.
           schema:
             $ref: '#/definitions/ErrorDTO'
   /account/{accountId}:
@@ -195,6 +210,26 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/ErrorDTO'
+    delete:
+      tags:
+        - Project
+      summary: Delete a project.
+      description: Delete a project.
+      operationId: deleteProject
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          description: The id of the project to delete.
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: The project was deleted.
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/ErrorDTO'
   /project/{projectId}/testruns-summary:
     get:
       tags:
@@ -232,6 +267,31 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/ErrorDTO'
+  /account/{accountId}/default-dashboard:
+    get:
+      tags:
+        - Account
+      summary: Get the dashboard summary for a single account.
+      description: Get the dashboard summary for a single account.
+      operationId: getDefaultDashboard
+      parameters:
+        - name: accountId
+          in: path
+          description: Id of the account for which the default dashboard summary is requested.
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: The dashboard summary.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/DashboardSummaryDTO'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/ErrorDTO'
   /project:
     post:
       tags:
@@ -254,6 +314,20 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/ErrorDTO'
+  /token-refresh:
+    get:
+      tags:
+        - Token
+      operationId: refreshToken
+      responses:
+        200:
+          description: The user authenticated by this token.
+          schema:
+            $ref: '#/definitions/UserDTO'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/ErrorDTO'
 definitions:
   AccountDTO:
     type: object
@@ -265,10 +339,28 @@ definitions:
         format: int64
       name:
         type: string
+      owner:
+        type: object
+        $ref: '#/definitions/UserDTO'
       projects:
         type: array
         items:
           $ref: '#/definitions/ProjectDTO'
+  UserDTO:
+    type: object
+    required:
+    - email
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+      email:
+        type: string
+      accountId:
+        type: integer
+        format: int64
   ProjectDTO:
     type: object
     required:
@@ -448,8 +540,26 @@ definitions:
         format: int32
       message:
         type: string
+  DashboardSummaryDTO:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+      dashboards:
+        type: array
+        items:
+          type: string
+      projectIds:
+        type: array
+        items:
+          type: string
 securityDefinitions:
-  BasicAuth:
-    type: basic
+  JWT:
+    type: apiKey
+    in: header
+    name: Bearer
 security:
-  - BasicAuth: [read, write]
+  - JWT: [read, write]

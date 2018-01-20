@@ -6,7 +6,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "dashboard_project", uniqueConstraints=
+@Table(name = "tdb_dashboard_project", uniqueConstraints=
 @UniqueConstraint(columnNames={"dashboard_id", "project_id"}))
 public class DashboardProject extends BaseEntity {
 

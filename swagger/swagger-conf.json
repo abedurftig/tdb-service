@@ -3,7 +3,7 @@
   "artifactId": "test-dashboard",
   "modelPackage": "org.tdb.model",
   "invokerPackage": "org.tdb",
-  "apiPackage": "org.tdb.api",
+  "apiPackage": "org.tdb.api.rest",
   "java8": true,
   "dateLibrary": "java8",
   "basePackage": "org.tdb",

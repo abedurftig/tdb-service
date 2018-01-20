@@ -1,4 +1,4 @@
-package org.tdb.api.impl;
+package org.tdb.api.rest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,8 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.tdb.api.UploadJunit4XmlApiDelegate;
-import org.tdb.api.UploadJunit4XmlWrappedApiDelegate;
 import org.tdb.input.InputParser;
 import org.tdb.input.InputSource;
 import org.tdb.input.junit4.TestsuiteInputParser;
@@ -25,10 +23,6 @@ import org.tdb.service.ProjectService;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * @author Arne
- * @since 26/11/2017
- */
 @RestController
 public class UploadApiDelegateImpl implements UploadJunit4XmlApiDelegate, UploadJunit4XmlWrappedApiDelegate {
 

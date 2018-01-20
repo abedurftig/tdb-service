@@ -1,14 +1,12 @@
-package org.tdb.api.impl;
+package org.tdb.api.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.tdb.api.AccountApiDelegate;
-import org.tdb.model.AccountDTO;
-import org.tdb.model.ProjectDTO;
-import org.tdb.model.ProjectSummaryDTO;
+import org.tdb.model.*;
 import org.tdb.service.AccountService;
+import org.tdb.service.AccountServiceException;
 import org.tdb.service.ProjectService;
 
 import java.util.List;
@@ -29,12 +27,21 @@ public class AccountApiDelegateImpl implements AccountApiDelegate {
     @Override
     public ResponseEntity<AccountDTO> getAccount(Long accountId) {
 
-        ResponseEntity<AccountDTO> responseEntity =
-                new ResponseEntity<AccountDTO>(
-                        accountService.getAccountDTOById(accountId),
-                        HttpStatus.OK);
-
-        return responseEntity;
+        try {
+            return new ResponseEntity<AccountDTO>(
+                    accountService.getAccountDTOById(accountId),
+                    HttpStatus.OK);
+        } catch (AccountServiceException e) {
+            ErrorDTO errorDTO = new ErrorDTO();
+            if (e.getErrorCode() == AccountServiceException.ErrorCode.NOT_AUTHORIZED) {
+                errorDTO.setMessage(e.getMessage());
+                errorDTO.setCode(e.getErrorCode().name());
+                return new ResponseEntity(errorDTO, HttpStatus.UNAUTHORIZED);
+            } else {
+                errorDTO.setMessage("We are sorry!");
+                return new ResponseEntity(errorDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
 
     }
 
@@ -51,10 +58,19 @@ public class AccountApiDelegateImpl implements AccountApiDelegate {
     }
 
     @Override
-    public ResponseEntity<AccountDTO> createAccount(AccountDTO account) {
-        return new ResponseEntity<>(
-                accountService.createAccount(account.getName()),
-                HttpStatus.OK);
+    public ResponseEntity<AccountDTO> createAccount(AccountInformation accountInformation) {
+
+        try {
+            AccountDTO accountDTO = accountService.createAccountAndUser(accountInformation.getAccountName(),
+                    accountInformation.getEmail(), accountInformation.getPassword());
+            return new ResponseEntity<AccountDTO>(accountDTO, HttpStatus.CREATED);
+        } catch (AccountServiceException ase) {
+            ErrorDTO errorDTO = new ErrorDTO();
+            errorDTO.setMessage(ase.getMessage());
+            errorDTO.setCode(ase.getErrorCode().name());
+            return new ResponseEntity(errorDTO, HttpStatus.CONFLICT);
+        }
+
     }
 
     @Override
@@ -68,4 +84,7 @@ public class AccountApiDelegateImpl implements AccountApiDelegate {
         return responseEntity;
 
     }
+
+
+
 }

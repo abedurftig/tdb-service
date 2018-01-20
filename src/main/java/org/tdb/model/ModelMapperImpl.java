@@ -14,6 +14,18 @@ public class ModelMapperImpl {
 
     private ModelMapperImpl() {}
 
+    /**
+     * User
+     */
+
+    public static User getUser(UserDTO userDTO) {
+        return getPreConfiguredMapper().map(userDTO, User.class);
+    }
+
+    public static UserDTO getUserDTO(User user) {
+        return getPreConfiguredMapper().map(user, UserDTO.class);
+    }
+
     /*
      * Account
      */

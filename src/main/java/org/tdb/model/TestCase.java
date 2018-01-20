@@ -9,7 +9,7 @@ import java.math.BigDecimal;
  * Model Entity for a single test.
  */
 @Entity
-@Table(name = "testcase")
+@Table(name = "tdb_testcase")
 public class TestCase extends BaseEntity {
 
     @ManyToOne
