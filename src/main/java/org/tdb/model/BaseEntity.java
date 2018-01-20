@@ -74,4 +74,19 @@ public abstract class BaseEntity implements Serializable {
         return lastModifiedBy;
     }
 
+    @Override
+    public boolean equals(Object other) {
+
+        if (other == null) {
+            return false;
+        }
+
+        if (this.getClass().isInstance(other)) {
+            return this.getId() == ((BaseEntity) other).getId();
+        }
+
+        return false;
+
+    }
+
 }

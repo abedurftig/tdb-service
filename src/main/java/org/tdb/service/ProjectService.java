@@ -14,7 +14,7 @@ public interface ProjectService {
 
     List<TestRunDTO> getProjectTestRuns(Long projectId);
 
-    List<TestRunSummaryDTO> getProjectTestRunsSummary(Long projectId);
+    List<TestRunSummaryDTO> getProjectTestRunsSummary(Long projectId) throws ProjectServiceException;
 
     TestSuiteDTO saveTestSuite(TestSuite testSuite);
 
@@ -22,8 +22,10 @@ public interface ProjectService {
 
     TestRun getOrCreateTestRunByExternalId(String externalProjectId, String testRunExternalId);
 
-    ProjectDTO getProjectDTO(Long projectId);
+    ProjectDTO getProjectDTO(Long projectId) throws ProjectServiceException;
 
-    Project getProject(Long projectId);
+    Project getProject(Long projectId) throws ProjectServiceException;
+
+    void deleteProject(Long projectId) throws ProjectServiceException;
 
 }

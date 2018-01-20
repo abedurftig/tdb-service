@@ -5,12 +5,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * @author Arne
- * @since 20/11/2017
- */
 @Entity
-@Table(name = "project")
+@Table(name = "tdb_project")
 public class Project extends BaseEntity {
 
     @ManyToOne
