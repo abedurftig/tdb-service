@@ -22,7 +22,7 @@ public class AccountServiceException extends Exception {
     public String getMessage() {
         switch (errorCode) {
             case EMAIL_IS_TAKEN:
-                return "This email address is already accociate with a different account.";
+                return "This email address is already associated with a different account.";
             case ACCOUNT_NAME_TAKEN:
                 return "An account with this name already exists.";
             case NOT_AUTHORIZED:

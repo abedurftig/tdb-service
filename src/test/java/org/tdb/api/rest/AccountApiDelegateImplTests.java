@@ -73,7 +73,9 @@ public class AccountApiDelegateImplTests {
 
         ResponseEntity responseEntity = accountApiDelegate.createAccount(accountInformation);
         assertEquals("status", HttpStatus.CONFLICT, responseEntity.getStatusCode());
-        assertEquals("error message", "This email address is already accociate with a different account.", ((ErrorDTO) responseEntity.getBody()).getMessage() );
+        assertEquals("error message",
+                "This email address is already associated with a different account.",
+                ((ErrorDTO) responseEntity.getBody()).getMessage());
 
     }
 
@@ -85,12 +87,9 @@ public class AccountApiDelegateImplTests {
 
         ResponseEntity responseEntity = accountApiDelegate.createAccount(accountInformation);
         assertEquals("status", HttpStatus.CONFLICT, responseEntity.getStatusCode());
-        assertEquals("error message", "An account with this name already exists.", ((ErrorDTO) responseEntity.getBody()).getMessage() );
+        assertEquals("error message",
+                "An account with this name already exists.",
+                ((ErrorDTO) responseEntity.getBody()).getMessage());
 
-    }
-
-    @Test
-    public void failTest() {
-        fail("On purpose");
     }
 }
