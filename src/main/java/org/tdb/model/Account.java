@@ -50,7 +50,7 @@ public class Account extends BaseEntity {
         projects.add(project);
     }
 
-    public Set<Dashboard> getDashboard() {
+    public Set<Dashboard> getDashboards() {
         return Collections.unmodifiableSet(dashboards);
     }
 

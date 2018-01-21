@@ -30,8 +30,7 @@ public class UserServiceImpl implements UserService {
             Optional<Account> accountOptional = accountRepository.findByOwner(user);
             if (accountOptional.isPresent()) {
 
-                userDTO = ModelMapperImpl.getUserDTO(user);
-                userDTO.setAccountId(accountOptional.get().getId());
+                userDTO = ModelMapperImpl.getUserDTO(user, accountOptional.get().getId());
 
             }
 

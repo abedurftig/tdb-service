@@ -7,6 +7,7 @@ import org.modelmapper.config.Configuration;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Handles the transformation from model DTO to model Entity and back.
@@ -23,8 +24,8 @@ public class ModelMapperImpl {
         return getPreConfiguredMapper().map(userDTO, User.class);
     }
 
-    public static UserDTO getUserDTO(User user) {
-        return getPreConfiguredMapper().map(user, UserDTO.class);
+    public static UserDTO getUserDTO(User user, Long accountId) {
+        return getPreConfiguredMapper().map(user, UserDTO.class).accountId(accountId);
     }
 
     /*
@@ -36,7 +37,16 @@ public class ModelMapperImpl {
     }
 
     public static AccountDTO getAccountDTO(Account account) {
-        return getPreConfiguredMapper().map(account, AccountDTO.class);
+
+        List<DashboardDTO> dashboardDTOs = account.getDashboards().stream()
+                .map(dashboard -> getDashboardDTO(dashboard)).collect(Collectors.toList());
+
+        AccountDTO accountDTO = getPreConfiguredMapper().map(account, AccountDTO.class);
+        if (account.getOwner() != null) {
+            accountDTO.owner(getUserDTO(account.getOwner(), account.getId()));
+        }
+        accountDTO.dashboards(dashboardDTOs);
+        return accountDTO;
     }
 
     /*

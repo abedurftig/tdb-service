@@ -46,7 +46,7 @@ public class DashboardServiceImpl implements DashboardService {
 
             Optional<Project> projectOptional =
                     accountProjects.stream()
-                            .filter(project -> project.getId() == projectId).findFirst();
+                            .filter(project -> project.getId().equals(projectId)).findFirst();
 
             if (!projectOptional.isPresent()) {
                 throw DashboardServiceException.withProjectDoesNotExist();
