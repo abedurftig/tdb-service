@@ -328,6 +328,26 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/ErrorDTO'
+  /dashboard:
+    post:
+      tags:
+        - Dashboard
+      operationId: createDashboard
+      parameters:
+        - in: body
+          name: dashboard
+          description: Information about the dashboard to be created.
+          schema:
+            $ref: "#/definitions/DashboardDTO"
+      responses:
+        201:
+          description: Created a new dashboard.
+          schema:
+            $ref: '#/definitions/DashboardDTO'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/ErrorDTO'
 definitions:
   AccountDTO:
     type: object
@@ -540,6 +560,19 @@ definitions:
         format: int32
       message:
         type: string
+  DashboardDTO:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+      projectIds:
+        type: array
+        items:
+          type: integer
+          format: int64
   DashboardSummaryDTO:
     type: object
     properties:
