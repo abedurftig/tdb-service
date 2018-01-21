@@ -6,6 +6,7 @@ import org.modelmapper.config.Configuration;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Handles the transformation from model DTO to model Entity and back.
@@ -130,4 +131,9 @@ public class ModelMapperImpl {
 
     }
 
+    public static DashboardDTO getDashboardDTO(Dashboard dashboard) {
+        DashboardDTO dashboardDTO = getPreConfiguredMapper().map(dashboard, DashboardDTO.class);
+        dashboardDTO.setProjectIds(dashboard.projectIds());
+        return dashboardDTO;
+    }
 }
