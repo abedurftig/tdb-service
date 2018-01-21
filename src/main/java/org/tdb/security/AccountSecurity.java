@@ -52,4 +52,14 @@ public class AccountSecurity {
         }
     }
 
+    public Account getCurrentAccount() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            return accountRepository.findByOwner(getCurrentUser()).get();
+        } else {
+            LOGGER.info("No authentication in security context.");
+            return null;
+        }
+    }
+
 }
