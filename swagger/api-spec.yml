@@ -323,6 +323,7 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/ErrorDTO'
+  /dashboard/{dashboardId}:
     delete:
       tags:
         - Dashboard
