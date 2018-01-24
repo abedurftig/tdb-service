@@ -11,10 +11,6 @@ import org.tdb.Application;
 
 import java.util.List;
 
-/**
- * @author Arne
- * @since 28/11/2017
- */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 public class ProjectRepositoryTest {
