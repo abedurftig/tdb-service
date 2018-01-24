@@ -54,10 +54,13 @@ public class DashboardApiDelegateImpl implements DashboardApiDelegate {
             case NO_PROJECT_SELECTED:
             case PROJECT_DOES_NOT_EXIST:
                 httpStatus = HttpStatus.BAD_REQUEST;
+                break;
             case NAME_TAKEN:
                 httpStatus = HttpStatus.CONFLICT;
+                break;
             case NOT_AUTHORIZED:
                 httpStatus = HttpStatus.FORBIDDEN;
+                break;
         }
 
         return new ResponseEntity(errorDTO, httpStatus);
