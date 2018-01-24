@@ -28,6 +28,12 @@ public class AccountSecurity {
     @Autowired
     private DashboardRepository dashboardRepository;
 
+    public AccountSecurity() {}
+
+    public AccountSecurity(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
+    }
+
     public boolean hasAccessToAccount(Long accountId) {
         Optional<Account> accountOptional = accountRepository.findByOwner(getCurrentUser());
         if (accountOptional.isPresent()) {
@@ -54,7 +60,7 @@ public class AccountSecurity {
         return false;
     }
 
-    private User getCurrentUser() {
+    public User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
             return userRepository.findByEmail(authentication.getPrincipal().toString()).get();
@@ -65,9 +71,9 @@ public class AccountSecurity {
     }
 
     public Account getCurrentAccount() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null) {
-            return accountRepository.findByOwner(getCurrentUser()).get();
+        User user = getCurrentUser();
+        if (user != null) {
+            return accountRepository.findByOwner(user).get();
         } else {
             LOGGER.info("No authentication in security context.");
             return null;
