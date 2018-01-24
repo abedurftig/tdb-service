@@ -5,7 +5,8 @@ public class DashboardServiceException extends ServiceException {
     public enum ErrorCode implements WithErrorCode {
         NAME_TAKEN,
         PROJECT_DOES_NOT_EXIST,
-        NO_PROJECT_SELECTED
+        NO_PROJECT_SELECTED,
+        NOT_AUTHORIZED
     }
 
     public DashboardServiceException(ErrorCode errorCode) {
@@ -21,6 +22,8 @@ public class DashboardServiceException extends ServiceException {
                 return "A project which has been referenced does not exist.";
             case NO_PROJECT_SELECTED:
                 return "At least one project needs to be selected for the dashboard.";
+            case NOT_AUTHORIZED:
+                return "You do not have access to this dashboard.";
             default: return "N/A";
         }
     }

@@ -30,7 +30,7 @@ public class Dashboard extends BaseEntity {
     }
 
     public void removeProject(Project project) {
-        projects.remove(project);
+         projects.removeIf(d -> d.getProjectId().equals(project.getId()));
     }
 
     public List<Long> projectIds() {

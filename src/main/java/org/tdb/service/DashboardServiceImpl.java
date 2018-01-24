@@ -60,4 +60,13 @@ public class DashboardServiceImpl implements DashboardService {
         return ModelMapperImpl.getDashboardDTO(dashboard);
 
     }
+
+    @Override
+    public void deleteDashboard(Long dashboardId) throws DashboardServiceException {
+        if (accountSecurity.hasAccessToDashboard(dashboardId)) {
+            dashboardRepository.delete(dashboardId);
+        } else {
+            throw new DashboardServiceException(DashboardServiceException.ErrorCode.NOT_AUTHORIZED);
+        }
+    }
 }

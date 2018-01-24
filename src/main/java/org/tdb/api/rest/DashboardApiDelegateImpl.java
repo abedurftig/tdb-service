@@ -9,6 +9,9 @@ import org.tdb.model.ErrorDTO;
 import org.tdb.service.DashboardService;
 import org.tdb.service.DashboardServiceException;
 
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+
 @Component
 public class DashboardApiDelegateImpl implements DashboardApiDelegate {
 
@@ -26,26 +29,41 @@ public class DashboardApiDelegateImpl implements DashboardApiDelegate {
             DashboardDTO dashboardDTO = dashboardService.createDashboard(dashboard);
             return new ResponseEntity<>(dashboardDTO, HttpStatus.CREATED);
         } catch (DashboardServiceException e) {
+            return resolveFromDashboardServiceException(e);
 
-            ErrorDTO errorDTO = new ErrorDTO();
-            errorDTO.setMessage(e.getMessage());
-            errorDTO.setCode(e.getErrorCode().name());
-            return new ResponseEntity(errorDTO, resolveFromDashboardServiceException(e));
 
         }
 
     }
 
-    private HttpStatus resolveFromDashboardServiceException(DashboardServiceException e) {
+    @Override
+    public ResponseEntity<Void> deleteDashboard(Long dashboardId) {
+        try {
+            dashboardService.deleteDashboard(dashboardId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (DashboardServiceException e) {
+            return resolveFromDashboardServiceException(e);
+        }
+    }
+
+    private ResponseEntity resolveFromDashboardServiceException(DashboardServiceException e) {
+
+        ErrorDTO errorDTO = new ErrorDTO();
+        errorDTO.setMessage(e.getMessage());
+        errorDTO.setCode(e.getErrorCode().name());
+
+        HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+
         switch ((DashboardServiceException.ErrorCode) e.getErrorCode()) {
             case NO_PROJECT_SELECTED:
             case PROJECT_DOES_NOT_EXIST:
-                return HttpStatus.BAD_REQUEST;
+                httpStatus = HttpStatus.BAD_REQUEST;
             case NAME_TAKEN:
-                return HttpStatus.CONFLICT;
-            default:
-                return HttpStatus.INTERNAL_SERVER_ERROR;
+                httpStatus = HttpStatus.CONFLICT;
+            case NOT_AUTHORIZED:
+                httpStatus = HttpStatus.FORBIDDEN;
         }
-    }
 
+        return new ResponseEntity(errorDTO, httpStatus);
+    }
 }

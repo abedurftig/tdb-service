@@ -323,6 +323,26 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/ErrorDTO'
+    delete:
+      tags:
+        - Dashboard
+      summary: Delete a dashboard.
+      description: Delete a dashboard.
+      operationId: deleteDashboard
+      parameters:
+        - name: dashboardId
+          in: path
+          required: true
+          description: The id of the dashboard to delete.
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: The projdashboardect was deleted.
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/ErrorDTO'
 definitions:
   AccountDTO:
     type: object

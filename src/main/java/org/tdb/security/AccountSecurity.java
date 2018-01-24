@@ -25,6 +25,9 @@ public class AccountSecurity {
     @Autowired
     private ProjectRepository projectRepository;
 
+    @Autowired
+    private DashboardRepository dashboardRepository;
+
     public boolean hasAccessToAccount(Long accountId) {
         Optional<Account> accountOptional = accountRepository.findByOwner(getCurrentUser());
         if (accountOptional.isPresent()) {
@@ -37,6 +40,15 @@ public class AccountSecurity {
         Optional<Account> accountOptional = accountRepository.findByOwner(getCurrentUser());
         if (accountOptional.isPresent()) {
             Account account = projectRepository.getOwningAccount(projectId);
+            return account != null ? account.equals(accountOptional.get()) : false;
+        }
+        return false;
+    }
+
+    public boolean hasAccessToDashboard(Long dashboardId) {
+        Optional<Account> accountOptional = accountRepository.findByOwner(getCurrentUser());
+        if (accountOptional.isPresent()) {
+            Account account = dashboardRepository.getOwningAccount(dashboardId);
             return account != null ? account.equals(accountOptional.get()) : false;
         }
         return false;
