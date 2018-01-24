@@ -24,16 +24,12 @@ public class DashboardApiDelegateImpl implements DashboardApiDelegate {
 
     @Override
     public ResponseEntity<DashboardDTO> createDashboard(DashboardDTO dashboard) {
-
         try {
             DashboardDTO dashboardDTO = dashboardService.createDashboard(dashboard);
             return new ResponseEntity<>(dashboardDTO, HttpStatus.CREATED);
         } catch (DashboardServiceException e) {
             return resolveFromDashboardServiceException(e);
-
-
         }
-
     }
 
     @Override
