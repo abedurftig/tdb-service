@@ -7,10 +7,8 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author Arne
- * @since 20/11/2017
- */
+import static org.assertj.core.api.Assertions.assertThat;
+
 public class ModelMapperTest {
 
     @Test
@@ -80,6 +78,22 @@ public class ModelMapperTest {
 
         List<ProjectDTO> projectDtos = ModelMapperImpl.getProjectDTOs(projects);
         Assert.assertThat(projectDtos.size(), Matchers.is(2));
+
+    }
+
+    @Test
+    public void dashboardToDashboardDTO() {
+
+        Account account = new Account("Account One");
+        Dashboard dashboard = new Dashboard("Dashboard One", account);
+        dashboard.addProject(new Project(account, "Project One").withId(1L));
+        dashboard.addProject(new Project(account, "Project Two").withId(2L));
+        dashboard.addProject(new Project(account, "Project Three").withId(3L));
+
+        DashboardDTO dashboardDTO = ModelMapperImpl.getDashboardDTO(dashboard);
+
+        assertThat(dashboardDTO.getProjectIds()).hasSize(3).contains(1L, 2L, 3L);
+        assertThat(dashboardDTO.getName()).isEqualTo("Dashboard One");
 
     }
 

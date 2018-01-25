@@ -1,24 +1,18 @@
 package org.tdb.service;
 
-public class ProjectServiceException extends Exception {
+public class ProjectServiceException extends ServiceException {
 
-    public enum ErrorCode {
+    public enum ErrorCode implements WithErrorCode {
         NOT_AUTHORIZED,
     }
 
-    private ErrorCode errorCode;
-
     public ProjectServiceException(ErrorCode errorCode) {
-        this.errorCode = errorCode;
-    }
-
-    public ErrorCode getErrorCode() {
-        return errorCode;
+        super(errorCode);
     }
 
     @Override
     public String getMessage() {
-        switch (errorCode) {
+        switch (((ErrorCode) getErrorCode())) {
             case NOT_AUTHORIZED:
                 return "You do not have access to this project.";
             default: return "N/A";
