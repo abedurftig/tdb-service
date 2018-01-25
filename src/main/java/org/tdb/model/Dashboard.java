@@ -2,7 +2,9 @@ package org.tdb.model;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "tdb_dashboard")
@@ -28,7 +30,13 @@ public class Dashboard extends BaseEntity {
     }
 
     public void removeProject(Project project) {
-        projects.remove(project);
+         projects.removeIf(d -> d.getProjectId().equals(project.getId()));
+    }
+
+    public List<Long> projectIds() {
+        return this.projects.stream()
+                .map(dashboardProject -> dashboardProject.getProjectId())
+                .collect(Collectors.toList());
     }
 
 }

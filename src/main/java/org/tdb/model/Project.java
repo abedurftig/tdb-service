@@ -46,4 +46,9 @@ public class Project extends BaseEntity {
         testRuns.add(testRun);
     }
 
+    Project withId(Long id) {
+        this.setId(id);
+        return this;
+    }
+
 }

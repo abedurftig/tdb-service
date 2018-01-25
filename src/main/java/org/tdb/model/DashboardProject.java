@@ -23,4 +23,12 @@ public class DashboardProject extends BaseEntity {
     @ManyToOne
     private Project project;
 
+    public Long getProjectId() {
+        return this.project.getId();
+    }
+
+    public Long getDashboardId() {
+        return this.dashboard.getId();
+    }
+
 }

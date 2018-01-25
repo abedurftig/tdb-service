@@ -267,31 +267,6 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/ErrorDTO'
-  /account/{accountId}/default-dashboard:
-    get:
-      tags:
-        - Account
-      summary: Get the dashboard summary for a single account.
-      description: Get the dashboard summary for a single account.
-      operationId: getDefaultDashboard
-      parameters:
-        - name: accountId
-          in: path
-          description: Id of the account for which the default dashboard summary is requested.
-          required: true
-          type: integer
-          format: int64
-      responses:
-        200:
-          description: The dashboard summary.
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/DashboardSummaryDTO'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/ErrorDTO'
   /project:
     post:
       tags:
@@ -328,6 +303,47 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/ErrorDTO'
+  /dashboard:
+    post:
+      tags:
+        - Dashboard
+      operationId: createDashboard
+      parameters:
+        - in: body
+          name: dashboard
+          description: Information about the dashboard to be created.
+          schema:
+            $ref: "#/definitions/DashboardDTO"
+      responses:
+        201:
+          description: Created a new dashboard.
+          schema:
+            $ref: '#/definitions/DashboardDTO'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/ErrorDTO'
+  /dashboard/{dashboardId}:
+    delete:
+      tags:
+        - Dashboard
+      summary: Delete a dashboard.
+      description: Delete a dashboard.
+      operationId: deleteDashboard
+      parameters:
+        - name: dashboardId
+          in: path
+          required: true
+          description: The id of the dashboard to delete.
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: The projdashboardect was deleted.
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/ErrorDTO'
 definitions:
   AccountDTO:
     type: object
@@ -342,10 +358,13 @@ definitions:
       owner:
         type: object
         $ref: '#/definitions/UserDTO'
-      projects:
+      dashboards:
         type: array
         items:
-          $ref: '#/definitions/ProjectDTO'
+          $ref: '#/definitions/DashboardDTO'
+      dashboardSettings:
+        type: object
+        $ref: '#/definitions/DashboardSettingsDTO'
   UserDTO:
     type: object
     required:
@@ -540,7 +559,7 @@ definitions:
         format: int32
       message:
         type: string
-  DashboardSummaryDTO:
+  DashboardDTO:
     type: object
     properties:
       id:
@@ -548,14 +567,20 @@ definitions:
         format: int64
       name:
         type: string
-      dashboards:
-        type: array
-        items:
-          type: string
       projectIds:
         type: array
         items:
-          type: string
+          type: integer
+          format: int64
+  DashboardSettingsDTO:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      defaultDashboard:
+        type: object
+        $ref: '#/definitions/DashboardDTO'
 securityDefinitions:
   JWT:
     type: apiKey
