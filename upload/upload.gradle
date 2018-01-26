@@ -4,13 +4,13 @@ task uploadTestResults(type: Exec) {
     def suffix = getTestRunSlug()
     workingDir './upload'
 
-    commandLine './upload.sh', '-p ' + name, '-t ' + suffix
+    commandLine './upload.sh', '-p' + name, '-t' + suffix
 
     // store the output instead of printing to the console:
-    standardOutput = new ByteArrayOutputStream()
-    ext.output = {
-        return standardOutput.toString()
-    }
+//    standardOutput = new ByteArrayOutputStream()
+//    ext.output = {
+//        return standardOutput.toString()
+//    }
 
 }
 
