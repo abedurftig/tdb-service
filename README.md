@@ -9,7 +9,7 @@ develop<br>
 The _Test Dashboard Service_ is a `Spring Boot` application which let's you upload the test results of your projects. Currently only the Junit 4 XML files are supported.
 The results will be stored and the service then provides a REST API documented with `Swagger` to read the data again.
 
-The [Test Dashboard](https://tdb-app.herokuapp.com) is a client. It retrieves the test run data for your projects and displays diagrams visualizing your tests.  
+The [Test Dashboard](https://tdb-app.herokuapp.com) is a client. It retrieves the test run data for your projects and displays diagrams visualizing your tests. Checkout the repository also here at [GitHub](https://github.com/abedurftig/tdb-service).  
 
 To checkout the current API head over to the [Swagger UI](https://tdb-service.herokuapp.com/api/swagger-ui.html).
 
@@ -28,7 +28,7 @@ postgres://user:pw@host:port/db
 Then run start the server like this:
 
 ```
-java -jar build/libs/tdb-service-0.0.1.jar.jar --spring.profiles.active=pg-standalone
+java -jar build/libs/tdb-service-0.0.1.jar --spring.profiles.active=pg-standalone
 ```
 
 #### Deployment
