@@ -7,8 +7,7 @@ cache:
   - "$HOME/.gradle/caches/"
   - "$HOME/.gradle/wrapper/"
 script:
-#- "./gradlew test build -Dupload-testresults=true"
-- "./gradlew build"
+- "./gradlew test build -Dupload-testresults=true"
 deploy:
   provider: heroku
   skip_cleanup: true

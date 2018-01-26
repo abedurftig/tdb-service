@@ -3,11 +3,10 @@ task uploadTestResults(type: Exec) {
     def name = rootProject.getName()
     def suffix = getTestRunSlug()
     workingDir './upload'
-    executable 'sh'
 
-    args "-c", "source ./upload.sh -p $name -t $suffix"
+    commandLine './upload.sh', '-p ' + name, '-t ' + suffix
 
-    //store the output instead of printing to the console:
+    // store the output instead of printing to the console:
     standardOutput = new ByteArrayOutputStream()
     ext.output = {
         return standardOutput.toString()
