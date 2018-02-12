@@ -19,14 +19,10 @@ task createDockerfile(type: Dockerfile) {
 
     destFile = file("${project.buildDir}/docker/jdk8/Dockerfile")
 
-    def envVars = new HashMap<String, String>()
-    envVars.put("JAVA_OPTS", "-Dapplication.name=${project.name}")
-
     from 'openjdk:8u131-jdk-alpine'
     volume("/tmp")
     addFile("${jar.archiveName}", "app.jar")
-    environmentVariable(envVars)
-    defaultCommand("java", "-jar", "/app.jar", '$JAVA_OPTS', "-Djava.security.egd=file:/dev/./urandom")
+    entryPoint("java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.jar")
 
 }
 

@@ -35,6 +35,22 @@ java -jar build/libs/tdb-service-0.0.1.jar --spring.profiles.active=pg-standalon
 
 This application is currently deployed to Heroku. For this deployment from Travis the `heroku/jvm` buildpack is used. Have a look at the `Procfile`.
 
+#### Docker
+
+You can create a Dockerfile and a Docker image with Gradle:
+
+```
+./gradlew buildImage
+```
+Then start a container. In the example below it will provide the Postgres DB on the docker host.
+
+```
+# Docker for Mac
+docker run -e DATABASE_URL='postgres://tdb:tdb@docker.for.mac.host.internal:5432/tdb' \
+-e SPRING_PROFILES_ACTIVE='pg-standalone' \
+-p 80:8080 -t tdb-service:0.0.1
+```
+
 #### Thanks
 
 - Spring Boot
