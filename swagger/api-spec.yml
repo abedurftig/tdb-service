@@ -13,6 +13,20 @@ basePath: "/api"
 schemes:
 - "http"
 paths:
+  /status/ping:
+    get:
+      tags:
+        - Status
+      operationId: ping
+      responses:
+        200:
+          description: Server is ready for service!
+          schema:
+            $ref: '#/definitions/ResponseDTO'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/ErrorDTO'
   /upload-junit4-xml:
     post:
       tags:
