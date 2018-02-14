@@ -25,20 +25,3 @@ task createDockerfile(type: Dockerfile) {
     entryPoint("java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.jar")
 
 }
-
-task buildImage(type: DockerBuildImage) {
-
-    dependsOn createDockerfile
-    dependsOn build
-
-    inputDir = createDockerfile.destFile.parentFile
-    tag = "${project.name}:${project.version}"
-
-    doFirst {
-        copy {
-            from(jar.archivePath)
-            into(inputDir)
-        }
-    }
-
-}
