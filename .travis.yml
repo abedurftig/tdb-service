@@ -29,8 +29,6 @@ deploy:
 after_success:
   - ./gradlew createDockerfile
   - cp build/libs/tdb-service-0.0.1.jar build/docker/jdk8/
-  - ls -la build/libs
-  - ls -la build/docker/jdk8
   - docker login -u $DOCKER_USER -p $DOCKER_PW
   - export REPO=dasnervtdoch/tdb-service
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BUILD_NUMBER ; fi`
