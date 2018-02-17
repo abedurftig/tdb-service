@@ -15,7 +15,7 @@ env:
     - secure: IIhorCcdN1YbtFQDy6ZduPIKvpoIKwRqxTQkTJgFlki5pWKob29EMEfUUp9QwREWqobryVdNkuz9rBX6GEZroVc3Zfp8CesccyZCU8Tuw7SW402ukj5LpAScT6TMIk+hnjlhkT+N289GA+Q2BzeWJM2v/YQ72JLyeufd49aJGdBNayNGhY2gpV7ksbPqp28JSh1VTv5yASXZIWkGlhQKXu6U7N+CUxsJbStcR7UQjrVT1dJ1DaboFDISRmnwjWsvFqr39nrfD3WtqwQmGm1ouOBqXcWwny/7v9uLoHrtyyIR89JEeVgyJoylekxsjFnFrjCuqSqLME3GFlOXaoFr9sG9L0/XKqVXyipUHkpFzIxynAkM6gTWfXs9YBVjuf5RTrwnxegdehEBa9cEc5ur+GXEJOoX2MCWUfWz0fFi2EsYbhr2p5RBaBaJ/PdRLC2ptAatoD2Fw9v41qyxfdAW25kGSXQwTMhR+R8AVnE74dnrNj2+SuZ2WNfWd8DQ+JK3yGNTNo+A+t3tZkyzQf0YTBSdTXSw9W8oDATuk4GiS1g2p/V1+jBslFp9u9FTqJBb7E/Idv3hB3NdJUhWnQOk60OcJmjT51rNkdDv9HWOV5+A3qYHMgfqEHsG9TzQ9Tj+W4Jzsx42rhnUY0TvmKJxNYYsyqftsPKjAZRwYZCKD9w=
 
 script:
-  - "./gradlew test build -Dupload-testresults=true"
+  - "./gradlew clean test build -Dupload-testresults=true"
 
 deploy:
   provider: heroku
