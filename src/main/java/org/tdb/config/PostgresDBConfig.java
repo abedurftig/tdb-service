@@ -18,18 +18,51 @@ public class PostgresDBConfig {
 
     @Bean
     public BasicDataSource dataSource() throws URISyntaxException {
-        URI dbUri = new URI(System.getenv("DATABASE_URL"));
 
-        String username = dbUri.getUserInfo().split(":")[0];
-        String password = dbUri.getUserInfo().split(":")[1];
-        String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
+        BasicDataSource basicDataSource = null;
 
-        LOGGER.info("Connecting to DB {} as user {}", dbUrl, username);
+        String url = System.getenv("DATABASE_URL");
+        if (url != null) {
+            basicDataSource = fromUrl(url);
+        } else {
+            String dbUser = System.getenv("DATABASE_USER");
+            String dbPassword = System.getenv("DATABASE_PASSWORD");
+            String dbHost = System.getenv("DATABASE_HOST");
+            String dbPort = System.getenv("DATABASE_PORT");
+            String dbName = System.getenv("DATABASE_NAME");
+            basicDataSource = fromComponents(dbUser, dbPassword, dbHost, dbPort, dbName);
+        }
+
+        LOGGER.info("Connecting to DB {} as user {}", basicDataSource.getUrl(), basicDataSource.getUsername());
+
+        return basicDataSource;
+
+    }
+
+    static BasicDataSource fromUrl(String url) throws URISyntaxException {
+
+        URI uri = new URI(url);
+        String username = uri.getUserInfo().split(":")[0];
+        String password = uri.getUserInfo().split(":")[1];
+        String dbUrl = "jdbc:postgresql://" + uri.getHost() + ':' + uri.getPort() + uri.getPath();
 
         BasicDataSource basicDataSource = new BasicDataSource();
         basicDataSource.setUrl(dbUrl);
         basicDataSource.setUsername(username);
         basicDataSource.setPassword(password);
+
+        return basicDataSource;
+
+    }
+
+    static BasicDataSource fromComponents(String dbUser, String dbPassword, String dbHost, String dbPort, String dbName) {
+
+        String dbUrl = "jdbc:postgresql://" + dbHost + ':' + dbPort + "/" + dbName;
+
+        BasicDataSource basicDataSource = new BasicDataSource();
+        basicDataSource.setUrl(dbUrl);
+        basicDataSource.setUsername(dbUser);
+        basicDataSource.setPassword(dbPassword);
 
         return basicDataSource;
 
