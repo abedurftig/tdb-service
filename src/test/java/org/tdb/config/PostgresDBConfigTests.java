@@ -13,14 +13,14 @@ public class PostgresDBConfigTests {
     @Test
     public void testDataSourceCreationFromUrl() {
 
-        String url = "postgres://user:password@host:port/db";
+        String url = "postgres://dbuser:dbpw@databasehost:9999/dbname";
         try {
 
             BasicDataSource basicDataSource = PostgresDBConfig.fromUrl(url);
 
-            Assert.assertEquals("url", "jdbc:postgresql://host:port/db", basicDataSource.getUrl());
-            Assert.assertEquals("user", "user", basicDataSource.getUsername());
-            Assert.assertEquals("password", "password", basicDataSource.getPassword());
+            Assert.assertEquals("url", "jdbc:postgresql://databasehost:9999/dbname", basicDataSource.getUrl());
+            Assert.assertEquals("user", "dbuser", basicDataSource.getUsername());
+            Assert.assertEquals("password", "dbpw", basicDataSource.getPassword());
 
         } catch (URISyntaxException e) {
             fail("threw exception");
