@@ -1,14 +1,20 @@
 package org.tdb.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.tdb.model.*;
 import org.tdb.security.AccountSecurity;
 
+import javax.crypto.KeyGenerator;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProjectServiceImpl.class);
 
     @Autowired
     AccountSecurity accountSecurity;
@@ -26,7 +32,14 @@ public class ProjectServiceImpl implements ProjectService {
     private TestSuiteRepository testSuiteRepository;
 
     public ProjectDTO createProject(Account account, String projectName) {
-        Project project = projectRepository.save(new Project(account, projectName));
+        String key = projectName;
+        try {
+            key = Base64.getEncoder().encodeToString(
+                    KeyGenerator.getInstance("AES").generateKey().getEncoded());
+        } catch (NoSuchAlgorithmException e) {
+            LOGGER.error("Unknown algorithm");
+        }
+        Project project = projectRepository.save(new Project(account, projectName, key));
         return ModelMapperImpl.getProjectDTO(project);
     }
 
