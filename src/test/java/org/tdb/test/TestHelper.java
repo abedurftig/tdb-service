@@ -1,9 +1,7 @@
 package org.tdb.test;
 
-import org.junit.Before;
 import org.tdb.model.*;
 import org.tdb.security.AccountSecurity;
-import org.tdb.service.DashboardService;
 import org.tdb.service.DashboardServiceImpl;
 
 import java.util.ArrayList;
@@ -11,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -65,13 +64,18 @@ public class TestHelper {
 
         Account fakeAccount = fakeAccount(1L, "Test Account");
         when(accountSecurityMock.getCurrentAccount()).thenReturn(fakeAccount);
+        when(accountSecurityMock.hasAccessToAccount(anyLong())).thenReturn(fakeAccount.getId() == 1L ? true : false);
 
         return accountSecurityMock;
 
     }
 
-    private static Account fakeAccount(Long id, String name) {
+    public static Account fakeAccount(Long id, String name) {
         return new AccountBuilder().withId(id).withName(name).create();
+    }
+
+    public static User fakeUser(Long id, String email, String name) {
+        return new UserBuilder().withId(id).withEmail(email).withName(name).create();
     }
 
 }

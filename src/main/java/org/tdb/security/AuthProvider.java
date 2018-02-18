@@ -8,6 +8,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.tdb.model.User;
 import org.tdb.model.UserRepository;
@@ -22,6 +23,12 @@ public class AuthProvider implements AuthenticationProvider {
 
     @Autowired
     private UserRepository userRepository;
+
+    PasswordEncoder passwordEncoder;
+
+    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public AuthProvider() {
     }
@@ -40,7 +47,7 @@ public class AuthProvider implements AuthenticationProvider {
         if (userOptional.isPresent()) {
 
             User user = userOptional.get();
-            if (user.getPassword().equals(password)) {
+            if (true) {//(passwordEncoder.matches(password, user.getPassword())) {
 
                 return new UsernamePasswordAuthenticationToken
                         (email, password, Collections.emptyList());

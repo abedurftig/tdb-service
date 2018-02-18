@@ -1,25 +1,35 @@
 package org.tdb.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.tdb.model.*;
 import org.tdb.security.AccountSecurity;
-import org.tdb.service.AccountService;
 
 @Service
 public class AccountServiceImpl implements AccountService {
 
     @Autowired
-    AccountSecurity accountSecurity;
+    private PasswordEncoder passwordEncoder;
 
     private UserRepository userRepository;
 
     private AccountRepository accountRepository;
 
+    private AccountSecurity accountSecurity;
+
     @Autowired
-    public AccountServiceImpl(AccountRepository accountRepository, UserRepository userRepository) {
+    public AccountServiceImpl(AccountRepository accountRepository, UserRepository userRepository,
+                              AccountSecurity accountSecurity) {
         this.accountRepository = accountRepository;
         this.userRepository = userRepository;
+        this.accountSecurity = accountSecurity;
+    }
+
+    public AccountServiceImpl(AccountRepository accountRepository, UserRepository userRepository,
+                              AccountSecurity accountSecurity, PasswordEncoder passwordEncoder) {
+        this(accountRepository, userRepository, accountSecurity);
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Account getAccountById(Long accountId) throws AccountServiceException {
@@ -40,6 +50,14 @@ public class AccountServiceImpl implements AccountService {
     public AccountDTO createAccountAndUser(String accountName, String email, String password)
             throws AccountServiceException {
 
+        Account account = createAccountAndUserInternal(accountName, email, password);
+        return ModelMapperImpl.getAccountDTO(account);
+
+    }
+
+    Account createAccountAndUserInternal(String accountName, String email, String password)
+            throws AccountServiceException {
+
         if (accountRepository.findByName(accountName).isPresent()) {
             throw new AccountServiceException(AccountServiceException.ErrorCode.ACCOUNT_NAME_TAKEN);
         }
@@ -48,9 +66,9 @@ public class AccountServiceImpl implements AccountService {
             throw new AccountServiceException(AccountServiceException.ErrorCode.EMAIL_IS_TAKEN);
         }
 
-        User user = userRepository.save(new User(email, password));
+        User user = userRepository.save(new User(email, passwordEncoder.encode(password)));
         Account account = accountRepository.save(new Account(user, accountName));
-        return ModelMapperImpl.getAccountDTO(account);
+        return account;
 
     }
 
