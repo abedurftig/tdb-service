@@ -143,7 +143,15 @@ public class ModelMapperImpl {
 
     public static DashboardDTO getDashboardDTO(Dashboard dashboard) {
         DashboardDTO dashboardDTO = getPreConfiguredMapper().map(dashboard, DashboardDTO.class);
-        dashboardDTO.setProjectIds(dashboard.projectIds());
+
+        List<DashboardItemDTO> dashboardItemDtos = dashboard.getDashboardItems().stream()
+                .map(longStringPair -> new DashboardItemDTO()
+                        .name(longStringPair.getValue())
+                        .projectId(longStringPair.getKey()))
+                .collect(Collectors.toList());
+
+        dashboardDTO.setItems(dashboardItemDtos);
         return dashboardDTO;
     }
+
 }

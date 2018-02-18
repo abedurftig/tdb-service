@@ -1,5 +1,6 @@
 package org.tdb.model;
 
+import javafx.util.Pair;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
@@ -92,7 +93,10 @@ public class ModelMapperTest {
 
         DashboardDTO dashboardDTO = ModelMapperImpl.getDashboardDTO(dashboard);
 
-        assertThat(dashboardDTO.getProjectIds()).hasSize(3).contains(1L, 2L, 3L);
+        assertThat(dashboardDTO.getItems()).hasSize(3).contains(
+                new DashboardItemDTO().projectId(1L).name("Project One"),
+                new DashboardItemDTO().projectId(2L).name("Project Two"),
+                new DashboardItemDTO().projectId(3L).name("Project Three"));
         assertThat(dashboardDTO.getName()).isEqualTo("Dashboard One");
 
     }

@@ -27,6 +27,10 @@ public class DashboardProject extends BaseEntity {
         return this.project.getId();
     }
 
+    public String getProjectName() {
+        return this.project.getName();
+    }
+
     public Long getDashboardId() {
         return this.dashboard.getId();
     }

@@ -581,11 +581,18 @@ definitions:
         format: int64
       name:
         type: string
-      projectIds:
+      items:
         type: array
         items:
-          type: integer
-          format: int64
+          $ref: '#/definitions/DashboardItemDTO'
+  DashboardItemDTO:
+    type: object
+    properties:
+      projectId:
+        type: integer
+        format: int64
+      name:
+        type: string
   DashboardSettingsDTO:
     type: object
     properties:

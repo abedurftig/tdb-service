@@ -1,8 +1,11 @@
 package org.tdb.model;
 
+import javafx.util.Pair;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -33,9 +36,9 @@ public class Dashboard extends BaseEntity {
          projects.removeIf(d -> d.getProjectId().equals(project.getId()));
     }
 
-    public List<Long> projectIds() {
+    public List<Pair<Long, String>> getDashboardItems() {
         return this.projects.stream()
-                .map(dashboardProject -> dashboardProject.getProjectId())
+                .map(dashboardProject -> new Pair<>(dashboardProject.getProjectId(), dashboardProject.getProjectName()))
                 .collect(Collectors.toList());
     }
 

@@ -1,5 +1,6 @@
 package org.tdb.service;
 
+import javafx.util.Pair;
 import org.junit.Before;
 import org.junit.Test;
 import org.tdb.model.*;
@@ -40,7 +41,7 @@ public class DashboardServiceImplTests {
         try {
 
             DashboardDTO dashboardDTO = new DashboardDTO().name("Does not exist");
-            dashboardDTO.setProjectIds(Arrays.asList(1L, 2L));
+            dashboardDTO.setItems(Arrays.asList(new DashboardItemDTO().projectId(1L).name("Project One"), new DashboardItemDTO().projectId(2L).name("Project Two")));
             dashboardService.createDashboard(dashboardDTO);
 
         } catch (DashboardServiceException e) {
@@ -57,7 +58,7 @@ public class DashboardServiceImplTests {
         try {
 
             DashboardDTO dashboardDTO = new DashboardDTO().name("Does not exist");
-            dashboardDTO.setProjectIds(Arrays.asList(3L));
+            dashboardDTO.setItems(Arrays.asList(new DashboardItemDTO().projectId(3L).name("Project Three")));
             dashboardService.createDashboard(dashboardDTO);
 
         } catch (DashboardServiceException e) {
@@ -95,7 +96,7 @@ public class DashboardServiceImplTests {
         try {
 
             DashboardDTO dashboardDTO = new DashboardDTO().name("Does not exist");
-            dashboardDTO.setProjectIds(new ArrayList<>());
+            dashboardDTO.setItems(new ArrayList<>());
             dashboardService.createDashboard(dashboardDTO);
             fail("Should not be able to create the dashboard because the list of project ids is empty");
 
@@ -115,7 +116,7 @@ public class DashboardServiceImplTests {
         try {
 
             DashboardDTO dashboardDTO = new DashboardDTO().name("Dashboard One");
-            dashboardDTO.setProjectIds(Arrays.asList(1L, 2L));
+            dashboardDTO.setItems(Arrays.asList(new DashboardItemDTO().projectId(1l)));
             dashboardService.createDashboard(dashboardDTO);
             fail("Should not be able to create the dashboard because a dashboard with the same name exists.");
 

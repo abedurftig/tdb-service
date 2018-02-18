@@ -38,15 +38,15 @@ public class DashboardServiceImpl implements DashboardService {
         Dashboard dashboard = new Dashboard(dashboardDTO.getName(), account);
         List<Project> accountProjects = projectRepository.findByAccountId(account.getId());
 
-        if (dashboardDTO.getProjectIds() == null || dashboardDTO.getProjectIds().size() == 0) {
+        if (dashboardDTO.getItems() == null || dashboardDTO.getItems().size() == 0) {
             throw DashboardServiceException.withoutProject();
         }
 
-        for (Long projectId : dashboardDTO.getProjectIds()) {
+        for (DashboardItemDTO dashboardItemDto : dashboardDTO.getItems()) {
 
             Optional<Project> projectOptional =
                     accountProjects.stream()
-                            .filter(project -> project.getId().equals(projectId)).findFirst();
+                            .filter(project -> project.getId().equals(dashboardItemDto.getProjectId())).findFirst();
 
             if (!projectOptional.isPresent()) {
                 throw DashboardServiceException.withProjectDoesNotExist();
