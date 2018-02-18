@@ -47,7 +47,7 @@ public class AuthProvider implements AuthenticationProvider {
         if (userOptional.isPresent()) {
 
             User user = userOptional.get();
-            if (true) {//(passwordEncoder.matches(password, user.getPassword())) {
+            if (passwordEncoder.matches(password, user.getPassword())) {
 
                 return new UsernamePasswordAuthenticationToken
                         (email, password, Collections.emptyList());
