@@ -1,22 +1,16 @@
 package org.tdb.service;
 
-import javafx.util.Pair;
 import org.junit.Before;
 import org.junit.Test;
-import org.tdb.model.*;
-import org.tdb.security.AccountSecurity;
+import org.tdb.model.DashboardDTO;
+import org.tdb.model.DashboardItemDTO;
 import org.tdb.test.TestHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class DashboardServiceImplTests {
 

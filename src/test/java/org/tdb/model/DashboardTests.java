@@ -1,6 +1,5 @@
 package org.tdb.model;
 
-import javafx.util.Pair;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
@@ -18,7 +17,7 @@ public class DashboardTests {
         dashboard.addProject(project);
 
         Assert.assertThat("project should have been added to dashboard",
-                dashboard.getDashboardItems(), Matchers.contains(equalTo(new Pair<Long, String>(1L, "Project One"))));
+                dashboard.getDashboardItems(), Matchers.contains(equalTo(new Dashboard.DashboardItem(1L, "Project One"))));
 
     }
 
@@ -31,7 +30,7 @@ public class DashboardTests {
         dashboard.addProject(project);
 
         Assert.assertThat("project should have been added to dashboard",
-                dashboard.getDashboardItems(), Matchers.contains(equalTo(new Pair<Long, String>(1L, "Project One"))));
+                dashboard.getDashboardItems(), Matchers.contains(equalTo(new Dashboard.DashboardItem(1L, "Project One"))));
 
         dashboard.removeProject(project);
 

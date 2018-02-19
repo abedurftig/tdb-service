@@ -6,7 +6,6 @@ import org.modelmapper.config.Configuration;
 
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -145,9 +144,9 @@ public class ModelMapperImpl {
         DashboardDTO dashboardDTO = getPreConfiguredMapper().map(dashboard, DashboardDTO.class);
 
         List<DashboardItemDTO> dashboardItemDtos = dashboard.getDashboardItems().stream()
-                .map(longStringPair -> new DashboardItemDTO()
-                        .name(longStringPair.getValue())
-                        .projectId(longStringPair.getKey()))
+                .map(dashboardItem -> new DashboardItemDTO()
+                        .name(dashboardItem.getProjectName())
+                        .projectId(dashboardItem.getProjectId()))
                 .collect(Collectors.toList());
 
         dashboardDTO.setItems(dashboardItemDtos);
