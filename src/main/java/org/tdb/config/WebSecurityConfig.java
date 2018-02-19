@@ -53,7 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login", "/account", "/status/*").permitAll()
                 .and()
             .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/swagger-ui.html", "/webjars/**", "/swagger-resources/**", "/api-docs/**", "/uploadForm.html").permitAll()
+                .antMatchers(HttpMethod.GET, "/swagger-ui.html", "/webjars/**", "/swagger-resources/**", "/api-docs/**", "/uploadForm.html", "/js/**").permitAll()
                 .and()
             .authorizeRequests()
                 .antMatchers(HttpMethod.POST,"/upload-junit4-xml", "/upload-junit4-xml-wrapped").permitAll()
