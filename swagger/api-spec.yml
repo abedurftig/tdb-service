@@ -13,6 +13,20 @@ basePath: "/api"
 schemes:
 - "http"
 paths:
+  /status/ping:
+    get:
+      tags:
+        - Status
+      operationId: ping
+      responses:
+        200:
+          description: Server is ready for service!
+          schema:
+            $ref: '#/definitions/ResponseDTO'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/ErrorDTO'
   /upload-junit4-xml:
     post:
       tags:
@@ -567,11 +581,18 @@ definitions:
         format: int64
       name:
         type: string
-      projectIds:
+      items:
         type: array
         items:
-          type: integer
-          format: int64
+          $ref: '#/definitions/DashboardItemDTO'
+  DashboardItemDTO:
+    type: object
+    properties:
+      projectId:
+        type: integer
+        format: int64
+      name:
+        type: string
   DashboardSettingsDTO:
     type: object
     properties:

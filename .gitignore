@@ -4,6 +4,7 @@ artifacts/
 classes/
 out/
 .gradle/
+.idea/
 *.ipr
 *.iml
 *.iws

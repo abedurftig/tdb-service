@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.tdb.model.DashboardDTO;
+import org.tdb.model.DashboardItemDTO;
 import org.tdb.model.ErrorDTO;
 import org.tdb.service.DashboardService;
 import org.tdb.service.DashboardServiceException;
@@ -39,7 +40,7 @@ public class DashboardApiDelegateImplTests {
     public void createDashboard() {
 
         DashboardDTO dashboardDTO = new DashboardDTO().name("Does not exist");
-        dashboardDTO.setProjectIds(Arrays.asList(1L, 2L));
+        dashboardDTO.setItems(Arrays.asList(new DashboardItemDTO().projectId(1L), new DashboardItemDTO().projectId(2L)));
         ResponseEntity responseEntity = dashboardApiDelegate.createDashboard(dashboardDTO);
 
         assertEquals("status", HttpStatus.CREATED, responseEntity.getStatusCode());
@@ -50,7 +51,7 @@ public class DashboardApiDelegateImplTests {
     public void createDashboardWithProjectDoesNotExist() {
 
         DashboardDTO dashboardDTO = new DashboardDTO().name("Does not exist");
-        dashboardDTO.setProjectIds(Arrays.asList(3L));
+        dashboardDTO.setItems(Arrays.asList(new DashboardItemDTO().projectId(3L)));
         ResponseEntity responseEntity = dashboardApiDelegate.createDashboard(dashboardDTO);
 
         assertEquals("status", HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
@@ -71,7 +72,7 @@ public class DashboardApiDelegateImplTests {
     public void createDashboardWithoutProjectEmpty() {
 
         DashboardDTO dashboardDTO = new DashboardDTO().name("Does not exist");
-        dashboardDTO.setProjectIds(new ArrayList<>());
+        dashboardDTO.setItems(new ArrayList<>());
         ResponseEntity responseEntity = dashboardApiDelegate.createDashboard(dashboardDTO);
 
         assertEquals("status", HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
@@ -82,7 +83,7 @@ public class DashboardApiDelegateImplTests {
     public void createDashboardWithNameExisting() {
 
         DashboardDTO dashboardDTO = new DashboardDTO().name("Dashboard One");
-        dashboardDTO.setProjectIds(new ArrayList<>());
+        dashboardDTO.setItems(new ArrayList<>());
         ResponseEntity responseEntity = dashboardApiDelegate.createDashboard(dashboardDTO);
 
         assertEquals("status", HttpStatus.CONFLICT, responseEntity.getStatusCode());

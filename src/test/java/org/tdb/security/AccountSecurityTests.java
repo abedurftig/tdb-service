@@ -56,7 +56,7 @@ public class AccountSecurityTests {
 
     }
 
-    class MockAccountSecurity extends AccountSecurity {
+    class MockAccountSecurity extends AccountSecurityImpl {
 
         private User user = null;
 

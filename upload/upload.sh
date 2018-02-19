@@ -8,7 +8,9 @@ do
  t) TEST_RUN=${OPTARG};;
  esac
 done
+echo "uploading test results for project '$PROJECT' (test run externalId: '$TEST_RUN')"
 for filename in $baseDir/*.xml; do
+  echo $filename
   curl \
     -F "externalProjectId=$PROJECT" \
     -F "externalTestRunId=$TEST_RUN" \
