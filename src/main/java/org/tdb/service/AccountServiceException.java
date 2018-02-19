@@ -2,26 +2,33 @@ package org.tdb.service;
 
 public class AccountServiceException extends ServiceException {
 
-    public enum ErrorCode implements WithErrorCode {
-        EMAIL_IS_TAKEN,
-        ACCOUNT_NAME_TAKEN,
-        NOT_AUTHORIZED
-    }
-
-    public AccountServiceException(ErrorCode errorCode) {
+    private AccountServiceException(ServiceErrorCode errorCode) {
         super(errorCode);
     }
 
     @Override
-    public String getMessage() {
-        switch (((ErrorCode) getErrorCode())) {
-            case EMAIL_IS_TAKEN:
+    String getMessageForErrorCode() {
+        switch (getErrorCode()) {
+            case EMAIL_TAKEN:
                 return "This email address is already associated with a different account.";
-            case ACCOUNT_NAME_TAKEN:
+            case NAME_TAKEN:
                 return "An account with this name already exists.";
             case NOT_AUTHORIZED:
                 return "You do not have access to this account.";
             default: return "N/A";
         }
     }
+
+    public static AccountServiceException withNameTaken() {
+        return new AccountServiceException(ServiceErrorCode.NAME_TAKEN);
+    }
+
+    public static AccountServiceException withEmailTaken() {
+        return new AccountServiceException(ServiceErrorCode.EMAIL_TAKEN);
+    }
+
+    public static AccountServiceException withNotAuthorized() {
+        return new AccountServiceException(ServiceErrorCode.NOT_AUTHORIZED);
+    }
+
 }

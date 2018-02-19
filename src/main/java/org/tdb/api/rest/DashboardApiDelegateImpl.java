@@ -9,9 +9,6 @@ import org.tdb.model.ErrorDTO;
 import org.tdb.service.DashboardService;
 import org.tdb.service.DashboardServiceException;
 
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-
 @Component
 public class DashboardApiDelegateImpl implements DashboardApiDelegate {
 
@@ -50,7 +47,7 @@ public class DashboardApiDelegateImpl implements DashboardApiDelegate {
 
         HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
 
-        switch ((DashboardServiceException.ErrorCode) e.getErrorCode()) {
+        switch (e.getErrorCode()) {
             case NO_PROJECT_SELECTED:
             case PROJECT_DOES_NOT_EXIST:
                 httpStatus = HttpStatus.BAD_REQUEST;
@@ -65,4 +62,5 @@ public class DashboardApiDelegateImpl implements DashboardApiDelegate {
 
         return new ResponseEntity(errorDTO, httpStatus);
     }
+
 }

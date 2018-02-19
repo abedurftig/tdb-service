@@ -39,9 +39,9 @@ public class AccountApiDelegateImplTests {
 
         when(accountService.createAccountAndUser(accountName, email, password)).thenReturn(accountDTO);
         when(accountService.createAccountAndUser(existingAccountName, email, password))
-                .thenThrow(new AccountServiceException(AccountServiceException.ErrorCode.ACCOUNT_NAME_TAKEN));
+                .thenThrow(AccountServiceException.withNameTaken());
         when(accountService.createAccountAndUser(accountName, existingEmail, password))
-                .thenThrow(new AccountServiceException(AccountServiceException.ErrorCode.EMAIL_IS_TAKEN));
+                .thenThrow(AccountServiceException.withEmailTaken());
 
         when(accountService.getAccountById(accountId)).thenReturn(ModelMapperImpl.getAccount(accountDTO));
         when(accountService.getAccountDTOById(accountId)).thenReturn(accountDTO);

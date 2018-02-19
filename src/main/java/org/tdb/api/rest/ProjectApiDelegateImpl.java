@@ -5,10 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.tdb.model.*;
-import org.tdb.service.AccountService;
-import org.tdb.service.AccountServiceException;
-import org.tdb.service.ProjectService;
-import org.tdb.service.ProjectServiceException;
+import org.tdb.service.*;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -31,7 +28,7 @@ public class ProjectApiDelegateImpl implements ProjectApiDelegate {
                     HttpStatus.OK);
         } catch (ProjectServiceException pse) {
             ErrorDTO errorDTO = new ErrorDTO();
-            if (pse.getErrorCode() == ProjectServiceException.ErrorCode.NOT_AUTHORIZED) {
+            if (pse.getErrorCode() == ServiceErrorCode.NOT_AUTHORIZED) {
                 errorDTO.setMessage(pse.getMessage());
                 errorDTO.setCode(pse.getErrorCode().name());
                 return new ResponseEntity(errorDTO, HttpStatus.UNAUTHORIZED);
@@ -50,7 +47,7 @@ public class ProjectApiDelegateImpl implements ProjectApiDelegate {
             return new ResponseEntity<>(projectDTO, HttpStatus.OK);
         } catch (AccountServiceException e) {
             ErrorDTO errorDTO = new ErrorDTO();
-            if (e.getErrorCode() == AccountServiceException.ErrorCode.NOT_AUTHORIZED) {
+            if (e.getErrorCode() == ServiceErrorCode.NOT_AUTHORIZED) {
                 errorDTO.setMessage(e.getMessage());
                 errorDTO.setCode(e.getErrorCode().name());
                 return new ResponseEntity(errorDTO, HttpStatus.UNAUTHORIZED);
@@ -70,7 +67,7 @@ public class ProjectApiDelegateImpl implements ProjectApiDelegate {
                     HttpStatus.OK);
         } catch (ProjectServiceException pse) {
             ErrorDTO errorDTO = new ErrorDTO();
-            if (pse.getErrorCode() == ProjectServiceException.ErrorCode.NOT_AUTHORIZED) {
+            if (pse.getErrorCode() == ServiceErrorCode.NOT_AUTHORIZED) {
                 errorDTO.setMessage(pse.getMessage());
                 errorDTO.setCode(pse.getErrorCode().name());
                 return new ResponseEntity(errorDTO, HttpStatus.UNAUTHORIZED);
@@ -88,7 +85,7 @@ public class ProjectApiDelegateImpl implements ProjectApiDelegate {
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (ProjectServiceException pse) {
             ErrorDTO errorDTO = new ErrorDTO();
-            if (pse.getErrorCode() == ProjectServiceException.ErrorCode.NOT_AUTHORIZED) {
+            if (pse.getErrorCode() == ServiceErrorCode.NOT_AUTHORIZED) {
                 errorDTO.setMessage(pse.getMessage());
                 errorDTO.setCode(pse.getErrorCode().name());
                 return new ResponseEntity(errorDTO, HttpStatus.UNAUTHORIZED);

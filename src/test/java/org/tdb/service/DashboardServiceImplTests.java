@@ -57,8 +57,8 @@ public class DashboardServiceImplTests {
 
         } catch (DashboardServiceException e) {
 
-            assertThat(e.getErrorCode().name())
-                    .isEqualTo(DashboardServiceException.ErrorCode.PROJECT_DOES_NOT_EXIST.name());
+            assertThat(e.getErrorCode())
+                    .isEqualTo(ServiceErrorCode.PROJECT_DOES_NOT_EXIST);
             assertThat(e.getMessage()).isEqualTo("A project which has been referenced does not exist.");
 
         }
@@ -76,8 +76,8 @@ public class DashboardServiceImplTests {
 
         } catch (DashboardServiceException e) {
 
-            assertThat(e.getErrorCode().name())
-                    .isEqualTo(DashboardServiceException.ErrorCode.NO_PROJECT_SELECTED.name());
+            assertThat(e.getErrorCode())
+                    .isEqualTo(ServiceErrorCode.NO_PROJECT_SELECTED);
             assertThat(e.getMessage()).isEqualTo("At least one project needs to be selected for the dashboard.");
 
         }
@@ -96,8 +96,8 @@ public class DashboardServiceImplTests {
 
         } catch (DashboardServiceException e) {
 
-            assertThat(e.getErrorCode().name())
-                    .isEqualTo(DashboardServiceException.ErrorCode.NO_PROJECT_SELECTED.name());
+            assertThat(e.getErrorCode())
+                    .isEqualTo(ServiceErrorCode.NO_PROJECT_SELECTED);
             assertThat(e.getMessage()).isEqualTo("At least one project needs to be selected for the dashboard.");
 
         }
@@ -116,8 +116,8 @@ public class DashboardServiceImplTests {
 
         } catch (DashboardServiceException e) {
 
-            assertThat(e.getErrorCode().name())
-                    .isEqualTo(DashboardServiceException.ErrorCode.NAME_TAKEN.name());
+            assertThat(e.getErrorCode())
+                    .isEqualTo(ServiceErrorCode.NAME_TAKEN);
             assertThat(e.getMessage()).isEqualTo("A Dashboard with this name already exists.");
 
         }

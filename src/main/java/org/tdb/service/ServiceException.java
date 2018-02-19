@@ -1,19 +1,25 @@
 package org.tdb.service;
 
-public class ServiceException extends Exception {
+import java.util.Objects;
 
-    private WithErrorCode errorCode;
+public abstract  class ServiceException extends Exception {
 
-    public ServiceException(WithErrorCode errorCode) {
+    private ServiceErrorCode errorCode;
+
+    public ServiceException(ServiceErrorCode errorCode) {
+        Objects.requireNonNull(errorCode, "errorCode");
         this.errorCode = errorCode;
     }
 
-    public WithErrorCode getErrorCode() {
+    public ServiceErrorCode getErrorCode() {
         return errorCode;
     }
 
-    public interface WithErrorCode {
-        String name();
+    @Override
+    public String getMessage() {
+        return getMessageForErrorCode();
     }
+
+    abstract String getMessageForErrorCode();
 
 }

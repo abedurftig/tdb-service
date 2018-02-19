@@ -2,20 +2,13 @@ package org.tdb.service;
 
 public class DashboardServiceException extends ServiceException {
 
-    public enum ErrorCode implements WithErrorCode {
-        NAME_TAKEN,
-        PROJECT_DOES_NOT_EXIST,
-        NO_PROJECT_SELECTED,
-        NOT_AUTHORIZED
-    }
-
-    public DashboardServiceException(ErrorCode errorCode) {
+    private DashboardServiceException(ServiceErrorCode errorCode) {
         super(errorCode);
     }
 
     @Override
-    public String getMessage() {
-        switch (((ErrorCode) getErrorCode())) {
+    public String getMessageForErrorCode() {
+        switch (getErrorCode()) {
             case NAME_TAKEN:
                 return "A Dashboard with this name already exists.";
             case PROJECT_DOES_NOT_EXIST:
@@ -29,15 +22,19 @@ public class DashboardServiceException extends ServiceException {
     }
 
     public static DashboardServiceException withNameTaken() {
-        return new DashboardServiceException(ErrorCode.NAME_TAKEN);
+        return new DashboardServiceException(ServiceErrorCode.NAME_TAKEN);
     }
 
     public static DashboardServiceException withProjectDoesNotExist() {
-        return new DashboardServiceException(ErrorCode.PROJECT_DOES_NOT_EXIST);
+        return new DashboardServiceException(ServiceErrorCode.PROJECT_DOES_NOT_EXIST);
     }
 
     public static DashboardServiceException withoutProject() {
-        return new DashboardServiceException(ErrorCode.NO_PROJECT_SELECTED);
+        return new DashboardServiceException(ServiceErrorCode.NO_PROJECT_SELECTED);
+    }
+
+    public static DashboardServiceException withNotAuthorized() {
+        return new DashboardServiceException(ServiceErrorCode.NOT_AUTHORIZED);
     }
 
 }
