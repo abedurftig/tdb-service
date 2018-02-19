@@ -31,7 +31,7 @@ after_success:
   - cp build/libs/tdb-service-0.0.1.jar build/docker/jdk8/
   - docker login -u $DOCKER_USER -p $DOCKER_PW
   - export REPO=dasnervtdoch/tdb-service
-  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BUILD_NUMBER ; fi`
-  - docker build -f build/docker/jdk8/Dockerfile -t $REPO:$TRAVIS_BRANCH.$TAG .
+  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo "$TRAVIS_BRANCH.$TRAVIS_BUILD_NUMBER" ; fi`
+  - docker build -f build/docker/jdk8/Dockerfile -t $REPO:$TAG .
   - docker push $REPO
   
