@@ -37,11 +37,18 @@ This application is currently deployed to Heroku. For this deployment from Travi
 
 #### Docker
 
-You can create a Dockerfile and a Docker image with Gradle:
+You can create a Dockerfile with Gradle.
 
 ```
-./gradlew buildImage
+./gradlew createDockerfile
 ```
+
+Build the image.
+```
+cp build/libs/tdb-service:0.0.1 build/docker/jdk8/
+docker build -f build/docker/jdk8/Dockerfile -t tdb-service:0.0.1 .
+```
+
 Then start a container. In the example below it will provide the Postgres DB on the docker host.
 
 ```
