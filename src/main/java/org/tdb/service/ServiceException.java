@@ -13,9 +13,7 @@ public class ServiceException extends Exception {
     }
 
     public interface WithErrorCode {
-
-        public String name();
-
+        String name();
     }
 
 }
