@@ -12,8 +12,8 @@ function ajaxSubmit() {
 
     var type = $('input[name=type]:checked').val();
     var url = type === 'normal' ?
-        "/api/upload-junit4-xml" :
-        "/api/upload-junit4-xml-wrapped";
+        "/api/upload/junit4-xml" :
+        "/api/upload/junit4-xml-wrapped";
 
     $("#btnSubmit").prop("disabled", true);
 

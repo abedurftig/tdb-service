@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-public class UploadApiDelegateImpl implements UploadJunit4XmlApiDelegate, UploadJunit4XmlWrappedApiDelegate {
+public class UploadApiDelegateImpl implements UploadApiDelegate {
 
     private static Logger LOGGER = LoggerFactory.getLogger(UploadApiDelegateImpl.class);
 

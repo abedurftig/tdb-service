@@ -27,7 +27,7 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/ErrorDTO'
-  /upload-junit4-xml:
+  /upload/junit4-xml:
     post:
       tags:
         - Upload
@@ -59,7 +59,7 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/ErrorDTO'
-  /upload-junit4-xml-wrapped:
+  /upload/junit4-xml-wrapped:
     post:
       tags:
         - Upload
