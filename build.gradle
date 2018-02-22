@@ -28,7 +28,6 @@ dependencies {
     compile('org.apache.maven.surefire:surefire-report-parser:2.20.1')
     compile('org.apache.commons:commons-dbcp2:2.1.1')
     compile('io.jsonwebtoken:jjwt:0.7.0')
-    compile('com.github.briandilley.jsonrpc4j:jsonrpc4j:1.5.2')
     testCompile('org.mockito:mockito-core:2.13.0')
     testCompile('org.assertj:assertj-core:3.9.0')
     runtime('com.h2database:h2')
