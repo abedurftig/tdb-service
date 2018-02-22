@@ -5,6 +5,11 @@ import org.modelmapper.TypeToken;
 import org.modelmapper.config.Configuration;
 
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,6 +17,8 @@ import java.util.stream.Collectors;
  * Handles the transformation from model DTO to model Entity and back.
  */
 public class ModelMapperImpl {
+
+    private static final SimpleDateFormat jsonDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     private ModelMapperImpl() {}
 
@@ -120,6 +127,9 @@ public class ModelMapperImpl {
         testRunSummaryDTO.setNumFailed(testRunHelper.getNumberOfFailedTestCases(testRun));
         testRunSummaryDTO.setNumTotal(testRunHelper.getNumberOfTestCases(testRun));
         testRunSummaryDTO.setProjectId(testRun.getProject().getId());
+
+        testRunSummaryDTO.setCreationDate(
+                jsonDateFormat.format(testRun.getCreatedDate()));
 
         return testRunSummaryDTO;
 
