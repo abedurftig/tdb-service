@@ -25,7 +25,7 @@ public class DashboardApiDelegateImpl implements DashboardApiDelegate {
             DashboardDTO dashboardDTO = dashboardService.createDashboard(dashboard);
             return new ResponseEntity<>(dashboardDTO, HttpStatus.CREATED);
         } catch (DashboardServiceException e) {
-            return resolveFromDashboardServiceException(e);
+            return ErrorResponseHelper.resolveFromServiceException(e);
         }
     }
 
@@ -35,32 +35,8 @@ public class DashboardApiDelegateImpl implements DashboardApiDelegate {
             dashboardService.deleteDashboard(dashboardId);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (DashboardServiceException e) {
-            return resolveFromDashboardServiceException(e);
+            return ErrorResponseHelper.resolveFromServiceException(e);
         }
-    }
-
-    private ResponseEntity resolveFromDashboardServiceException(DashboardServiceException e) {
-
-        ErrorDTO errorDTO = new ErrorDTO();
-        errorDTO.setMessage(e.getMessage());
-        errorDTO.setCode(e.getErrorCode().name());
-
-        HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-
-        switch (e.getErrorCode()) {
-            case NO_PROJECT_SELECTED:
-            case PROJECT_DOES_NOT_EXIST:
-                httpStatus = HttpStatus.BAD_REQUEST;
-                break;
-            case NAME_TAKEN:
-                httpStatus = HttpStatus.CONFLICT;
-                break;
-            case NOT_AUTHORIZED:
-                httpStatus = HttpStatus.FORBIDDEN;
-                break;
-        }
-
-        return new ResponseEntity(errorDTO, httpStatus);
     }
 
 }

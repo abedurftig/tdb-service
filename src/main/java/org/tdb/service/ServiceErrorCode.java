@@ -6,6 +6,7 @@ public enum ServiceErrorCode {
     NOT_AUTHORIZED,
     EMAIL_TAKEN,
     PROJECT_DOES_NOT_EXIST,
-    NO_PROJECT_SELECTED
+    NO_PROJECT_SELECTED,
+    DOES_NOT_EXIST
 
 }

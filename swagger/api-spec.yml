@@ -370,8 +370,7 @@ paths:
           in: path
           required: true
           description: The external id of the test run which should be returned.
-          type: integer
-          format: int64
+          type: string
       responses:
         200:
           description: The requested test run.
@@ -592,6 +591,8 @@ definitions:
       skipped:
         type: boolean
       failed:
+        type: boolean
+      error:
         type: boolean
       message:
         type: string

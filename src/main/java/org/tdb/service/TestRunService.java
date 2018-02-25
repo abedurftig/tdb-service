@@ -9,7 +9,8 @@ public interface TestRunService {
      *
      * @param testRunExternalId
      * @return the test run identified by the external id
+     * @throws TestRunServiceException if the user is not authorized
      */
-    TestRunDTO getTestRunByExternalId(String testRunExternalId);
+    TestRunDTO getTestRunByExternalId(String testRunExternalId) throws TestRunServiceException;
 
 }

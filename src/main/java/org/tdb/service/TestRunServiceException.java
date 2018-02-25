@@ -19,4 +19,8 @@ public class TestRunServiceException extends ServiceException {
         return new TestRunServiceException(ServiceErrorCode.NOT_AUTHORIZED);
     }
 
+    public static TestRunServiceException withDoesNotExist() {
+        return new TestRunServiceException(ServiceErrorCode.DOES_NOT_EXIST);
+    }
+
 }
