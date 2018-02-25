@@ -22,8 +22,7 @@ deploy:
     app: tdb-service
   - provider: heroku
     skip_cleanup: true
-    api_key:
-      secure: $HEROKU_API_KEY
+    api_key: $HEROKU_API_KEY
     on:
       branch: develop
     app: tdb-service-staging
