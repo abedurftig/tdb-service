@@ -10,7 +10,9 @@ cache:
   - "$HOME/.gradle/wrapper/"
 
 script:
-  - "./gradlew clean test build -Dupload-testresults=true"
+  - export API_URL=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "$API_URL_MASTER"; else echo "$API_URL_DEVELOP" ; fi`
+  - export PROJECT_KEY=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "$PROJECT_MASTER"; else echo "$PROJECT_DEVELOP" ; fi`
+  - ./gradlew clean test build -Dupload-testresults=true
 
 deploy:
   - provider: heroku
