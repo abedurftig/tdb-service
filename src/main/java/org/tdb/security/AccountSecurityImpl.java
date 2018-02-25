@@ -27,11 +27,10 @@ public class AccountSecurityImpl implements AccountSecurity {
     @Autowired
     private DashboardRepository dashboardRepository;
 
-    public AccountSecurityImpl() {}
+    @Autowired
+    private TestRunRepository testRunRepository;
 
-    public AccountSecurityImpl(AccountRepository accountRepository) {
-        this.accountRepository = accountRepository;
-    }
+    public AccountSecurityImpl() {}
 
     @Override
     public boolean hasAccessToAccount(Long accountId) {
@@ -63,6 +62,15 @@ public class AccountSecurityImpl implements AccountSecurity {
     }
 
     @Override
+    public boolean hasAccessToTestRun(String externalId) {
+        Optional<TestRun> testRunOptional = testRunRepository.findByExternalId(externalId);
+        if (testRunOptional.isPresent()) {
+            return hasAccessToProject(testRunOptional.get().getProject().getId());
+        }
+        return false;
+    }
+
+    @Override
     public User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
@@ -82,6 +90,21 @@ public class AccountSecurityImpl implements AccountSecurity {
             LOGGER.info("No authentication in security context.");
             return null;
         }
+    }
+
+    AccountSecurityImpl withTestRunRepository(TestRunRepository testRunRepository) {
+        this.testRunRepository = testRunRepository;
+        return this;
+    }
+
+    AccountSecurityImpl withAccountRepository(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
+        return this;
+    }
+
+    AccountSecurityImpl withProjectRepository(ProjectRepository projectRepository) {
+        this.projectRepository = projectRepository;
+        return this;
     }
 
 }

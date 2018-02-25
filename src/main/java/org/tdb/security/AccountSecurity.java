@@ -11,6 +11,8 @@ public interface AccountSecurity {
 
     boolean hasAccessToDashboard(Long dashboardId);
 
+    boolean hasAccessToTestRun(String externalId);
+
     User getCurrentUser();
 
     Account getCurrentAccount();

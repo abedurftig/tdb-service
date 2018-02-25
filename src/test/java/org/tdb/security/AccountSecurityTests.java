@@ -2,6 +2,7 @@ package org.tdb.security;
 
 
 import org.hamcrest.Matchers;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,6 +28,17 @@ public class AccountSecurityTests {
     @Autowired
     private DashboardRepository dashboardRepository;
 
+    @Autowired
+    private TestRunRepository testRunRepository;
+
+    @After
+    public void clearRepositories() {
+        testRunRepository.deleteAll();
+        projectRepository.deleteAll();
+        accountRepository.deleteAll();
+        userRepository.deleteAll();
+    }
+
     @Test
     public void hasAccessToAccount() {
 
@@ -34,7 +46,8 @@ public class AccountSecurityTests {
         Account account = accountRepository.save(new Account(user, "AccountSecurityTests"));
         Project project = projectRepository.save(new Project(account, "AccountSecurityTests 1"));
 
-        AccountSecurity accountSecurity = new MockAccountSecurity(accountRepository, user);
+        AccountSecurity accountSecurity = new MockAccountSecurity(user)
+                .withAccountRepository(accountRepository);
 
         Assert.assertThat("should have access to this account",
                 accountSecurity.hasAccessToAccount(account.getId()), Matchers.is(true));
@@ -49,10 +62,52 @@ public class AccountSecurityTests {
         Account account = accountRepository.save(new Account(userOne, "AccountSecurityTests 2"));
         Project project = projectRepository.save(new Project(account, "AccountSecurityTests 3"));
 
-        AccountSecurity accountSecurity = new MockAccountSecurity(accountRepository, userTwo);
+        AccountSecurity accountSecurity = new MockAccountSecurity(userTwo)
+                .withAccountRepository(accountRepository);
 
         Assert.assertThat("should not have access to this account",
                 accountSecurity.hasAccessToAccount(account.getId()), Matchers.is(false));
+
+    }
+
+    @Test
+    public void hasAccessToTestRun() {
+
+        User userOne = userRepository.save(new User("AccountSecurityTests", "email2","password"));
+        User userTwo = userRepository.save(new User("AccountSecurityTests", "email3","password"));
+
+        Account account = accountRepository.save(new Account(userOne, "AccountSecurityTests 2"));
+        Project project = projectRepository.save(new Project(account, "AccountSecurityTests 3"));
+
+        TestRun testRun = testRunRepository.save(new TestRun(project, "TestRun 1"));
+
+        AccountSecurity accountSecurity = new MockAccountSecurity(userTwo)
+                .withAccountRepository(accountRepository)
+                .withTestRunRepository(testRunRepository);
+
+        Assert.assertThat("should not have access to this test run",
+                accountSecurity.hasAccessToTestRun(testRun.getExternalId()), Matchers.is(false));
+
+    }
+
+    @Test
+    public void doesNotHaveAccessToTestRun() {
+
+        User userOne = userRepository.save(new User("AccountSecurityTests", "email2","password"));
+
+        Account account = accountRepository.save(new Account(userOne, "AccountSecurityTests 2"));
+        Project project = projectRepository.save(new Project(account, "AccountSecurityTests 3"));
+
+        TestRun testRun = testRunRepository.save(new TestRun(project, "TestRun 1"));
+
+        AccountSecurity accountSecurity = new MockAccountSecurity(userOne)
+                .withAccountRepository(accountRepository)
+                .withTestRunRepository(testRunRepository)
+                .withProjectRepository(projectRepository);
+
+
+        Assert.assertThat("should have access to this test run",
+                accountSecurity.hasAccessToTestRun(testRun.getExternalId()), Matchers.is(true));
 
     }
 
@@ -60,8 +115,8 @@ public class AccountSecurityTests {
 
         private User user = null;
 
-        public MockAccountSecurity(AccountRepository accountRepository, User user) {
-            super(accountRepository);
+        public MockAccountSecurity(User user) {
+            super();
             this.user = user;
         }
 

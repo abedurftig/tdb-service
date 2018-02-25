@@ -1,9 +1,6 @@
 package org.tdb.model;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "tdb_dashboard_project", uniqueConstraints=
@@ -17,10 +14,10 @@ public class DashboardProject extends BaseEntity {
 
     public DashboardProject() {}
 
-    @ManyToOne
+    @ManyToOne(optional=false)
     private Dashboard dashboard;
 
-    @ManyToOne
+    @ManyToOne(optional=false)
     private Project project;
 
     public Long getProjectId() {

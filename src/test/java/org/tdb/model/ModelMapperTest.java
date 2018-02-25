@@ -1,6 +1,5 @@
 package org.tdb.model;
 
-import javafx.util.Pair;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;

@@ -507,6 +507,16 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/TestSuiteDTO'
+      failedTestCases:
+        type: array
+        description: The failed test cases across all test suites.
+        items:
+          $ref: '#/definitions/TestCaseDTO'
+      skippedTestCases:
+        type: array
+        description: The skipped test cases across all test suites.
+        items:
+          $ref: '#/definitions/TestCaseDTO'
   TestRunSummaryDTO:
     type: object
     properties:
@@ -576,17 +586,16 @@ definitions:
         format: int64
       name:
         type: string
-      startDate:
-        type: string
-        format: date-time
-      endDate:
-        type: string
-        format: date-time
+      runTime:
+        type: integer
+        format: int64
       skipped:
         type: boolean
       failed:
         type: boolean
       message:
+        type: string
+      value:
         type: string
   UploadSummaryDTO:
     type: object
