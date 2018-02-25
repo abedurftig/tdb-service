@@ -34,6 +34,7 @@ public class TestsuiteInputSource extends InputSource<Testsuite> {
     protected TestCase buildTestCase(TestSuite testSuite, Testsuite.Testcase input) {
 
         String message = extractMessage(input);
+        String value = extractValue(input);
 
         TestCase testCase = new TestCase(
                 testSuite,
@@ -41,7 +42,8 @@ public class TestsuiteInputSource extends InputSource<Testsuite> {
                 input.getFailure() != null,
                 input.getSkipped() != null,
                 input.getError() != null,
-                 message,
+                message,
+                value,
                 input.getTime());
 
         return testCase;
@@ -53,6 +55,15 @@ public class TestsuiteInputSource extends InputSource<Testsuite> {
         return input.getFailure() != null ? input.getFailure().getMessage() :
                input.getError() != null ? input.getError().getMessage() :
                input.getSkipped() != null ? input.getSkipped().getMessage() :
+               "";
+
+    }
+
+    protected String extractValue(Testsuite.Testcase input) {
+
+        return input.getFailure() != null ? input.getFailure().getValue() :
+               input.getError() != null ? input.getError().getValue() :
+               input.getSkipped() != null ? input.getSkipped().getValue() :
                "";
 
     }

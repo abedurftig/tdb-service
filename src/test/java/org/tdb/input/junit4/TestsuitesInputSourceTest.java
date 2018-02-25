@@ -8,12 +8,6 @@ import org.tdb.model.TestSuite;
 
 import java.math.BigDecimal;
 
-//import org.tdb.input.junit4.model.Testsuite;
-
-/**
- * @author Arne
- * @since 07/01/2018
- */
 public class TestsuitesInputSourceTest {
 
     @Test
