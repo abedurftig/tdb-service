@@ -21,6 +21,7 @@ class ErrorResponseHelper {
                 httpStatus = HttpStatus.BAD_REQUEST;
                 break;
             case NAME_TAKEN:
+            case EMAIL_TAKEN:
                 httpStatus = HttpStatus.CONFLICT;
                 break;
             case NOT_AUTHORIZED:
