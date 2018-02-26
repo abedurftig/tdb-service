@@ -37,7 +37,7 @@ public class AccountServiceImpl implements AccountService {
         if (accountSecurity.hasAccessToAccount(accountId)) {
             return accountRepository.findOne(accountId);
         } else {
-            throw new AccountServiceException(AccountServiceException.ErrorCode.NOT_AUTHORIZED);
+            throw AccountServiceException.withNotAuthorized();
         }
     }
 
@@ -59,11 +59,11 @@ public class AccountServiceImpl implements AccountService {
             throws AccountServiceException {
 
         if (accountRepository.findByName(accountName).isPresent()) {
-            throw new AccountServiceException(AccountServiceException.ErrorCode.ACCOUNT_NAME_TAKEN);
+            throw AccountServiceException.withNameTaken();
         }
 
         if (userRepository.findByEmail(email).isPresent()) {
-            throw new AccountServiceException(AccountServiceException.ErrorCode.EMAIL_IS_TAKEN);
+            throw AccountServiceException.withEmailTaken();
         }
 
         User user = userRepository.save(new User(email, passwordEncoder.encode(password)));

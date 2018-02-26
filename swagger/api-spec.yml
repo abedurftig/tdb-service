@@ -27,7 +27,7 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/ErrorDTO'
-  /upload-junit4-xml:
+  /upload/junit4-xml:
     post:
       tags:
         - Upload
@@ -59,7 +59,7 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/ErrorDTO'
-  /upload-junit4-xml-wrapped:
+  /upload/junit4-xml-wrapped:
     post:
       tags:
         - Upload
@@ -358,6 +358,28 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/ErrorDTO'
+  /test-run/{testRunExternalId}:
+    get:
+      tags:
+        - TestRun
+      summary: Get a test run with all details by its external id.
+      description: Get a test run with all details.
+      operationId: getTestRun
+      parameters:
+        - name: testRunExternalId
+          in: path
+          required: true
+          description: The external id of the test run which should be returned.
+          type: string
+      responses:
+        200:
+          description: The requested test run.
+          schema:
+            $ref: '#/definitions/TestRunDTO'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/ErrorDTO'
 definitions:
   AccountDTO:
     type: object
@@ -484,6 +506,16 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/TestSuiteDTO'
+      failedTestCases:
+        type: array
+        description: The failed test cases across all test suites.
+        items:
+          $ref: '#/definitions/TestCaseDTO'
+      skippedTestCases:
+        type: array
+        description: The skipped test cases across all test suites.
+        items:
+          $ref: '#/definitions/TestCaseDTO'
   TestRunSummaryDTO:
     type: object
     properties:
@@ -512,6 +544,9 @@ definitions:
       numTestSuites:
         type: integer
         format: int32
+      creationDate:
+        type: string
+        pattern: '\d{4}-\d{1,2}-\d{1,2} \d{2}:\d{2}:\d{2}'
   TestSuiteDTO:
     type: object
     required:
@@ -548,19 +583,22 @@ definitions:
       testSuiteId:
         type: integer
         format: int64
+      testSuiteName:
+        type: string
       name:
         type: string
-      startDate:
-        type: string
-        format: date-time
-      endDate:
-        type: string
-        format: date-time
+      runTime:
+        type: integer
+        format: int64
       skipped:
         type: boolean
       failed:
         type: boolean
+      error:
+        type: boolean
       message:
+        type: string
+      value:
         type: string
   UploadSummaryDTO:
     type: object

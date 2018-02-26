@@ -16,10 +16,6 @@ import java.util.GregorianCalendar;
 
 import static org.junit.Assert.fail;
 
-/**
- * @author Arne
- * @since 05/11/2017
- */
 public class TestsuiteInputSourceTest {
 
     @Test

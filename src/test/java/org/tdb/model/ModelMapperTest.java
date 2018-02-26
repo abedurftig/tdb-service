@@ -1,11 +1,13 @@
 package org.tdb.model;
 
-import javafx.util.Pair;
+import org.assertj.core.api.Condition;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -98,6 +100,46 @@ public class ModelMapperTest {
                 new DashboardItemDTO().projectId(2L).name("Project Two"),
                 new DashboardItemDTO().projectId(3L).name("Project Three"));
         assertThat(dashboardDTO.getName()).isEqualTo("Dashboard One");
+
+    }
+
+    @Test
+    public void testRunToTestRunDTO() {
+
+        TestCase testCaseFailed = new TestCase(null, "failed", true, false, false, "", "", BigDecimal.ZERO);
+        TestCase testCaseError = new TestCase(null, "error", false, false, true, "", "", BigDecimal.ZERO);
+        TestCase testCasePassed = new TestCase(null, "passed", false, false, false, "", "", BigDecimal.ZERO);
+        TestCase testCaseSkipped = new TestCase(null, "skipped", false, true, false, "", "", BigDecimal.ZERO);
+
+        TestSuite testSuite = new TestSuite();
+        testSuite.addToTestCases(testCaseError);
+        testSuite.addToTestCases(testCaseFailed);
+        testSuite.addToTestCases(testCasePassed);
+        testSuite.addToTestCases(testCaseSkipped);
+
+        TestRun testRun = new TestRun(null, "Test Run", "Test Run (Ext)");
+        testRun.addToTestSuites(testSuite);
+
+        TestRunDTO testRunDto = ModelMapperImpl.getTestRunDTO(testRun);
+
+        assertThat(testRunDto.getExternalId()).isEqualTo("Test Run (Ext)");
+        assertThat(testRunDto.getName()).isEqualTo("Test Run");
+
+        assertThat(testRunDto.getTestSuites()).hasSize(1)
+                .element(0).isInstanceOf(TestSuiteDTO.class);
+
+        TestSuiteDTO testSuiteDto = testRunDto.getTestSuites().get(0);
+
+        assertThat(testSuiteDto.getTestCases()).hasSize(4)
+                .haveExactly(1, new Condition<TestCaseDTO>(testCaseDTO -> testCaseDTO.getFailed(), "test case failed"))
+                .haveExactly(1, new Condition<TestCaseDTO>(testCaseDTO -> testCaseDTO.getSkipped(), "test case skipped"))
+                .haveExactly(1, new Condition<TestCaseDTO>(testCaseDTO -> testCaseDTO.getError(), "test case error"))
+                .haveExactly(1, new Condition<TestCaseDTO>(testCaseDTO ->
+                        !testCaseDTO.getError() && !testCaseDTO.getFailed() && !testCaseDTO.getSkipped(), "test case passed")
+                );
+
+        assertThat(testRunDto.getFailedTestCases()).isNotNull().isNotEmpty().hasSize(2);
+        assertThat(testRunDto.getSkippedTestCases()).isNotNull().isNotEmpty().hasSize(1);
 
     }
 

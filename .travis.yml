@@ -9,22 +9,24 @@ cache:
   - "$HOME/.gradle/caches/"
   - "$HOME/.gradle/wrapper/"
 
-env: 
-  global:
-    - secure: Jg5EqwyV2dK7DbZvBl6V3Ne+c9gOgXHLMa2NyfmDhCkGE6DqC2PD2RWIy8J4OmK3dYNXG8lo1AFpFVuj8h7khot19cmi8Sj5SWQ9ikzsGPf3XpCdDgk6y2HCAcSQD4DWG2ZT7mazkwDo2gUgj7ypWJIRZ+9bCpvy5N4T1eKUZv/n4cX8M99Tg4YQT9EZdB3cZS41phOvAu1TsuIgW/MRmoE8CVF7U0mQL8jiYHp8GaBHn/StDpSbLD/lQug2EkLHXw2FNXSQAmZBQyShZZ4JQNTIQTWu70XJB4ub7oEK7fz8SVun45I3VkcJzTslwQsboXtixd/43vtkESQ7xNIqh1JEfOF9TmxdBDVmpTMC0Sb2MZzk2Trg7w8g+wLBOFRYavlZmbKGLpLmhb91qdNCuactGdNeOna354nlmoVzh7tfHwGr180aUjJt3WrCaHoyDavF/er1NmpglGATE3/p+awNL4/o0jXFpozHdlpZgTfhpYozeCG1Dkf5V5WocSgQRFoI4dSeW07X1sBMkb9MteKHQNZOSJ+SSQdLDrO1I1VIrqVHyBiQmNHEXo8PRfsR6jw1Tnep5tLEaqIAmD1qSrYmYNHr8Ba1OZ6rsvK8rwlMrodQvYeJGypcP7gQ+Y/BUIHg6RjjaZdNJy1UQm1HF0+vfnRZb1/rw8KPSKKyuH0=
-    - secure: IIhorCcdN1YbtFQDy6ZduPIKvpoIKwRqxTQkTJgFlki5pWKob29EMEfUUp9QwREWqobryVdNkuz9rBX6GEZroVc3Zfp8CesccyZCU8Tuw7SW402ukj5LpAScT6TMIk+hnjlhkT+N289GA+Q2BzeWJM2v/YQ72JLyeufd49aJGdBNayNGhY2gpV7ksbPqp28JSh1VTv5yASXZIWkGlhQKXu6U7N+CUxsJbStcR7UQjrVT1dJ1DaboFDISRmnwjWsvFqr39nrfD3WtqwQmGm1ouOBqXcWwny/7v9uLoHrtyyIR89JEeVgyJoylekxsjFnFrjCuqSqLME3GFlOXaoFr9sG9L0/XKqVXyipUHkpFzIxynAkM6gTWfXs9YBVjuf5RTrwnxegdehEBa9cEc5ur+GXEJOoX2MCWUfWz0fFi2EsYbhr2p5RBaBaJ/PdRLC2ptAatoD2Fw9v41qyxfdAW25kGSXQwTMhR+R8AVnE74dnrNj2+SuZ2WNfWd8DQ+JK3yGNTNo+A+t3tZkyzQf0YTBSdTXSw9W8oDATuk4GiS1g2p/V1+jBslFp9u9FTqJBb7E/Idv3hB3NdJUhWnQOk60OcJmjT51rNkdDv9HWOV5+A3qYHMgfqEHsG9TzQ9Tj+W4Jzsx42rhnUY0TvmKJxNYYsyqftsPKjAZRwYZCKD9w=
-
 script:
-  - "./gradlew clean test build -Dupload-testresults=true"
+  - export API_URL=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "$API_URL_MASTER"; else echo "$API_URL_DEVELOP" ; fi`
+  - export PROJECT_KEY=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "$PROJECT_MASTER"; else echo "$PROJECT_DEVELOP" ; fi`
+  - ./gradlew clean test build -Dupload-testresults=true
 
 deploy:
-  provider: heroku
-  skip_cleanup: true
-  api_key:
-    secure: Sb7HTKjYeJTj2AlUbkMX8r+GDg276EXkZgtKbnVNbHnVd1nfMYEjX98zMjJtR8mkhWJGSomQJIE2ISXrbu1oT0JTrJRQzYJpag35l1k7ei01zPyC/jiMf0X1QZhKIGmXgy0uAbSlaKEEz0kBT1UE2SKZGm3Pj2FpYxk4B1zaBge78lcVt/XwN3AB8wp5AO1fx2fIAFZ+z4RuLsSkNhlqHShbmODZOa4XnC7ovEA0s7QPgqY9EoLXK5MGFX9QghL6nHbo+JYULFvWTOHfeAyi1Q+aICvWF/xQvIzRZj6By6n7mqPU6qc/KZwjDy4ZkARH5hVpbIRlrpun5dAx4rqkf0IBfCjrnTq+mLPo7/8ToIpnFGs1FgQ2dpNHMalgVWJrFaAsEbNxxj7t90Ml6D4ygQs/zXOn8RiSJVw9e1GOGwsqFM+9P+PstaNeFe9gRiiSbhsY9FQ8CdDSZfvhYJcrUXSftGAkcymRsezGclFeLzKLbwSFEhEH/gzEzz4ezxjxn3FRMh52+O9Amfuk4Rf/Dv7suJVcfcYXDBjFy0aPHnXnWxs/TKB4PPvUV3F4BivxgdrLMq98eRp4kum2Us3/Qz4BRwYQO0UXmbe0JcuwiTH2oKCbTtWwi3fnMVkgO7312R3bTX5gkAA4vohVSxKDPyHq8ENIcSBJuEa9YiIpCrk=
-  on:
-    branch: master
-  app: tdb-service
+  - provider: heroku
+    skip_cleanup: true
+    api_key: $HEROKU_API_KEY
+    on:
+      branch: master
+    app: tdb-service
+  - provider: heroku
+    skip_cleanup: true
+    api_key: $HEROKU_API_KEY
+    on:
+      branch: develop
+    app: tdb-service-staging
 
 after_success:
   - ./gradlew createDockerfile

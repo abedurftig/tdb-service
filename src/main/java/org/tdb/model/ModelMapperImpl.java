@@ -5,6 +5,12 @@ import org.modelmapper.TypeToken;
 import org.modelmapper.config.Configuration;
 
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,6 +18,8 @@ import java.util.stream.Collectors;
  * Handles the transformation from model DTO to model Entity and back.
  */
 public class ModelMapperImpl {
+
+    private static final SimpleDateFormat jsonDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     private ModelMapperImpl() {}
 
@@ -106,6 +114,35 @@ public class ModelMapperImpl {
 
     }
 
+    public static TestRunDTO getTestRunDTO(TestRun testRun) {
+
+        TestRunDTO testRunDto = getPreConfiguredMapper().map(testRun, TestRunDTO.class);
+
+        List<TestCaseDTO> allFailedTestCases = new ArrayList<>();
+        List<TestCaseDTO> allSkippedTestCases = new ArrayList<>();
+
+        testRunDto.getTestSuites().forEach(testSuiteDTO -> {
+            allFailedTestCases.addAll(
+                    testSuiteDTO.getTestCases().stream()
+                            .filter(testCaseDTO -> testCaseDTO.getFailed())
+                            .collect(Collectors.toList()));
+            allFailedTestCases.addAll(
+                    testSuiteDTO.getTestCases().stream()
+                            .filter(testCaseDTO -> testCaseDTO.getError())
+                            .collect(Collectors.toList()));
+            allSkippedTestCases.addAll(
+                    testSuiteDTO.getTestCases().stream()
+                            .filter(testCaseDTO -> testCaseDTO.getSkipped())
+                            .collect(Collectors.toList()));
+        });
+
+        testRunDto.setFailedTestCases(allFailedTestCases);
+        testRunDto.setSkippedTestCases(allSkippedTestCases);
+
+        return testRunDto;
+
+    }
+
     public static TestRunSummaryDTO getTestRunSummaryDTO(TestRun testRun) {
 
         TestRunHelper testRunHelper = TestRunHelper.getInstance();
@@ -120,6 +157,9 @@ public class ModelMapperImpl {
         testRunSummaryDTO.setNumFailed(testRunHelper.getNumberOfFailedTestCases(testRun));
         testRunSummaryDTO.setNumTotal(testRunHelper.getNumberOfTestCases(testRun));
         testRunSummaryDTO.setProjectId(testRun.getProject().getId());
+
+        testRunSummaryDTO.setCreationDate(
+                jsonDateFormat.format(testRun.getCreatedDate()));
 
         return testRunSummaryDTO;
 

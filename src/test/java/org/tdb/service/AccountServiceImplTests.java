@@ -57,7 +57,7 @@ public class AccountServiceImplTests {
             accountService.createAccountAndUser("Test Account", "john@email.com", "1234");
             Assert.fail("Should throw and exception because a user with the same email already exists.");
         } catch (AccountServiceException e) {
-            Assert.assertThat(e.getErrorCode(), Matchers.is(AccountServiceException.ErrorCode.EMAIL_IS_TAKEN));
+            Assert.assertThat(e.getErrorCode(), Matchers.is(ServiceErrorCode.EMAIL_TAKEN));
         }
 
     }
@@ -75,7 +75,7 @@ public class AccountServiceImplTests {
             accountService.createAccountAndUser("Test Account", "john@email.com", "1234");
             Assert.fail("Should throw and exception because an account with the same name already exists.");
         } catch (AccountServiceException e) {
-            Assert.assertThat(e.getErrorCode(), Matchers.is(AccountServiceException.ErrorCode.ACCOUNT_NAME_TAKEN));
+            Assert.assertThat(e.getErrorCode(), Matchers.is(ServiceErrorCode.NAME_TAKEN));
         }
 
     }

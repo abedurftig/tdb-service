@@ -66,7 +66,7 @@ public class DashboardServiceImpl implements DashboardService {
         if (accountSecurity.hasAccessToDashboard(dashboardId)) {
             dashboardRepository.delete(dashboardId);
         } else {
-            throw new DashboardServiceException(DashboardServiceException.ErrorCode.NOT_AUTHORIZED);
+            throw DashboardServiceException.withNotAuthorized();
         }
     }
 }

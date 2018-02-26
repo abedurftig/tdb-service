@@ -5,9 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.tdb.model.*;
-import org.tdb.service.AccountService;
-import org.tdb.service.AccountServiceException;
-import org.tdb.service.ProjectService;
+import org.tdb.service.*;
 
 import java.util.List;
 
@@ -32,15 +30,7 @@ public class AccountApiDelegateImpl implements AccountApiDelegate {
                     accountService.getAccountDTOById(accountId),
                     HttpStatus.OK);
         } catch (AccountServiceException e) {
-            ErrorDTO errorDTO = new ErrorDTO();
-            if (e.getErrorCode() == AccountServiceException.ErrorCode.NOT_AUTHORIZED) {
-                errorDTO.setMessage(e.getMessage());
-                errorDTO.setCode(e.getErrorCode().name());
-                return new ResponseEntity(errorDTO, HttpStatus.UNAUTHORIZED);
-            } else {
-                errorDTO.setMessage("We are sorry!");
-                return new ResponseEntity(errorDTO, HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+            return ErrorResponseHelper.resolveFromServiceException(e);
         }
 
     }
@@ -64,11 +54,8 @@ public class AccountApiDelegateImpl implements AccountApiDelegate {
             AccountDTO accountDTO = accountService.createAccountAndUser(accountInformation.getAccountName(),
                     accountInformation.getEmail(), accountInformation.getPassword());
             return new ResponseEntity<AccountDTO>(accountDTO, HttpStatus.CREATED);
-        } catch (AccountServiceException ase) {
-            ErrorDTO errorDTO = new ErrorDTO();
-            errorDTO.setMessage(ase.getMessage());
-            errorDTO.setCode(ase.getErrorCode().name());
-            return new ResponseEntity(errorDTO, HttpStatus.CONFLICT);
+        } catch (AccountServiceException e) {
+            return ErrorResponseHelper.resolveFromServiceException(e);
         }
 
     }
@@ -84,7 +71,5 @@ public class AccountApiDelegateImpl implements AccountApiDelegate {
         return responseEntity;
 
     }
-
-
 
 }

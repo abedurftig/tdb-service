@@ -104,7 +104,7 @@ public class ProjectServiceImpl implements ProjectService {
         if (accountSecurity.hasAccessToProject(projectId)) {
             return projectRepository.findOne(projectId);
         } else {
-            throw new ProjectServiceException(ProjectServiceException.ErrorCode.NOT_AUTHORIZED);
+            throw ProjectServiceException.withNotAuthorized();
         }
     }
 
@@ -122,7 +122,7 @@ public class ProjectServiceImpl implements ProjectService {
 
             return testRunSummaryDTOs;
         } else {
-            throw new ProjectServiceException(ProjectServiceException.ErrorCode.NOT_AUTHORIZED);
+            throw ProjectServiceException.withNotAuthorized();
         }
 
     }
@@ -132,7 +132,7 @@ public class ProjectServiceImpl implements ProjectService {
         if (accountSecurity.hasAccessToProject(projectId)) {
             projectRepository.delete(projectId);
         } else {
-            throw new ProjectServiceException(ProjectServiceException.ErrorCode.NOT_AUTHORIZED);
+            throw ProjectServiceException.withNotAuthorized();
         }
     }
 

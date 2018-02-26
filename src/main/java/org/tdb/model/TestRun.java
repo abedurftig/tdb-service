@@ -1,9 +1,6 @@
 package org.tdb.model;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,6 +13,7 @@ import java.util.Set;
 @Table(name = "tdb_testrun")
 public class TestRun extends BaseEntity {
 
+    @Column(unique = true)
     private String externalId;
 
     @ManyToOne

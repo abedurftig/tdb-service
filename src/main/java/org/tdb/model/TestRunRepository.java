@@ -11,6 +11,8 @@ public interface TestRunRepository extends JpaRepository<TestRun, Long> {
 
     Optional<TestRun> findByProjectIdAndExternalId(Long projectId, String testRunExternalId);
 
+    Optional<TestRun> findByExternalId(String testRunExternalId);
+
     List<TestRun> findByProjectId(Long projectId);
 
 }
