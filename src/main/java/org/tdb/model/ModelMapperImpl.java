@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  */
 public class ModelMapperImpl {
 
-    private static final SimpleDateFormat jsonDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private static final SimpleDateFormat jsonDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     private ModelMapperImpl() {}
 
