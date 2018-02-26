@@ -583,6 +583,8 @@ definitions:
       testSuiteId:
         type: integer
         format: int64
+      testSuiteName:
+        type: string
       name:
         type: string
       runTime:
