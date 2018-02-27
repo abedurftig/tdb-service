@@ -5,15 +5,10 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * @author Arne
- * @since 21/11/2017
- */
 @Entity
-@Table(name = "tdb_testrun")
+@Table(name = "tdb_testrun", uniqueConstraints=@UniqueConstraint(columnNames={"project_id", "external_id"}))
 public class TestRun extends BaseEntity {
 
-    @Column(unique = true)
     private String externalId;
 
     @ManyToOne

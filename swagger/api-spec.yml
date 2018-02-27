@@ -358,19 +358,20 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/ErrorDTO'
-  /test-run/{testRunExternalId}:
+  /test-run/{id}:
     get:
       tags:
         - TestRun
-      summary: Get a test run with all details by its external id.
+      summary: Get a test run with all details by its id.
       description: Get a test run with all details.
       operationId: getTestRun
       parameters:
-        - name: testRunExternalId
+        - name: id
           in: path
           required: true
-          description: The external id of the test run which should be returned.
-          type: string
+          description: The id of the test run which should be returned.
+          type: integer
+          format: int64
       responses:
         200:
           description: The requested test run.

@@ -62,10 +62,10 @@ public class AccountSecurityImpl implements AccountSecurity {
     }
 
     @Override
-    public boolean hasAccessToTestRun(String externalId) {
-        Optional<TestRun> testRunOptional = testRunRepository.findByExternalId(externalId);
-        if (testRunOptional.isPresent()) {
-            return hasAccessToProject(testRunOptional.get().getProject().getId());
+    public boolean hasAccessToTestRun(Long testRunId) {
+        TestRun testRun = testRunRepository.findOne(testRunId);
+        if (testRun != null) {
+            return hasAccessToProject(testRun.getProject().getId());
         }
         return false;
     }

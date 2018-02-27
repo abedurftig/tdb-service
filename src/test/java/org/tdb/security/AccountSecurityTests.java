@@ -86,7 +86,7 @@ public class AccountSecurityTests {
                 .withTestRunRepository(testRunRepository);
 
         Assert.assertThat("should not have access to this test run",
-                accountSecurity.hasAccessToTestRun(testRun.getExternalId()), Matchers.is(false));
+                accountSecurity.hasAccessToTestRun(testRun.getId()), Matchers.is(false));
 
     }
 
@@ -107,7 +107,7 @@ public class AccountSecurityTests {
 
 
         Assert.assertThat("should have access to this test run",
-                accountSecurity.hasAccessToTestRun(testRun.getExternalId()), Matchers.is(true));
+                accountSecurity.hasAccessToTestRun(testRun.getId()), Matchers.is(true));
 
     }
 
