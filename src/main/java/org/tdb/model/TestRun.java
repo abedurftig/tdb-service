@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "tdb_testrun", uniqueConstraints=@UniqueConstraint(columnNames={"project_id", "external_id"}))
+@Table(name = "tdb_testrun")
 public class TestRun extends BaseEntity {
 
     private String externalId;
