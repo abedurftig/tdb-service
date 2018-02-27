@@ -28,14 +28,14 @@ public class TestRunServiceImpl implements TestRunService {
     }
 
     @Override
-    public TestRunDTO getTestRunByExternalId(String testRunExternalId)
+    public TestRunDTO getTestRunById(Long id)
             throws TestRunServiceException {
-        if (accountSecurity.hasAccessToTestRun(testRunExternalId)) {
-            Optional<TestRun> testRunOptional = testRunRepository.findByExternalId(testRunExternalId);
-            if (!testRunOptional.isPresent()) {
+        if (accountSecurity.hasAccessToTestRun(id)) {
+            TestRun testRun = testRunRepository.findOne(id);
+            if (testRun == null) {
                 throw TestRunServiceException.withDoesNotExist();
             }
-            return ModelMapperImpl.getTestRunDTO(testRunOptional.get());
+            return ModelMapperImpl.getTestRunDTO(testRun);
         } else {
             throw TestRunServiceException.withNotAuthorized();
         }

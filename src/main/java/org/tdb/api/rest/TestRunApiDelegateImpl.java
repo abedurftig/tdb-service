@@ -19,12 +19,10 @@ public class TestRunApiDelegateImpl implements TestRunApiDelegate {
     }
 
     @Override
-    public ResponseEntity<TestRunDTO> getTestRun(String testRunExternalId) {
+    public ResponseEntity<TestRunDTO> getTestRun(Long testRunId) {
 
         try {
-            return new ResponseEntity<>(
-                    testRunService.getTestRunByExternalId(testRunExternalId),
-                    HttpStatus.OK);
+            return new ResponseEntity<>(testRunService.getTestRunById(testRunId), HttpStatus.OK);
         } catch (TestRunServiceException e) {
             return ErrorResponseHelper.resolveFromServiceException(e);
         }

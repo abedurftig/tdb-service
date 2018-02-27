@@ -26,16 +26,8 @@ public class ProjectApiDelegateImpl implements ProjectApiDelegate {
             return new ResponseEntity<>(
                     projectService.getProjectTestRunsSummary(projectId),
                     HttpStatus.OK);
-        } catch (ProjectServiceException pse) {
-            ErrorDTO errorDTO = new ErrorDTO();
-            if (pse.getErrorCode() == ServiceErrorCode.NOT_AUTHORIZED) {
-                errorDTO.setMessage(pse.getMessage());
-                errorDTO.setCode(pse.getErrorCode().name());
-                return new ResponseEntity(errorDTO, HttpStatus.UNAUTHORIZED);
-            } else {
-                errorDTO.setMessage("We are sorry!");
-                return new ResponseEntity(errorDTO, HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+        } catch (ProjectServiceException e) {
+            return ErrorResponseHelper.resolveFromServiceException(e);
         }
     }
 
@@ -46,15 +38,7 @@ public class ProjectApiDelegateImpl implements ProjectApiDelegate {
             ProjectDTO projectDTO = projectService.createProject(account, project.getName());
             return new ResponseEntity<>(projectDTO, HttpStatus.OK);
         } catch (AccountServiceException e) {
-            ErrorDTO errorDTO = new ErrorDTO();
-            if (e.getErrorCode() == ServiceErrorCode.NOT_AUTHORIZED) {
-                errorDTO.setMessage(e.getMessage());
-                errorDTO.setCode(e.getErrorCode().name());
-                return new ResponseEntity(errorDTO, HttpStatus.UNAUTHORIZED);
-            } else {
-                errorDTO.setMessage("We are sorry!");
-                return new ResponseEntity(errorDTO, HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+            return ErrorResponseHelper.resolveFromServiceException(e);
         }
     }
 
@@ -65,16 +49,8 @@ public class ProjectApiDelegateImpl implements ProjectApiDelegate {
             return new ResponseEntity<>(
                     projectService.getProjectDTO(projectId),
                     HttpStatus.OK);
-        } catch (ProjectServiceException pse) {
-            ErrorDTO errorDTO = new ErrorDTO();
-            if (pse.getErrorCode() == ServiceErrorCode.NOT_AUTHORIZED) {
-                errorDTO.setMessage(pse.getMessage());
-                errorDTO.setCode(pse.getErrorCode().name());
-                return new ResponseEntity(errorDTO, HttpStatus.UNAUTHORIZED);
-            } else {
-                errorDTO.setMessage("We are sorry!");
-                return new ResponseEntity(errorDTO, HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+        } catch (ProjectServiceException e) {
+            return ErrorResponseHelper.resolveFromServiceException(e);
         }
     }
 
@@ -83,20 +59,9 @@ public class ProjectApiDelegateImpl implements ProjectApiDelegate {
         try {
             projectService.deleteProject(projectId);
             return new ResponseEntity<>(HttpStatus.OK);
-        } catch (ProjectServiceException pse) {
-            ErrorDTO errorDTO = new ErrorDTO();
-            if (pse.getErrorCode() == ServiceErrorCode.NOT_AUTHORIZED) {
-                errorDTO.setMessage(pse.getMessage());
-                errorDTO.setCode(pse.getErrorCode().name());
-                return new ResponseEntity(errorDTO, HttpStatus.UNAUTHORIZED);
-            } else {
-                errorDTO.setMessage("We are sorry!");
-                return new ResponseEntity(errorDTO, HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        } catch (Exception e) {
-            ErrorDTO errorDTO = new ErrorDTO();
-            errorDTO.setMessage("We are sorry!");
-            return new ResponseEntity(errorDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (ProjectServiceException e) {
+            return ErrorResponseHelper.resolveFromServiceException(e);
         }
     }
+
 }
