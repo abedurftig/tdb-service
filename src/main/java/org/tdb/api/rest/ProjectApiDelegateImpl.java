@@ -64,4 +64,14 @@ public class ProjectApiDelegateImpl implements ProjectApiDelegate {
         }
     }
 
+    @Override
+    public ResponseEntity<ProjectSummaryDTO> getProjectSummary(Long projectId) {
+        try {
+            ProjectSummaryDTO projectSummaryDto = projectService.getProjectSummaryDTO(projectId);
+            return new ResponseEntity<>(projectSummaryDto, HttpStatus.OK);
+        } catch (ProjectServiceException e) {
+            return ErrorResponseHelper.resolveFromServiceException(e);
+        }
+    }
+
 }

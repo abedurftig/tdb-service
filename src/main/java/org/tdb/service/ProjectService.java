@@ -28,4 +28,6 @@ public interface ProjectService {
 
     void deleteProject(Long projectId) throws ProjectServiceException;
 
+    ProjectSummaryDTO getProjectSummaryDTO(Long projectId) throws ProjectServiceException;
+
 }

@@ -10,6 +10,7 @@ import org.tdb.security.AccountSecurity;
 import javax.crypto.KeyGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
@@ -112,19 +113,28 @@ public class ProjectServiceImpl implements ProjectService {
     public List<TestRunSummaryDTO> getProjectTestRunsSummary(Long projectId) throws ProjectServiceException {
 
         if (accountSecurity.hasAccessToProject(projectId)) {
-            List<TestRunSummaryDTO> testRunSummaryDTOs =
-                    new ArrayList<>();
 
             List<TestRun> testRuns = testRunRepository.findByProjectId(projectId);
-            testRuns.forEach(testRun ->
-                    testRunSummaryDTOs.add(ModelMapperImpl.getTestRunSummaryDTO(testRun))
-            );
+            List<TestRunSummaryDTO> testRunSummaryDTOs = testRuns.stream()
+                    .map(testRun -> ModelMapperImpl.getTestRunSummaryDTO(testRun))
+                    .collect(Collectors.toList());
 
             return testRunSummaryDTOs;
+
         } else {
             throw ProjectServiceException.withNotAuthorized();
         }
 
+    }
+
+    @Override
+    public ProjectSummaryDTO getProjectSummaryDTO(Long projectId) throws ProjectServiceException {
+        if (accountSecurity.hasAccessToProject(projectId)) {
+            Project project = projectRepository.getOne(projectId);
+            return ModelMapperImpl.getProjectSummaryDTO(project);
+        } else {
+            throw ProjectServiceException.withNotAuthorized();
+        }
     }
 
     @Override
