@@ -19,4 +19,8 @@ public class ProjectServiceException extends ServiceException {
         return new ProjectServiceException(ServiceErrorCode.NOT_AUTHORIZED);
     }
 
+    public static ProjectServiceException withDoesNotExist() {
+        return new ProjectServiceException(ServiceErrorCode.DOES_NOT_EXIST);
+    }
+
 }

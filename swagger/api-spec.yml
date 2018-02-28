@@ -244,6 +244,29 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/ErrorDTO'
+  /project/{projectId}/summary:
+    get:
+      summary: Get a summary for a single project.
+      description: Get the project specified by the given projectId.
+      operationId: getProjectSummary
+      parameters:
+        - name: projectId
+          in: path
+          description: Id of requested project.
+          required: true
+          type: integer
+          format: int64
+      tags:
+        - Project
+      responses:
+        200:
+          description: The requested project
+          schema:
+            $ref: '#/definitions/ProjectSummaryDTO'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/ErrorDTO'
   /project/{projectId}/testruns-summary:
     get:
       tags:
