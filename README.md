@@ -18,7 +18,7 @@ To checkout the current API head over to the [Swagger UI](https://tdb-service.he
 This project uses Gradle as a build tool.
 
 ```
-./gradlew build && java -jar build/libs/tdb-service-0.0.1.jar
+./gradlew build && java -jar build/libs/tdb-service.jar
 ```
 This will start the application with an H2 memory DB. Currently the only other database system supported is Postgres. To start against a Postgres DB, you need to set the a environment variable `DATABASE_URL`, for example:
 
@@ -28,7 +28,7 @@ postgres://user:pw@host:port/db
 Then run start the server like this:
 
 ```
-java -jar build/libs/tdb-service-0.0.1.jar --spring.profiles.active=pg-standalone
+java -jar build/libs/tdb-service.jar --spring.profiles.active=pg-standalone
 ```
 
 #### Deployment
@@ -45,8 +45,8 @@ You can create a Dockerfile with Gradle.
 
 Build the image.
 ```
-cp build/libs/tdb-service:0.0.1 build/docker/jdk8/
-docker build -f build/docker/jdk8/Dockerfile -t tdb-service:0.0.1 .
+cp build/libs/tdb-service.jar build/docker/jdk8/
+docker build -f build/docker/jdk8/Dockerfile -t tdb-service:latest .
 ```
 
 Then start a container. In the example below it will provide the Postgres DB on the docker host.
@@ -55,7 +55,7 @@ Then start a container. In the example below it will provide the Postgres DB on 
 # Docker for Mac
 docker run -e DATABASE_URL='postgres://tdb:tdb@docker.for.mac.host.internal:5432/tdb' \
 -e SPRING_PROFILES_ACTIVE='pg-standalone' \
--p 80:8080 -t tdb-service:0.0.1
+-p 80:8080 -t tdb-service:latest
 ```
 
 #### Thanks
