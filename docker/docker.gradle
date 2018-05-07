@@ -22,6 +22,6 @@ task createDockerfile(type: Dockerfile) {
     from 'openjdk:8u131-jdk-alpine'
     volume("/tmp")
     copyFile("build/docker/jdk8/${jar.archiveName}", "app.jar")
-    entryPoint("java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.jar")
+    entryPoint("java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "-Xmx256m", "-Xss256k", "/app.jar")
 
 }
