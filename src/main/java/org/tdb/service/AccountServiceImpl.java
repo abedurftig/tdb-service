@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import org.tdb.model.*;
 import org.tdb.security.AccountSecurity;
 
+import java.util.Optional;
+
 @Service
 public class AccountServiceImpl implements AccountService {
 
@@ -35,7 +37,13 @@ public class AccountServiceImpl implements AccountService {
     public Account getAccountById(Long accountId) throws AccountServiceException {
 
         if (accountSecurity.hasAccessToAccount(accountId)) {
-            return accountRepository.findOne(accountId);
+            Optional<Account> accountOptional = accountRepository.findById(accountId);
+            if (accountOptional.isPresent()) {
+                return accountOptional.get();
+            } else {
+                throw AccountServiceException.withDoesNotExit();
+            }
+
         } else {
             throw AccountServiceException.withNotAuthorized();
         }

@@ -14,6 +14,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 @SpringBootApplication
 @EnableSwagger2
@@ -43,8 +44,8 @@ public class Application {
     public AuditorAware<String> auditorAware() {
         return new AuditorAware<String>() {
             @Override
-            public String getCurrentAuditor() {
-                return "Admin";
+            public Optional<String> getCurrentAuditor() {
+                return Optional.of("Admin");
             }
         };
     }

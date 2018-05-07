@@ -79,7 +79,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<TestSuiteDTO> saveTestSuites(List<TestSuite> testSuites) {
-        return ModelMapperImpl.getTestSuiteDTOs(testSuiteRepository.save(testSuites));
+        return ModelMapperImpl.getTestSuiteDTOs(testSuiteRepository.saveAll(testSuites));
     }
 
     public TestRun getOrCreateTestRunByExternalId(String externalProjectId, String testRunExternalId) {
@@ -103,7 +103,13 @@ public class ProjectServiceImpl implements ProjectService {
 
     public Project getProject(Long projectId) throws ProjectServiceException {
         if (accountSecurity.hasAccessToProject(projectId)) {
-            return projectRepository.findOne(projectId);
+
+            Optional<Project> projectOptional = projectRepository.findById(projectId);
+            if (projectOptional.isPresent()) {
+                return projectOptional.get();
+            } else {
+                throw ProjectServiceException.withDoesNotExist();
+            }
         } else {
             throw ProjectServiceException.withNotAuthorized();
         }
@@ -140,7 +146,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void deleteProject(Long projectId) throws ProjectServiceException {
         if (accountSecurity.hasAccessToProject(projectId)) {
-            projectRepository.delete(projectId);
+            projectRepository.deleteById(projectId);
         } else {
             throw ProjectServiceException.withNotAuthorized();
         }

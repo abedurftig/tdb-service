@@ -15,6 +15,8 @@ public class AccountServiceException extends ServiceException {
                 return "An account with this name already exists.";
             case NOT_AUTHORIZED:
                 return "You do not have access to this account.";
+            case DOES_NOT_EXIST:
+                return "The account does not exist.";
             default: return "N/A";
         }
     }
@@ -29,6 +31,10 @@ public class AccountServiceException extends ServiceException {
 
     public static AccountServiceException withNotAuthorized() {
         return new AccountServiceException(ServiceErrorCode.NOT_AUTHORIZED);
+    }
+
+    public static AccountServiceException withDoesNotExit() {
+        return new AccountServiceException(ServiceErrorCode.DOES_NOT_EXIST);
     }
 
 }

@@ -108,7 +108,7 @@ public class AccountServiceImplTests {
         Optional<Account> fakeAccountOptional = nameExists ? Optional.of(fakeAccount) : Optional.empty();
 
         when(accountRepositoryMock.save(any(Account.class))).thenAnswer(AdditionalAnswers.<String>returnsFirstArg());
-        when(accountRepositoryMock.findOne(id)).thenReturn(fakeAccount);
+        when(accountRepositoryMock.findById(id)).thenReturn(Optional.of(fakeAccount));
         when(accountRepositoryMock.findByName(name)).thenReturn(fakeAccountOptional);
 
         return accountRepositoryMock;
@@ -123,7 +123,7 @@ public class AccountServiceImplTests {
         Optional<User> fakeUserOptional = emailExists ? Optional.of(fakeUser) : Optional.empty();
 
         when(userRepositoryMock.save(any(User.class))).thenAnswer(AdditionalAnswers.<String>returnsFirstArg());
-        when(userRepositoryMock.findOne(id)).thenReturn(fakeUser);
+        when(userRepositoryMock.findById(id)).thenReturn(Optional.of(fakeUser));
         when(userRepositoryMock.findByEmail(email)).thenReturn(fakeUserOptional);
 
         return userRepositoryMock;
