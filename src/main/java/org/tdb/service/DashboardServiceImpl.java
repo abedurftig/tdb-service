@@ -64,7 +64,7 @@ public class DashboardServiceImpl implements DashboardService {
     @Override
     public void deleteDashboard(Long dashboardId) throws DashboardServiceException {
         if (accountSecurity.hasAccessToDashboard(dashboardId)) {
-            dashboardRepository.delete(dashboardId);
+            dashboardRepository.deleteById(dashboardId);
         } else {
             throw DashboardServiceException.withNotAuthorized();
         }

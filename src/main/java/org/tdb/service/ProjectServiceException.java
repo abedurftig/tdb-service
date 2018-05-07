@@ -11,6 +11,8 @@ public class ProjectServiceException extends ServiceException {
         switch (getErrorCode()) {
             case NOT_AUTHORIZED:
                 return "You do not have access to this project.";
+            case DOES_NOT_EXIST:
+                return "The project does not exist.";
             default: return "N/A";
         }
     }

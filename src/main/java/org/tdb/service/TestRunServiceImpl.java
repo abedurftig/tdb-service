@@ -31,11 +31,15 @@ public class TestRunServiceImpl implements TestRunService {
     public TestRunDTO getTestRunById(Long id)
             throws TestRunServiceException {
         if (accountSecurity.hasAccessToTestRun(id)) {
-            TestRun testRun = testRunRepository.findOne(id);
-            if (testRun == null) {
+
+            Optional<TestRun> testRunOptional = testRunRepository.findById(id);
+
+            if (testRunOptional.isPresent()) {
+                return ModelMapperImpl.getTestRunDTO(testRunOptional.get());
+            } else {
                 throw TestRunServiceException.withDoesNotExist();
             }
-            return ModelMapperImpl.getTestRunDTO(testRun);
+
         } else {
             throw TestRunServiceException.withNotAuthorized();
         }

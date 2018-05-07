@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.tdb.model.*;
+import org.tdb.service.TestRunServiceException;
 
 import java.util.Optional;
 
@@ -63,9 +64,9 @@ public class AccountSecurityImpl implements AccountSecurity {
 
     @Override
     public boolean hasAccessToTestRun(Long testRunId) {
-        TestRun testRun = testRunRepository.findOne(testRunId);
-        if (testRun != null) {
-            return hasAccessToProject(testRun.getProject().getId());
+        Optional<TestRun> testRunOptional = testRunRepository.findById(testRunId);
+        if (testRunOptional.isPresent()) {
+            return hasAccessToProject(testRunOptional.get().getProject().getId());
         }
         return false;
     }
