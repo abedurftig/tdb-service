@@ -36,3 +36,6 @@ security:
       - /api/**
       - /swagger/v2/**
   enable-csrf: false
+server:
+  servlet:
+    context-path: /api
