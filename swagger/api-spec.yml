@@ -271,8 +271,8 @@ paths:
     get:
       tags:
         - Project
-      summary: Get the test-runs summary for a single project in a given time frame.
-      description: Get the test-runs summary for the project specified by the given projectId. The result does not contain information about test suites.
+      summary: Get the specified number of test-runs summary for a single project.
+      description: Get the specified number of test-runs summary for the project specified by the given projectId. The result does not contain information about test suites.
       operationId: getProjectTestRuns
       parameters:
         - name: projectId
@@ -281,18 +281,11 @@ paths:
           required: true
           type: integer
           format: int64
-        - name: from
+        - name: count
           in: query
-          description: The earliest date for which test runs should be included.
+          description: The number test-runs contained in the summary
           required: false
-          type: string
-          format: date-time
-        - name: to
-          in: query
-          description: The last date for which test runs should be included.
-          required: false
-          type: string
-          format: date-time
+          type: integer
       responses:
         200:
           description: A list of test-run summaries.

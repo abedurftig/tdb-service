@@ -11,6 +11,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.tdb.Application;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -44,6 +46,20 @@ public class TestRunRepositoryTest {
 
         Assert.assertThat(testRunByParentAndExternalId, Matchers.notNullValue());
         Assert.assertThat(testRunByParentAndExternalId.getName(), Matchers.is("TestRunRepositoryTest Test TestRun"));
+
+    }
+
+    @Test
+    public void findByProjectIdLast() {
+
+        Project project = projectRepository.save(new Project(null, "TestRunRepositoryTest Test Project"));
+        testRunRepository.save(new TestRun(project, "TestRunRepositoryTest Test TestRun1", "ExtId1"));
+        testRunRepository.save(new TestRun(project, "TestRunRepositoryTest Test TestRun2", "ExtId2"));
+
+        List<TestRun> testRuns =
+                testRunRepository.findByProjectIdLast(project.getId(), 1);
+
+        Assert.assertThat(testRuns, Matchers.hasSize(1));
 
     }
 
