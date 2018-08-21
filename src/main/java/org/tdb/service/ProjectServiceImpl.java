@@ -134,6 +134,24 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public List<TestRunSummaryDTO> getProjectTestRunsSummary(Long projectId, int count) throws ProjectServiceException {
+
+        if (accountSecurity.hasAccessToProject(projectId)) {
+
+            List<TestRun> testRuns = testRunRepository.findByProjectIdLast(projectId, count);
+            List<TestRunSummaryDTO> testRunSummaryDTOs = testRuns.stream()
+                    .map(testRun -> ModelMapperImpl.getTestRunSummaryDTO(testRun))
+                    .collect(Collectors.toList());
+
+            return testRunSummaryDTOs;
+
+        } else {
+            throw ProjectServiceException.withNotAuthorized();
+        }
+
+    }
+
+    @Override
     public ProjectSummaryDTO getProjectSummaryDTO(Long projectId) throws ProjectServiceException {
         if (accountSecurity.hasAccessToProject(projectId)) {
             Project project = projectRepository.getOne(projectId);

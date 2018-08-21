@@ -20,15 +20,18 @@ public class ProjectApiDelegateImpl implements ProjectApiDelegate {
     private ProjectService projectService;
 
     @Override
-    public ResponseEntity<List<TestRunSummaryDTO>> getProjectTestRuns(Long projectId, OffsetDateTime from, OffsetDateTime to) {
+    public ResponseEntity<List<TestRunSummaryDTO>> getProjectTestRuns(Long projectId, Integer count) {
 
         try {
             return new ResponseEntity<>(
-                    projectService.getProjectTestRunsSummary(projectId),
+                    count == null ?
+                            projectService.getProjectTestRunsSummary(projectId):
+                            projectService.getProjectTestRunsSummary(projectId, count),
                     HttpStatus.OK);
         } catch (ProjectServiceException e) {
             return ErrorResponseHelper.resolveFromServiceException(e);
         }
+
     }
 
     @Override
